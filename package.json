@@ -1,0 +1,32 @@
+{
+  "name": "tribetel-frontend",
+  "version": "1.0.0",
+  "description": "A hotel app that facilitates bookings and payments ",
+  "keywords": [
+    "hotel",
+    "booking",
+    "payments",
+    "frontend",
+    "angular",
+    "typescript",
+    "hospitality",
+    "reservations",
+    "UI",
+    "travel"
+  ],
+  "homepage": "https://github.com/mlab-aplha/Tribetel-frontend#readme",
+  "bugs": {
+    "url": "https://github.com/mlab-aplha/Tribetel-frontend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlab-aplha/Tribetel-frontend.git"
+  },
+  "license": "ISC",
+  "author": "team Alpha-beta",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run"
+  }
+}
