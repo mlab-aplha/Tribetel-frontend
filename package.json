@@ -1,32 +1,40 @@
 {
   "name": "tribetel-frontend",
   "version": "1.0.0",
-  "description": "A hotel app that facilitates bookings and payments ",
+  "description": "Tribetel Hotel app for bookings and payments",
+  "main": "src/main.tsx",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
   "keywords": [
     "hotel",
     "booking",
     "payments",
     "frontend",
-    "angular",
+    "react",
     "typescript",
     "hospitality",
     "reservations",
     "UI",
     "travel"
   ],
-  "homepage": "https://github.com/mlab-aplha/Tribetel-frontend#readme",
-  "bugs": {
-    "url": "https://github.com/mlab-aplha/Tribetel-frontend/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mlab-aplha/Tribetel-frontend.git"
-  },
-  "license": "ISC",
   "author": "team Alpha-beta",
-  "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "vitest run"
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.1.2",
+    "@vitejs/plugin-react": "^4.7.0",
+    "jsdom": "^24.0.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.0",
+    "vitest": "^1.2.2"
   }
 }
