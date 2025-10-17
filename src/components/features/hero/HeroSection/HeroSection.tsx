@@ -3,13 +3,11 @@ import Button from '../../../common/Button/Button';
 import Card from '../../../common/Card/Card';
 import styles from './HeroSection.module.css';
 
-// Import images
 import heroImage from '../../../../assets/hero-image.png';
 import service1 from '../../../../assets/service1.png';
 import service2 from '../../../../assets/service2.png';
 import service3 from '../../../../assets/service3.png';
 
-// Date utilities
 const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -32,20 +30,18 @@ const HeroSection: React.FC = () => {
     const [activeDateField, setActiveDateField] = useState<'checkIn' | 'checkOut' | null>(null);
     const [currentSlide, setCurrentSlide] = useState(0);
 
-    // Slideshow images array
     const heroImages = [
         heroImage,
         service1,
         service2,
         service3,
-        heroImage // Using heroImage as the 5th slide to match 5 indicators
+        heroImage
     ];
 
-    // Automatic slideshow
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % heroImages.length);
-        }, 5000); // Change slide every 5 seconds
+        }, 5000);
 
         return () => clearInterval(interval);
     }, [heroImages.length]);
@@ -102,7 +98,6 @@ const HeroSection: React.FC = () => {
 
     return (
         <div className={styles.heroSection}>
-            {/* Background Images with Slideshow */}
             <div className={styles.backgroundSlideshow}>
                 {heroImages.map((image, index) => (
                     <div
@@ -113,9 +108,7 @@ const HeroSection: React.FC = () => {
                             src={image}
                             alt={`Luxury Hotel ${index + 1}`}
                             className={styles.heroImage}
-                            onError={(e) => {
-                                e.currentTarget.src = 'https://placehold.co/1440x810/470F51/FDC959?text=Tribtel+Luxury+Hotel';
-                            }}
+
                         />
                     </div>
                 ))}
@@ -123,7 +116,6 @@ const HeroSection: React.FC = () => {
 
             <div className={styles.gradientOverlay}></div>
 
-            {/* Content Section */}
             <div className={styles.contentSection}>
                 <div className={styles.contentWrapper}>
                     <h1 className={styles.mainTitle}>
@@ -143,7 +135,6 @@ const HeroSection: React.FC = () => {
                 </div>
             </div>
 
-            {/* Search Card */}
             <div className={styles.searchCard}>
                 <Card className={styles.searchCardContent}>
                     <div className={styles.searchField}>
@@ -162,7 +153,6 @@ const HeroSection: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Dates Field */}
                     <div className={styles.searchField}>
                         <div className={styles.fieldContent}>
                             <label className={styles.fieldLabel}>Dates</label>
@@ -255,7 +245,6 @@ const HeroSection: React.FC = () => {
                 </Card>
             </div>
 
-            {/* Carousel Indicators */}
             <div className={styles.carouselIndicators}>
                 {heroImages.map((_, index) => (
                     <div

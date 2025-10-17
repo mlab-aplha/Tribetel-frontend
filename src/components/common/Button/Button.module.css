@@ -1,0 +1,284 @@
+.button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  line-height: 1;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Size Variants */
+.small {
+  width: 120px;
+  height: 40px;
+  font-size: 16px;
+  line-height: 19.20px;
+}
+
+.medium {
+  width: 180px;
+  height: 50px;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.large {
+  width: 250px;
+  height: 70px;
+  font-size: 28px;
+  line-height: 33.60px;
+}
+
+.xlarge {
+  width: 290px;
+  height: 200px;
+  font-size: 28px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Color Variants */
+.primary {
+  background: #470F51;
+  color: #FDC959;
+  border: none;
+}
+
+.primary:hover {
+  background: #5a1466;
+  color: #FDC959;
+}
+
+.secondary {
+  background: #FDC959;
+  color: #470F51;
+  border: none;
+}
+
+.secondary:hover {
+  background: #f8b832;
+  color: #470F51;
+}
+
+.outline {
+  background: transparent;
+  color: #470F51;
+  border: 2px solid #470F51;
+  outline: 2px solid #470F51;
+  outline-offset: -2px;
+}
+
+.outline:hover {
+  background: #470F51;
+  color: #FDC959;
+}
+
+.outlineSecondary {
+  background: transparent;
+  color: #FDC959;
+  border: 2px solid #FDC959;
+  outline: 2px solid #FDC959;
+  outline-offset: -2px;
+}
+
+.outlineSecondary:hover {
+  background: #FDC959;
+  color: #470F51;
+}
+
+.ghost {
+  background: transparent;
+  color: #470F51;
+  border: none;
+}
+
+.ghost:hover {
+  background: rgba(71, 15, 81, 0.1);
+}
+
+/* Specific Button Styles */
+.join {
+  width: 187px;
+  height: 90px;
+  background: #470F51;
+  color: #FDC959;
+  font-size: 28px;
+  font-family: 'Instrument Sans';
+  font-weight: 600;
+  line-height: 33.60px;
+}
+
+.join:hover {
+  background: #5a1466;
+}
+
+.signIn {
+  background: transparent;
+  color: #1E1E1E;
+  border: none;
+  font-size: 25px;
+  font-family: 'Inter';
+  font-weight: 400;
+  padding: 12.5px;
+  border-radius: 11.11px;
+  width: auto;
+  height: auto;
+}
+
+.signIn:hover {
+  color: #470F51;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.location {
+  width: 250px;
+  height: 70px;
+  background: transparent;
+  color: #470F51;
+  font-size: 28px;
+  border: 2px solid #470F51;
+  outline: 2px solid #470F51;
+  outline-offset: -2px;
+}
+
+.location:hover {
+  background: #470F51;
+  color: #FDC959;
+}
+
+/* Container for multiple buttons */
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #8A38F5;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+/* Dual Button Container */
+.dualButton {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.dualButton.small {
+  width: 120px;
+  gap: 20px;
+}
+
+.dualButton.medium {
+  width: 180px;
+  gap: 20px;
+}
+
+.dualButton.large {
+  width: 250px;
+  gap: 20px;
+}
+
+.dualButton.xlarge {
+  width: 290px;
+  gap: 20px;
+}
+
+/* Full Width */
+.fullWidth {
+  width: 100%;
+}
+
+/* Disabled State */
+.button:disabled {
+  background: #CCCCCC;
+  color: #666666;
+  border-color: #CCCCCC;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button:disabled:hover {
+  background: #CCCCCC;
+  color: #666666;
+  border-color: #CCCCCC;
+}
+
+
+@media (max-width: 768px) {
+  .large {
+    width: 200px;
+    height: 60px;
+    font-size: 24px;
+    line-height: 28.80px;
+  }
+  
+  .xlarge {
+    width: 260px;
+    height: 180px;
+    font-size: 24px;
+  }
+  
+  .medium {
+    width: 160px;
+    height: 45px;
+    font-size: 18px;
+    line-height: 21.60px;
+  }
+  
+  .join {
+    width: 160px;
+    height: 70px;
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .large {
+    width: 180px;
+    height: 50px;
+    font-size: 20px;
+    line-height: 24px;
+  }
+  
+  .xlarge {
+    width: 240px;
+    height: 160px;
+    font-size: 20px;
+  }
+  
+  .medium {
+    width: 140px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 19.20px;
+  }
+  
+  .small {
+    width: 100px;
+    height: 35px;
+    font-size: 14px;
+    line-height: 16.80px;
+  }
+  
+  .join {
+    width: 140px;
+    height: 60px;
+    font-size: 20px;
+  }
+  
+  .signIn {
+    font-size: 20px;
+    padding: 10px;
+  }
+}
