@@ -1,6 +1,12 @@
-// src/App.tsx
+import SignInPage from "./pages/SignInPage/SignInPage";
+
 function App() {
-    return <h1>Welcome to Tribetel Hotel</h1>;
+    return (
+        <div className="App">
+            <SignInPage />
+        </div>
+             
+    );
 }
 
 export default App;
