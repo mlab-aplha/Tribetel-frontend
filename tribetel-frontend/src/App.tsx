@@ -8,7 +8,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/signin" element={<SignInLayout><SignInForm /></SignInLayout>} />
-        <Route path="/admin-page" element={<AdminSignInPage />} />
+        <Route path="/admin-signin" element={<AdminSignInPage />} />
         <Route path="*" element={<p>404 Page Not Found</p>} />
       </Routes>
     </Router>
