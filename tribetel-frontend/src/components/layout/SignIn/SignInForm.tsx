@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {useNavigate} from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./SignInForm.css";
 
@@ -9,6 +10,7 @@ const SignInForm: React.FC = () => {
   const [error, setError] = useState("");
   const [isClicked, setIsClicked] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,7 +36,7 @@ const SignInForm: React.FC = () => {
         <button
           type="button"
           className="admin-btn"
-          onClick={() => (window.location.href = "/admin-page")}
+          onClick={() => navigate('/admin-signin')}
         >
           Admin Login
         </button>
