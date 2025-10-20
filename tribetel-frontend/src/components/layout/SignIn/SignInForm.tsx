@@ -34,7 +34,7 @@ const SignInForm: React.FC = () => {
         <button
           type="button"
           className="admin-btn"
-          onClick={() => (window.location.href = "/admin-signin")}
+          onClick={() => (window.location.href = "/admin-page")}
         >
           Admin Login
         </button>
