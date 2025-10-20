@@ -1,13 +1,12 @@
 import React from "react";
 import SignInLayout from "../../components/layout/SignIn/SignInLayout";
+import SignInForm from "../../components/layout/SignIn/SignInForm";
 
 const SignInPage: React.FC = () => {
-    return (
-        <SignInLayout>
-            <div className="signin-form-container">
-                {/* SignInForm component here */}
-            </div>
-        </SignInLayout>
-    );
-}           
+  return (
+    <SignInLayout>
+      <SignInForm />
+    </SignInLayout>
+  );
+};
 export default SignInPage;

@@ -1,6 +1,7 @@
 .signin-container {
   display: flex;
   height: 100vh;
+  width: 100%;
   font-family: "Poppins", sans-serif;
 }
 
@@ -13,7 +14,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: white;
+  color: #470F51; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,8 +23,8 @@
 
 .signin-logo {
   width: 140px;
+  margin-top: -6rem;
   margin-bottom: 2rem;
-  margin-top: -16rem;
 }
 
 .signin-brand {
@@ -37,6 +38,8 @@
   flex: 1;
   background-color: #f7f7f7;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 2rem ;
 }
