@@ -6,7 +6,13 @@
 
 .signin-left {
   flex: 1;
-  background: linear-gradient(to bottom right, #441d68, #f78f1e);
+  background-image:  linear-gradient(
+      rgba(71, 2, 80, 0.747),   /* top dark overlay */
+      rgba(127, 101, 133, 0.048)    /* bottom dark overlay */
+    ), url('../../../assets/cuisine.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: white;
   display: flex;
   flex-direction: column;
@@ -15,13 +21,16 @@
 }
 
 .signin-logo {
-  width: 100px;
-  margin-bottom: 1rem;
+  width: 140px;
+  margin-bottom: 2rem;
+  margin-top: -16rem;
 }
 
 .signin-brand {
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2.5rem;
+  letter-spacing: 2px;                                                            
+  font-weight: 200;
+  font-family: 'Michroma', sans-serif;
 }
 
 .signin-right {
