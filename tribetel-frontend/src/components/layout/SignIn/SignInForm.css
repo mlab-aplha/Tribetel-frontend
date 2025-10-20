@@ -127,3 +127,26 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.form-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.admin-btn {
+  background-color: transparent;
+  color: #1e3a8a; 
+  border: 1.5px solid #1e3a8a;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-btn:hover {
+  background-color: #1e3a8a;
+  color: white;
+}

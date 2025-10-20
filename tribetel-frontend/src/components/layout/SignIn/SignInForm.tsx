@@ -29,6 +29,17 @@ const SignInForm: React.FC = () => {
 
   return (
     <form className="signin-form" onSubmit={handleSubmit}>
+      {/*Admin button container*/} 
+       <div className="form-header">
+        <button
+          type="button"
+          className="admin-btn"
+          onClick={() => (window.location.href = "/admin-login")}
+        >
+          Admin Login
+        </button>
+      </div>
+
       <h2 className="signin-title">Sign In</h2>
 
       <label htmlFor="email">E-mail</label>
@@ -93,7 +104,7 @@ const SignInForm: React.FC = () => {
       </p>
 
       <p className="register-text">
-        Don’t have an account? <a href="/register">Register</a>
+        Don't have an account? <a href="/register">Register</a>
       </p>
     </form>
   );
