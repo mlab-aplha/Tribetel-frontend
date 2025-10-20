@@ -8,8 +8,8 @@
 .signin-left {
   flex: 1;
   background-image:  linear-gradient(
-      rgba(71, 2, 80, 0.747),   /* top dark overlay */
-      rgba(127, 101, 133, 0.048)    /* bottom dark overlay */
+      rgba(71, 2, 80, 0.747),   
+      rgba(127, 101, 133, 0.048)    
     ), url('../../../assets/cuisine.png');
   background-size: cover;
   background-position: center;

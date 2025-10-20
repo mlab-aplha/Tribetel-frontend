@@ -41,6 +41,44 @@ input {
   cursor: pointer;
 }
 
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.9rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  gap: 0.3rem;
+  color: #333;
+}
+
+.remember-me input[type="checkbox"] {
+  accent-color: #1e3a8a;
+  margin-bottom: 5px;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+}
+
+
+.forgot-password {
+  color: #1e3a8a;
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+  color: #153e75;
+}
+
 .error-text {
   color: red;
   font-size: 13px;

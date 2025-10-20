@@ -8,6 +8,7 @@ const SignInForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isClicked, setIsClicked] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ const SignInForm: React.FC = () => {
     setIsClicked(true);
     console.log("Form submitted:", { email, password });  
 
-    setTimeout(() => setIsClicked(false), 1500);
+    setTimeout(() => setIsClicked(false), 1000);
   };
 
   const toggleVisibility = () => {
@@ -60,6 +61,21 @@ const SignInForm: React.FC = () => {
             <AiOutlineEye />
           )}
         </button>
+      </div>
+
+      <div className="form-options">
+        <label className="remember-me">
+          <input
+            type="checkbox"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+          />
+          Remember me
+        </label>
+
+        <a href="#" className="forgot-password">
+          Forgot password?
+        </a>
       </div>
 
       {error && <p className="error-text">{error}</p>}
