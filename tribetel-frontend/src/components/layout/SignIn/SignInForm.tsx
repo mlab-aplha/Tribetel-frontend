@@ -3,10 +3,11 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./SignInForm.css";
 
 const SignInForm: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState("");
+  const [isClicked, setIsClicked] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,13 +16,15 @@ const SignInForm: React.FC = () => {
       return;
     }
     setError("");
-    console.log("Logging in:", { email, password });
+    setIsClicked(true);
+    console.log("Form submitted:", { email, password });  
+
+    setTimeout(() => setIsClicked(false), 1500);
   };
 
   const toggleVisibility = () => {
     setShowPassword(!showPassword);
   };
-
 
   return (
     <form className="signin-form" onSubmit={handleSubmit}>
@@ -46,28 +49,31 @@ const SignInForm: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button 
+        <button
           type="button"
           className="toggle-password"
-          onClick= {toggleVisibility}
-           >
-          {showPassword ? <AiOutlineEyeInvisible></AiOutlineEyeInvisible> :<AiOutlineEye></AiOutlineEye> }
-           </button>
+          onClick={toggleVisibility}
+        >
+          {showPassword ? (
+            <AiOutlineEyeInvisible />
+          ) : (
+            <AiOutlineEye />
+          )}
+        </button>
       </div>
 
       {error && <p className="error-text">{error}</p>}
 
       <button
         type="submit"
-        className="signin-btn"
+        className={`signin-btn ${isClicked ? "clicked" : ""}`}
         disabled={!email || !password}
       >
         Sign in
       </button>
 
       <p className="terms-text">
-        By signing up you agree to our{" "}
-        <a href="#">terms and conditions</a>.
+        By signing up you agree to our <a href="#">terms and conditions</a>.
       </p>
 
       <p className="register-text">

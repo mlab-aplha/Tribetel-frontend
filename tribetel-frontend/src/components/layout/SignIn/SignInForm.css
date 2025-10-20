@@ -29,6 +29,7 @@ input {
 
 .password-field {
   position: relative;
+
 }
 
 .toggle-password {
@@ -47,11 +48,13 @@ input {
 }
 
 .signin-btn {
+  display: block;
+  margin: 1rem auto;
   background-color: #441d68;
-  color: white;
+  color: rgb(243, 230, 115);
   border: none;
-  padding: 10px;
-  width: 100%;
+  padding:  0.8rem 2rem;
+ width: 50%;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
@@ -60,6 +63,14 @@ input {
 .signin-btn:disabled {
   background-color: #aaa;
   cursor: not-allowed;
+}
+
+.signin-btn:hover {
+  background-color: #6019a3f1;
+}
+
+.signin-btn.clicked {
+  background-color: #2e0b4d;
 }
 
 .terms-text,
