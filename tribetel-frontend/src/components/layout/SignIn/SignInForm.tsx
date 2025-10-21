@@ -101,10 +101,6 @@ const SignInForm: React.FC = () => {
         Sign in
       </button>
 
-      <p className="terms-text">
-        By signing up you agree to our <a href="#">terms and conditions</a>.
-      </p>
-
       <p className="register-text">
         Don't have an account? <a href="/register">Register</a>
       </p>
