@@ -2,22 +2,22 @@ import React from "react";
 import logo from "../../../Assets/tribtel-logo.png";
 import "./SignUpLayout.css";
 
-interface SignInLayoutProps {
+interface SignUpLayoutProps {
   children: React.ReactNode;
 }
 
-const SignInLayout: React.FC<SignInLayoutProps> = ({ children }) => {
+const SignUpLayout: React.FC<SignUpLayoutProps> = ({ children }) => {
   return (
-    <div className="signin-container">
-      <div className="signin-left">
-        <img src={logo} alt="Tribtel Logo" className="signin-logo" />
-        <h1 className="signin-brand">Tribtel</h1>
+    <div className="signup-container">
+      <div className="signup-left">
+        <img src={logo} alt="Tribtel Logo" className="signup-logo" />
+        <h1 className="signup-brand">Tribtel</h1>
       </div>
       
-      <div className="signin-right">{children}</div>
+      <div className="signup-right">{children}</div>
     </div>
   );
 };
 
-export default SignInLayout;
+export default SignUpLayout;
 

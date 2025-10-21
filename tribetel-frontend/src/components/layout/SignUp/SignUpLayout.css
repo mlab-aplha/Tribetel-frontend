@@ -1,4 +1,4 @@
-.signin-container {
+.signup-container {
   display: flex;
   height: 100vh;
   width: 100%;
@@ -6,7 +6,7 @@
 }
 
 
-.signin-left {
+.signup-left {
   flex: 1;
   background-image:  linear-gradient(
       rgba(71, 2, 80, 0.747),  
@@ -18,27 +18,29 @@
   color: #470F51;
   display: flex;
   flex-direction: column;
+  padding: 2rem;
+  border-radius: 0 15px 15px 0;
   align-items: center;
   justify-content: center;
 }
 
 
-.signin-logo {
+.signup-logo {
   width: 140px;
-  margin-top: -6rem;
+  margin-top: -8rem;
   margin-bottom: 2rem;
 }
 
 
-.signin-brand {
+.signup-brand {
   font-size: 2.5rem;
   letter-spacing: 2px;                                                            
   font-weight: 200;
-  font-family: 'Michroma', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 
-.signin-right {
+.signup-right {
   flex: 1;
   background-color: #f7f7f7;
   display: flex;
