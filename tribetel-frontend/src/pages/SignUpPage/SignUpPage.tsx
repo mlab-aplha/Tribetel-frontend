@@ -1,12 +1,12 @@
-import SignInLayout from "../../components/layout/SignUp/SignUpLayout";
+// import SignUpLayout from "../../components/layout/SignUp/SignUpLayout";
+// import SignUpForm from "../../components/layout/SignUp/SignUpForm";
 
-const SignUpPage: React.FC = () => {
-  return (
-    <SignInLayout>  
-        <h2>Sign Up Page</h2>
-        {/* Sign Up form elements here */}
-    </SignInLayout>
-  );
-};
+// const SignUpPage: React.FC = () => {
+//   return (
+//     <SignUpLayout>  
+//       <SignUpForm />
+//     </SignUpLayout>
+//   );
+// };
 
-export default SignUpPage;
+// export default SignUpPage;
