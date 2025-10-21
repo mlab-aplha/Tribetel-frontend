@@ -1,6 +1,9 @@
-// src/App.tsx
-function App() {
-    return <h1>Welcome to Tribetel Hotel</h1>;
-}
+// import SignUpPage from "./pages/SignUpPage/SignUpPage";
 
-export default App;
+// function App() {
+//     return (
+//         <SignUpPage />
+//     );
+// }
+
+// export default App;
