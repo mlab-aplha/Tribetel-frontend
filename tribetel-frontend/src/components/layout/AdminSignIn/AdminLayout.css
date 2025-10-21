@@ -8,13 +8,13 @@
 .signin-left {
   flex: 1;
   background-image:  linear-gradient(
-      rgba(71, 2, 80, 0.747),   
-      rgba(127, 101, 133, 0.048)    
+      rgba(98, 18, 109, 0.808),   
+      rgba(174, 170, 175, 0)    
     ), url('../../../assets/Tribtel.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: #470F51; 
+  color: #e3ff47; 
   display: flex;
   flex-direction: column;
   align-items: center;
