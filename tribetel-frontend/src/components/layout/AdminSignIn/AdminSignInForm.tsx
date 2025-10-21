@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import "./AdminSignInForm.css";
 
 const AdminSignInForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -47,11 +49,32 @@ const AdminSignInForm: React.FC = () => {
           className="toggle-password"
           onClick={toggleVisibility}
         >
-          {/* {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />} */}
+          {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
         </button>
       </div>
 
       {error && <p className="error-text">{error}</p>}
+
+      <div className="options">
+        <label className="remember-me">
+          <input type="checkbox" /> Remember me
+        </label>
+        <a href="#" className="forgot-password">
+          Forgot password?
+        </a>
+      </div>
+
+      <button
+        type="submit"
+        className="signin-btn"
+        disabled={!email || !password}
+      >
+        Sign In
+      </button>
+
+      <p className="switch-text">
+        Not an admin? <a href="/signin">User Sign In</a>
+      </p>
     </form>
   );
 };
