@@ -73,7 +73,7 @@ const AdminSignInForm: React.FC = () => {
       </button>
 
       <p className="switch-text">
-        Not an admin? <a href="/signin">User Sign In</a>
+        Not an admin? <a href="/signin">User Sign-In</a>
       </p>
     </form>
   );
