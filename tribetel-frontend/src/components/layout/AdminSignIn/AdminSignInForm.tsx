@@ -24,7 +24,7 @@ const AdminSignInForm: React.FC = () => {
 
   return (
     <form className="admin-signin-form" onSubmit={handleSubmit}>
-      <h2>Admin Sign In Form</h2>
+      <h2>Sign In</h2>
       <label htmlFor="admin-email">Admin E-mail</label>
       <input
         type="email"
@@ -52,6 +52,7 @@ const AdminSignInForm: React.FC = () => {
           {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
         </button>
       </div>
+      
 
       {error && <p className="error-text">{error}</p>}
 
