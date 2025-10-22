@@ -1,0 +1,67 @@
+.formWrap {
+  padding: 6px 2px;
+}
+
+.heading {
+  margin: 0 0 14px 0;
+  font-size: 20px;
+  color: #470F51;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #470F51;
+}
+
+.input,
+.select,
+.textarea {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.bookBtn {
+  background: #470F51;
+  border: none;
+  padding: 10px 14px;
+  color: #FDC959;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.summaryBtn {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  padding: 10px 12px;
+  color: #FDC959;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.error {
+  color: #ED1A1A;
+  font-size: 12px;
+  margin-top: 6px;
+}
