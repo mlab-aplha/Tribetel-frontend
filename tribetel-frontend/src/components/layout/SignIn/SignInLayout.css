@@ -1,0 +1,50 @@
+<<<<<<< HEAD
+=======
+.signin-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+.signin-left {
+  flex: 1;
+  background-image:  linear-gradient(
+      rgba(98, 18, 109, 0.808),   
+      rgba(174, 170, 175, 0)    
+    ), url('../../../assets/cuisine.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #4d0b58; 
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-radius: 0 15px 15px 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.signin-logo {
+  width: 140px;
+  margin-top: -6rem;
+  margin-bottom: 2rem;
+}
+
+.signin-brand {
+  font-size: 2.5rem;
+  letter-spacing: 2px;                                                            
+  font-weight: 200;
+  font-family: 'Michroma', sans-serif;
+}
+
+.signin-right {
+  flex: 1;
+  background-color: #d1d1d1b9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+>>>>>>> feature/signin-layout
