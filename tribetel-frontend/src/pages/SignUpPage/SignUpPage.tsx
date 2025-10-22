@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import SignUpLayout from "../../components/layout/SignUp/SignUpLayout";
 
 const SignUpPage: React.FC = () => {
@@ -8,5 +9,17 @@ const SignUpPage: React.FC = () => {
     </SignUpLayout>
   );
 };
+=======
+// import SignUpLayout from "../../components/layout/SignUp/SignUpLayout";
+// import SignUpForm from "../../components/layout/SignUp/SignUpForm";
 
-export default SignUpPage;
+// const SignUpPage: React.FC = () => {
+//   return (
+//     <SignUpLayout>  
+//       <SignUpForm />
+//     </SignUpLayout>
+//   );
+// };
+>>>>>>> feature/signup-form
+
+// export default SignUpPage;
