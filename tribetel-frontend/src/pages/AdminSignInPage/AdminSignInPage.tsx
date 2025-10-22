@@ -1,9 +1,12 @@
-import AdminLayout from "../../components/layout/AdminSignIn/AdminLayout";
+import AdminSignInForm from "../../components/layout/AdminSignIn/AdminSignInForm";
 
-const AdminSignInPage = () => {
-  return <AdminLayout>
-    
-  </AdminLayout>;
+
+const AdminSignInPage: React.FC = () => {
+  return (
+    <div className="admin-signin-page"> 
+        <AdminSignInForm />
+    </div>
+  );
 }   
-export default AdminSignInPage;
 
+export default AdminSignInPage;

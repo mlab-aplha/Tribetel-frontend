@@ -1,11 +1,7 @@
 .admin-signin-form {
   width: 100%;
   max-width: 400px;
-  margin: 0 auto;
   gap: 0.5rem;
-  padding: 6rem;
-  border-radius: 10px;
-  
 }
 
 .admin-signin-form h2 {
@@ -36,6 +32,7 @@ label {
   align-items: center;
   font-size: 13px;
   gap: 0.3rem;
+  color: #333;
 }
 
 .remember-me input[type="checkbox"] {
@@ -96,7 +93,7 @@ input {
 
 .signin-btn {
   display: block;
-  margin: 2rem auto;
+  margin: 0.5rem auto;
   background-color: #441d68;
   color: rgb(243, 230, 115);
   border: none;
