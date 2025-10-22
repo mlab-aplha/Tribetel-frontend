@@ -30,12 +30,17 @@ const AdminSignInForm: React.FC = () => {
       setError("Please enter a valid email address.");
       return;
     }
+      if (!email.toLowerCase().endsWith("@tribtel.com")) {
+      setError("Access denied. Only @tribtel.com can sign in.");
+      return;
+    }
     if (!validatePassword(password)) {
       setError("Password must be at least 6 characters long.");
       return;
     }
     setError("");
     setIsClicked(true);
+    
     console.log("Admin Sign-in:", { email, password });
     setTimeout(() => {
       setIsClicked(false);

@@ -23,6 +23,7 @@ const SignUpForm: React.FC = () => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
     return passwordRegex.test(password);
   };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -44,12 +45,11 @@ const SignUpForm: React.FC = () => {
 
     if (Object.keys(newErrors).length > 0) return;
 
-    // ✅ All validations passed
     setIsClicked(true);
     console.log("User registered:", { name, email, country, rememberMe });
-
     setTimeout(() => {
-      setIsClicked(false);
+      setIsClicked(true);
+      navigate("/success");
     }, 1000);
   };
 

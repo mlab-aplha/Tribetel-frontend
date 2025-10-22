@@ -12,7 +12,7 @@ const SignInForm: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
-   const validateEmail = (email: string) => {
+  const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -29,12 +29,12 @@ const SignInForm: React.FC = () => {
       return;
     }
 
-     if (!validateEmail(email)) {
+    if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
       return;
     }
 
-     if (!validatePassword(password)) {
+    if (!validatePassword(password)) {
       setError("Password must be at least 6 characters long.");
       return;
     }
@@ -64,7 +64,7 @@ const SignInForm: React.FC = () => {
       </div>
 
       <h2 className="signin-title">Sign In</h2>
-      
+
       {/* Email field */}
       <label htmlFor="email">E-mail</label>
       <input
@@ -76,8 +76,8 @@ const SignInForm: React.FC = () => {
         className={error.includes("email") ? "input-error" : ""}
         required
       />
-         
-      {/* Password field */}   
+
+      {/* Password field */}
       <label htmlFor="password">Password</label>
       <div className="password-field">
         <input
