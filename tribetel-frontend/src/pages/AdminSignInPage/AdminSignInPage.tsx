@@ -1,11 +1,11 @@
 import AdminSignInForm from "../../components/layout/AdminSignIn/AdminSignInForm";
-
+import AdminLayout from "../../components/layout/AdminSignIn/AdminLayout";
 
 const AdminSignInPage: React.FC = () => {
   return (
-    <div className="admin-signin-page"> 
-        <AdminSignInForm />
-    </div>
+    <AdminLayout>
+      <AdminSignInForm />
+    </AdminLayout>
   );
 }   
 

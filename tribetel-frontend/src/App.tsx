@@ -1,4 +1,4 @@
-import SignUpPage from "./pages/SignUpPage/SignUpPage";
+
 
 function App() {
     return (
