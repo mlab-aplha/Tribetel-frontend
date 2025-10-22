@@ -12,14 +12,35 @@ const SignInForm: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
+   const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    return password.length >= 6;
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!email || !password) {
       setError("Please fill in both fields.");
       return;
     }
+
+     if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+     if (!validatePassword(password)) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
     setError("");
     setIsClicked(true);
+
     console.log("Form submitted:", { email, password });
 
     setTimeout(() => setIsClicked(false), 1000);
@@ -43,7 +64,8 @@ const SignInForm: React.FC = () => {
       </div>
 
       <h2 className="signin-title">Sign In</h2>
-
+      
+      {/* Email field */}
       <label htmlFor="email">E-mail</label>
       <input
         type="email"
@@ -51,9 +73,11 @@ const SignInForm: React.FC = () => {
         placeholder="Username@gmail.com"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        className={error.includes("email") ? "input-error" : ""}
         required
       />
-
+         
+      {/* Password field */}   
       <label htmlFor="password">Password</label>
       <div className="password-field">
         <input
@@ -62,6 +86,8 @@ const SignInForm: React.FC = () => {
           placeholder="Enter Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className={error.includes("Password") ? "input-error" : ""}
+          required
         />
         <button
           type="button"
