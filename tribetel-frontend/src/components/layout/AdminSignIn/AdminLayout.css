@@ -1,0 +1,48 @@
+.signin-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background-color: #d1d1d1b9;
+  font-family: "Poppins", sans-serif;
+}
+
+.signin-left {
+  flex: 1;
+  background-image:  linear-gradient(
+      rgba(117, 34, 138, 0.685),   
+      rgba(241, 239, 241, 0)    
+    ), url('../../../assets/Tribtel.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #e98c12; 
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border-radius: 0 15px 15px 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.signin-logo {
+  width: 140px;
+  margin-top: -12rem;
+  margin-bottom: 2rem;
+}
+
+.signin-brand {
+  font-size: 2.5rem;
+  letter-spacing: 2px;                                                            
+  font-weight: 200;
+  font-family: 'Michroma', sans-serif;
+}
+
+.signin-right {
+  flex: 1;
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
