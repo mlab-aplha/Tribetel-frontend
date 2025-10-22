@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -111,4 +108,3 @@ const SignInForm: React.FC = () => {
 };
 
 export default SignInForm;
->>>>>>> feature/signin-layout
