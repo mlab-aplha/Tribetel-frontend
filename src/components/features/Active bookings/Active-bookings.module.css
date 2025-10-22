@@ -1,0 +1,346 @@
+.bookingApp {
+  width: 100%;
+  min-height: 600px;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 60px 24px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  box-sizing: border-box;
+}
+
+.appHeader {
+  width: 100%;
+  max-width: 1396px;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.pageTitle {
+  color: #2D2D2D;
+  font-size: 48px;
+  font-family: 'Michroma', monospace;
+  font-weight: 400;
+  line-height: 57.60px;
+  margin: 0;
+}
+
+.bookingCard {
+  width: 100%;
+  max-width: 1396px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  min-height: 450px;
+}
+
+.cardImageSection {
+  position: relative;
+  overflow: hidden;
+  min-height: 450px;
+  display: flex; 
+  align-items: stretch; 
+  background: #f0f0f0; 
+}
+
+.hotelImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  display: block; 
+  flex: 1;
+}
+
+.bookingCard:hover .hotelImage {
+  transform: scale(1.03);
+}
+
+.bookingBadge {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: rgba(71, 15, 81, 0.95);
+  color: #FDC959;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 21.60px;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+}
+
+.cardContent {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 32px;
+  box-sizing: border-box;
+}
+
+.bookingHeader {
+  width: 100%;
+  padding-bottom: 24px;
+  border-bottom: 2px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.guestName {
+  color: #2D2D2D;
+  font-size: 36px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 43.20px;
+  margin: 0;
+}
+
+.bookingId {
+  color: #5B595C;
+  font-size: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  line-height: 24px;
+  margin: 0;
+}
+
+.bookingDetails {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 28px;
+  flex-grow: 1;
+}
+
+.dateSection {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.dateRange {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 160px;
+}
+
+.dateLabel {
+  font-size: 16px;
+  color: #666;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  line-height: 19.20px;
+  margin: 0;
+}
+
+.dateValue {
+  font-size: 24px;
+  color: #2D2D2D;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 28.80px;
+  margin: 0;
+}
+
+.dateSeparator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+}
+
+.arrowIcon {
+  width: 32px;
+  height: 32px;
+  position: relative;
+}
+
+.arrowIcon::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #FDC959;
+  transform: translateY(-50%);
+}
+
+.arrowIcon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-right: 3px solid #FDC959;
+  border-top: 3px solid #FDC959;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.hotelInfo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.hotelName {
+  color: #2D2D2D;
+  font-size: 28px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  line-height: 33.60px;
+  margin: 0;
+}
+
+.hotelAddress {
+  color: #5B595C;
+  font-size: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 24px;
+  margin: 0;
+}
+
+.guestInfoSection {
+  width: 100%;
+  margin-top: auto;
+}
+
+.guestCount {
+  color: #2D2D2D;
+  font-size: 22px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  line-height: 26.40px;
+  margin: 0;
+}
+
+.actionButtons {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.btn {
+  padding: 18px 32px;
+  border: none;
+  border-radius: 12px;
+  font-size: 20px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  line-height: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 180px;
+  text-align: center;
+  min-height: 60px;
+  box-sizing: border-box;
+}
+
+.btnSecondary {
+  background: transparent;
+  color: #B1AFAD;
+  border: 2px solid #E0E0E0;
+}
+
+.btnSecondary:hover {
+  border-color: #B1AFAD;
+  color: #8A8886;
+  transform: translateY(-2px);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 24px;
+}
+
+.modal {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal h3 {
+  color: #2D2D2D;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 33.60px;
+}
+
+.modal p {
+  color: #5B595C;
+  margin-bottom: 32px;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 21.60px;
+}
+
+.modalActions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .bookingCard {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  
+  .cardImageSection {
+    height: 350px;
+    min-height: 350px;
+  }
+}
+
+.debug-image {
+  border: 2px solid red !important;
+  background: yellow !important;
+}
