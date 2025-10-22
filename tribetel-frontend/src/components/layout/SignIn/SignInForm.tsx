@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./SignInForm.css";
 
@@ -20,7 +20,7 @@ const SignInForm: React.FC = () => {
     }
     setError("");
     setIsClicked(true);
-    console.log("Form submitted:", { email, password });  
+    console.log("Form submitted:", { email, password });
 
     setTimeout(() => setIsClicked(false), 1000);
   };
@@ -31,12 +31,12 @@ const SignInForm: React.FC = () => {
 
   return (
     <form className="signin-form" onSubmit={handleSubmit}>
-      {/*Admin button container*/} 
-       <div className="form-header">
+      {/*Admin button*/}
+      <div className="form-header">
         <button
           type="button"
           className="admin-btn"
-          onClick={() => navigate('/admin-signin')}
+          onClick={() => navigate("/admin-signin")}
         >
           Admin Login
         </button>
@@ -68,11 +68,7 @@ const SignInForm: React.FC = () => {
           className="toggle-password"
           onClick={toggleVisibility}
         >
-          {showPassword ? (
-            <AiOutlineEyeInvisible />
-          ) : (
-            <AiOutlineEye />
-          )}
+          {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
         </button>
       </div>
 
@@ -102,7 +98,10 @@ const SignInForm: React.FC = () => {
       </button>
 
       <p className="register-text">
-        Don't have an account? <a href="/register">Register</a>
+        Don't have an account?{" "}
+        <span onClick={() => navigate("/signup")} className="signup-link">
+          Sign up
+        </span>
       </p>
     </form>
   );

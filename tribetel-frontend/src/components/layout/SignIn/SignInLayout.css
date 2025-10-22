@@ -8,15 +8,17 @@
 .signin-left {
   flex: 1;
   background-image:  linear-gradient(
-      rgba(71, 2, 80, 0.747),   
-      rgba(127, 101, 133, 0.048)    
+      rgba(98, 18, 109, 0.808),   
+      rgba(174, 170, 175, 0)    
     ), url('../../../assets/cuisine.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: #470F51; 
+  color: #4d0b58; 
   display: flex;
   flex-direction: column;
+  padding: 2rem;
+  border-radius: 0 15px 15px 0;
   align-items: center;
   justify-content: center;
 }
@@ -36,11 +38,10 @@
 
 .signin-right {
   flex: 1;
-  background-color: #f7f7f7;
+  background-color: #d1d1d1b9;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 4rem;
   padding: 2rem;
 }

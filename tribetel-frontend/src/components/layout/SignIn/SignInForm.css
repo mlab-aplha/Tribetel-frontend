@@ -8,7 +8,7 @@
   text-align: center;
   font-size: 24px;
   margin-bottom: 2rem;
-  color: #222;
+  color: #333;
 }
 
 label {
@@ -111,20 +111,18 @@ input {
   background-color: #2e0b4d;
 }
 
-.terms-text,
 .register-text {
-  font-size: 13px;
-  text-align: center;
-  margin-top: 1rem;
-  color: #555;
+  font-size: 14px;
+  margin-top: 2rem;
+  color: #333;
 }
 
-a {
+.signup-link {
   color: #441d68;
-  text-decoration: none;
+  cursor: pointer;
 }
 
-a:hover {
+.signup-link:hover {
   text-decoration: underline;
 }
 
