@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./AdminSignInForm.css";
 
@@ -7,6 +8,17 @@ const AdminSignInForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isClicked, setIsClicked] = useState(false);
+  const navigate = useNavigate();
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    return password.length >= 6;
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -14,8 +26,21 @@ const AdminSignInForm: React.FC = () => {
       setError("Please fill in both fields.");
       return;
     }
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (!validatePassword(password)) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
     setError("");
+    setIsClicked(true);
     console.log("Admin Sign-in:", { email, password });
+    setTimeout(() => {
+      setIsClicked(false);
+      navigate("/admin/dashboard");
+    }, 1000);
   };
 
   const toggleVisibility = () => {
@@ -24,7 +49,9 @@ const AdminSignInForm: React.FC = () => {
 
   return (
     <form className="admin-signin-form" onSubmit={handleSubmit}>
-      <h2>Sign In</h2>
+      <h2>Admin Sign In</h2>
+
+      {/* E-mail Field */}
       <label htmlFor="admin-email">Admin E-mail</label>
       <input
         type="email"
@@ -32,6 +59,7 @@ const AdminSignInForm: React.FC = () => {
         placeholder="admin@tribtel.com"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        className={error.includes("email") ? "input-error" : ""}
         required
       />
 
@@ -43,6 +71,8 @@ const AdminSignInForm: React.FC = () => {
           placeholder="Enter Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className={error.includes("Password") ? "input-error" : ""}
+          required
         />
         <button
           type="button"
@@ -52,7 +82,6 @@ const AdminSignInForm: React.FC = () => {
           {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
         </button>
       </div>
-      
 
       {error && <p className="error-text">{error}</p>}
 
@@ -67,14 +96,17 @@ const AdminSignInForm: React.FC = () => {
 
       <button
         type="submit"
-        className="signin-btn"
+        className={`signin-btn ${isClicked ? "clicked" : ""}`}
         disabled={!email || !password}
       >
         Sign In
       </button>
 
       <p className="switch-text">
-        Not an admin? <a href="/signin">User Sign-In</a>
+        Not an admin?{" "}
+        <span onClick={() => navigate("/signin")} className="user-signin-link">
+          User Sign-In
+        </span>
       </p>
     </form>
   );
