@@ -16,7 +16,6 @@
   box-sizing: border-box;
 }
 
-/* Size Variants */
 .small {
   width: 120px;
   height: 40px;
@@ -46,7 +45,6 @@
   gap: 20px;
 }
 
-/* Color Variants */
 .primary {
   background: #470F51;
   color: #FDC959;
@@ -105,7 +103,6 @@
   background: rgba(71, 15, 81, 0.1);
 }
 
-/* Specific Button Styles */
 .join {
   width: 187px;
   height: 90px;
@@ -155,7 +152,6 @@
   color: #FDC959;
 }
 
-/* Container for multiple buttons */
 .buttonContainer {
   display: flex;
   flex-direction: column;
@@ -166,7 +162,6 @@
   width: fit-content;
 }
 
-/* Dual Button Container */
 .dualButton {
   display: flex;
   flex-direction: column;
@@ -194,12 +189,10 @@
   gap: 20px;
 }
 
-/* Full Width */
 .fullWidth {
   width: 100%;
 }
 
-/* Disabled State */
 .button:disabled {
   background: #CCCCCC;
   color: #666666;
