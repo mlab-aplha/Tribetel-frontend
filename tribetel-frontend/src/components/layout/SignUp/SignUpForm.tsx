@@ -4,27 +4,53 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./SignUpForm.css";
 
 const SignUpForm: React.FC = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [country, setCountry] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<{ [key: string]: string }>({});
   const [isClicked, setIsClicked] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    return passwordRegex.test(password);
+  };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError("Please fill in both fields.");
-      return;
-    }
+    const newErrors: { [key: string]: string } = {};
 
-    setError("");
+    if (!name.trim()) newErrors.name = "Name is required.";
+    if (!email.trim()) newErrors.email = "Email is required.";
+    else if (!validateEmail(email))
+      newErrors.email = "Please enter a valid email address.";
+
+    if (!country.trim()) newErrors.country = "Country is required.";
+
+    if (!password.trim()) newErrors.password = "Password is required.";
+    else if (!validatePassword(password))
+      newErrors.password =
+        "Password must be at least 6 characters and include letters and numbers.";
+
+    setError(newErrors);
+
+    if (Object.keys(newErrors).length > 0) return;
+
+    // ✅ All validations passed
     setIsClicked(true);
-    console.log("Logging in:", { email, password, rememberMe });
+    console.log("User registered:", { name, email, country, rememberMe });
 
-    setTimeout(() => setIsClicked(false), 1500);
+    setTimeout(() => {
+      setIsClicked(false);
+    }, 1000);
   };
 
   const toggleVisibility = () => {
@@ -36,7 +62,15 @@ const SignUpForm: React.FC = () => {
       <h2 className="signup-title">Create Account</h2>
 
       <label htmlFor="name">Name</label>
-      <input type="text" id="name" placeholder="Enter your name" />
+      <input
+        type="text"
+        id="name"
+        placeholder="Enter your name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className={error.name ? "input-error" : ""}
+      />
+      {error.name && <p className="error-text">{error.name}</p>}
 
       <label htmlFor="email">E-mail</label>
       <input
@@ -45,11 +79,24 @@ const SignUpForm: React.FC = () => {
         placeholder="Username@gmail.com"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        className={error.email ? "input-error" : ""}
         required
-      /> 
-      <label htmlFor="country">Country</label>
-      <input type="text" id="country" placeholder="Country Name" />
+      />
+      {error.email && <p className="error-text">{error.email}</p>}
 
+      {/* Country field */}
+      <label htmlFor="country">Country</label>
+      <input
+        type="text"
+        id="country"
+        placeholder="Country Name"
+        value={country}
+        onChange={(e) => setCountry(e.target.value)}
+        className={error.country ? "input-error" : ""}
+      />
+      {error.country && <p className="error-text">{error.country}</p>}
+
+          {/* Password field */}
       <label htmlFor="password">Password</label>
       <div className="password-field">
         <input
@@ -58,6 +105,8 @@ const SignUpForm: React.FC = () => {
           placeholder="Enter Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className={error.password ? "input-error" : ""}
+          required
         />
         <button
           type="button"
@@ -67,6 +116,7 @@ const SignUpForm: React.FC = () => {
           {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
         </button>
       </div>
+      {error.password && <p className="error-text">{error.password}</p>}
 
       <div className="form-options">
         <label className="remember-me">
@@ -83,12 +133,10 @@ const SignUpForm: React.FC = () => {
         </a>
       </div>
 
-      {error && <p className="error-text">{error}</p>}
-
       <button
         type="submit"
         className={`signup-btn ${isClicked ? "clicked" : ""}`}
-        disabled={!email || !password}
+        disabled={!email || !password || !name || !country}
       >
         Sign Up
       </button>
