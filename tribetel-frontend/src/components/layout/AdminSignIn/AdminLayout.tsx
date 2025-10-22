@@ -8,9 +8,9 @@ interface AdminLayoutProps {
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (
-    <div className="signin-container">
+    <div className="admin-container">
       {/* Left side - Branding */}
-      <div className="signin-left">
+      <div className="admin-left">
         <img src={logo} alt="Tribtel-logo" className="signin-logo" />
         <h1 className="signin-brand">Tribtel</h1>
       </div>

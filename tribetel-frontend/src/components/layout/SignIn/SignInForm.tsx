@@ -36,7 +36,7 @@ const SignInForm: React.FC = () => {
         <button
           type="button"
           className="admin-btn"
-          onClick={() => navigate("/admin-signin")}
+          onClick={() => navigate("/admin/signin")}
         >
           Admin Login
         </button>
