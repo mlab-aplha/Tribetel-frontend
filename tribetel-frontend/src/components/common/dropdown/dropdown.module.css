@@ -1,0 +1,27 @@
+/*General style for dropdown*/
+.dropdown {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
+    appearance: none;
+}
+
+/*State styles*/
+.default { 
+    background: #fff; 
+}
+.active { 
+    border-color: #470f51;
+    box-shadow: 0 0 0 3px rgba(11,95,255,0.08);
+}
+.error  {
+    border-color: #d64545;
+}
+.disabled {
+    background: #f5f7fa;
+    color: #9aa4b2;
+    cursor: not-allowed;
+}

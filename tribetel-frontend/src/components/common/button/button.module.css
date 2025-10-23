@@ -1,0 +1,50 @@
+/*general style*/
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*Variants*/
+.filled {
+  background-color: #470f51;
+  color: #FDC959;
+}
+.filled:hover {
+  background-color: #370d41;
+}
+
+.outlined {
+  background-color: transparent;
+  color: #470f51;
+  border-color: #470f51;
+}
+.outlined:hover {
+  background-color: #f0e6f5;
+}
+
+/*Sizes*/
+.small {
+  height: 40px;
+  width: 120px;
+  padding: 12px;
+  font-size: 14px;
+}
+.medium {
+  height: 50px;
+  width: 180px;
+  padding: 16px;
+  font-size: 16px;
+}
+.large {
+  height: 70px;
+  width: 250px;
+  padding: 20px;
+  font-size: 18px;
+}

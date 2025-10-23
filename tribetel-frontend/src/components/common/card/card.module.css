@@ -1,0 +1,21 @@
+.card{
+    border: 1px solid #ccc;
+    padding: 16px;
+    background:#fff;
+    position: relative;
+}
+
+.content{
+    min-height: 64px;
+    font-size: 16px;
+}
+
+label {
+    position: absolute;
+    left: 16px;
+    bottom: 8px;
+    font-size: 12px;
+    color: #fff;
+    background: rgba(255,255,255,0.8);
+    padding: 2px 4px;
+}
