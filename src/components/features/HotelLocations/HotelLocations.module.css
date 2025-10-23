@@ -6,7 +6,6 @@
   display: flex;
 }
 
-/* Content Section */
 .contentSection {
   width: 50%;
   height: 100%;
@@ -61,7 +60,6 @@
   line-height: 33.60px;
 }
 
-/* Map Section */
 .mapSection {
   width: 50%;
   height: 100%;
@@ -82,7 +80,6 @@
   display: block;
 }
 
-/* Enhanced Responsive Design */
 @media (max-width: 1440px) {
   .hotelLocations {
     height: 600px;
@@ -320,7 +317,6 @@
   }
 }
 
-/* Ensure map is always visible and properly sized */
 @media (max-width: 320px) {
   .contentSection {
     padding: 24px 8px;
@@ -331,7 +327,6 @@
   }
 }
 
-/* Print styles */
 @media print {
   .mapSection {
     display: none;

@@ -16,7 +16,37 @@
   height: 100%;
   z-index: 0;
 }
+/* Add these styles to enhance the welcome message */
 
+.welcomeHighlight {
+    color: #FDC959;
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.tagline {
+    font-size: 1.3rem;
+    font-weight: 400;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+/* Enhanced subtitle for welcome message */
+.contentWrapper:not(.userWelcome) .subtitle {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    opacity: 0.95;
+}
+
+/* Different styling for user welcome vs general welcome */
+.userWelcome .mainTitle {
+    font-size: 2.2rem;
+}
+
+.userWelcome .subtitle {
+    font-size: 1.1rem;
+}
 .slide {
   position: absolute;
   top: 0;

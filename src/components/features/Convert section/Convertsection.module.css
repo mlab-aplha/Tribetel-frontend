@@ -76,7 +76,6 @@
   line-height: 33.60px;
 }
 
-/* Large Desktop */
 @media (min-width: 1441px) {
   .convertSection {
     max-width: 1440px;
@@ -84,7 +83,6 @@
   }
 }
 
-/* Desktop */
 @media (max-width: 1440px) {
   .convertCard {
     width: 90%;
@@ -92,7 +90,6 @@
   }
 }
 
-/* Tablet */
 @media (max-width: 1200px) {
   .convertCard {
     height: auto;
@@ -116,7 +113,6 @@
   }
 }
 
-/* Small Tablet */
 @media (max-width: 1024px) {
   .convertSection {
     height: auto;
@@ -137,7 +133,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .convertSection {
     padding: 60px 20px;
@@ -172,7 +167,6 @@
   }
 }
 
-/* Small Mobile */
 @media (max-width: 600px) {
   .convertSection {
     padding: 40px 16px;
@@ -213,7 +207,6 @@
   }
 }
 
-/* Extra Small Mobile */
 @media (max-width: 480px) {
   .convertSection {
     padding: 30px 12px;
@@ -242,7 +235,6 @@
   }
 }
 
-/* Very Small Mobile */
 @media (max-width: 360px) {
   .convertSection {
     padding: 20px 8px;

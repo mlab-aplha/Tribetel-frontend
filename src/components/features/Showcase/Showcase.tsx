@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './Showcase.module.css';
 
-// Import images
 import showcase1 from '../../../assets/showcase1.png';
 import showcase2 from '../../../assets/showcase2.png';
 import showcase3 from '../../../assets/showcase3.png';
@@ -24,10 +23,9 @@ interface ShowcaseProps {
 const Showcase: React.FC<ShowcaseProps> = ({
     title = "Our best places - on offer",
     rooms = [],
-    backgroundColor = "#FDC959", // Using direct color value
+    backgroundColor = "#FDC959", 
     onRoomClick
 }) => {
-    // Default rooms if none provided
     const defaultRooms: Room[] = [
         {
             id: 1,

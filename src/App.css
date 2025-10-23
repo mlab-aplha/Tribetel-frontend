@@ -1,0 +1,80 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+/* Global reset and base styles with zoom support */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px; /* Base font size */
+}
+
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  color: #000000;
+  background-color: #FFFFFF;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-width: 280px; /* Prevent zoom collapse */
+}
+
+/* Container utility */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Typography with zoom scaling */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Michroma', sans-serif;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+/* App main content with zoom support */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-width: 280px;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 280px;
+}
+
+/* Zoom compatibility for smaller screens */
+@media (max-width: 768px) {
+  html {
+    font-size: calc(16px + 0.3vw);
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: calc(16px + 0.5vw);
+  }
+}
+
+/* High DPI/Retina displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  html {
+    font-size: 17px;
+  }
+}
+
+/* Prevent content from becoming too small when zoomed */
+@media (max-width: 320px) {
+  body {
+    min-width: 280px;
+    overflow-x: auto;
+  }
+}

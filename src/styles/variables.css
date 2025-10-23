@@ -1,0 +1,37 @@
+:root {
+  /* Primary Palette - Fixed colors based on your design system */
+  --color-primary: #FDC959;
+  --color-secondary: #F4942F;
+  --color-accent: #470F51;
+  
+  /* Neutral Colors */
+  --color-white: #FFFFFF;
+  --color-light-gray: #F6F6F6;
+  --color-gray: #B3B3B3;
+  --color-dark-gray: #8E8E8E;
+  --color-darker-gray: #515151;
+  --color-black: #000000;
+  --color-dark: #1E1E1E;
+  
+  /* Typography */
+  --font-display: 'Michroma', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-instrument: 'Instrument Sans', sans-serif;
+  
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  
+  /* Layout */
+  --header-height: 90px;
+  --container-max-width: 1200px;
+}

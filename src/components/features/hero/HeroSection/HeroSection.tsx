@@ -8,6 +8,12 @@ import service1 from '../../../../assets/service1.png';
 import service2 from '../../../../assets/service2.png';
 import service3 from '../../../../assets/service3.png';
 
+
+const mockUser = {
+    isLoggedIn: false, // Changed to false to show default welcome message
+    name: "Wendy"
+};
+
 const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -108,7 +114,6 @@ const HeroSection: React.FC = () => {
                             src={image}
                             alt={`Luxury Hotel ${index + 1}`}
                             className={styles.heroImage}
-
                         />
                     </div>
                 ))}
@@ -119,10 +124,16 @@ const HeroSection: React.FC = () => {
             <div className={styles.contentSection}>
                 <div className={styles.contentWrapper}>
                     <h1 className={styles.mainTitle}>
-                        Your perfect stay - One click away
+                        {mockUser.isLoggedIn
+                            ? `Hello ${mockUser.name}, ready for your next adventure?`
+                            : 'Welcome to Tribtel'
+                        }
                     </h1>
                     <p className={styles.subtitle}>
-                        We find the best rooms at the best prices. Simple, fast, reliable.
+                        {mockUser.isLoggedIn
+                            ? `Welcome back! Let's find your perfect getaway, ${mockUser.name}.`
+                            : 'Experience luxury redefined. Your perfect stay awaits with exceptional service and unforgettable moments.'
+                        }
                     </p>
                     <Button
                         variant="primary"
@@ -130,7 +141,7 @@ const HeroSection: React.FC = () => {
                         className={styles.exploreButton}
                         onClick={handleExploreClick}
                     >
-                        Explore
+                        {mockUser.isLoggedIn ? 'Find My Stay' : 'Discover Luxury'}
                     </Button>
                 </div>
             </div>
@@ -240,7 +251,7 @@ const HeroSection: React.FC = () => {
                         className={styles.availabilityButton}
                         onClick={handleCheckAvailability}
                     >
-                        Check Availability
+                        {mockUser.isLoggedIn ? 'Find My Room' : 'Check Availability'}
                     </Button>
                 </Card>
             </div>

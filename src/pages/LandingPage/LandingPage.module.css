@@ -1,0 +1,20 @@
+.landingPage {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 0; /* Remove any padding since HeroSection handles it */
+}
+
+.landingPage > * {
+  scroll-margin-top: 90px; 
+}
+
+/* Ensure smooth transitions between sections */
+.landingPage > *:not(:first-child) {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .landingPage > * {
+    scroll-margin-top: 70px;
+  }
+}
