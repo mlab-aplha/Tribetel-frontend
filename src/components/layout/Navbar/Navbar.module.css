@@ -1,0 +1,331 @@
+.navbar {
+    width: 100%;
+    height: 90px;
+    background: #F4942F;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo Section */
+.logoSection {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.logoLink {
+    text-decoration: none;
+    color: inherit;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.logoImage {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.logoImage:hover {
+    transform: scale(1.05);
+}
+
+.logoFallback {
+    display: none;
+    align-items: center;
+    gap: 12px;
+}
+
+.logoIcon {
+    width: 40px;
+    height: 40px;
+    background: #470F51;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoIcon::before {
+    content: 'T';
+    color: #FDC959;
+    font-size: 20px;
+    font-family: 'Michroma', sans-serif;
+    font-weight: bold;
+}
+
+.logoText {
+    color: #470F51;
+    font-size: 28px;
+    font-family: 'Michroma', sans-serif;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+/* Navigation Links */
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex: 1;
+    justify-content: center;
+}
+
+.navLink {
+    padding: 12.5px;
+    border-radius: 11.11px;
+    text-decoration: none;
+    color: #F3F3F3;
+    font-size: 18px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 25px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.navLink.default:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+}
+
+.navLink.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+}
+
+.navLink.signIn {
+    color: #1E1E1E;
+}
+
+.navLink.signIn:hover {
+    color: #470F51;
+}
+
+/* Join Section */
+.joinSection {
+    flex-shrink: 0;
+}
+
+.joinButton {
+    width: 120px;
+    height: 50px;
+    background: #470F51;
+    color: #FDC959;
+    font-size: 16px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.joinButton:hover {
+    background: #5a1466;
+    transform: translateY(-2px);
+}
+
+/* Mobile Menu Button */
+.mobileMenuButton {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    gap: 4px;
+}
+
+.mobileMenuButton span {
+    width: 25px;
+    height: 3px;
+    background: #470F51;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Menu */
+.mobileMenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #F4942F;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.mobileLogo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 0 20px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mobileLogoImage {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.mobileLogo span {
+    color: #470F51;
+    font-size: 24px;
+    font-family: 'Michroma', sans-serif;
+    font-weight: 400;
+}
+
+.mobileNavLink {
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-family: 'Inter', sans-serif;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.mobileNavLink:hover,
+.mobileNavLink.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FDC959;
+}
+
+.mobileJoinButton {
+    margin-top: 15px;
+    padding: 15px 20px;
+    background: #470F51;
+    color: #FDC959;
+    text-decoration: none;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.mobileJoinButton:hover {
+    background: #5a1466;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .navLinks {
+        gap: 20px;
+    }
+    
+    .navLink {
+        font-size: 16px;
+        padding: 10px;
+    }
+    
+    .joinButton {
+        width: 100px;
+        height: 45px;
+        font-size: 14px;
+    }
+    
+    .logoText {
+        font-size: 24px;
+    }
+    
+    .logoImage {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navLinks {
+        display: none;
+    }
+    
+    .joinSection {
+        display: none;
+    }
+    
+    .mobileMenuButton {
+        display: flex;
+    }
+    
+    .mobileMenu {
+        display: flex;
+    }
+    
+    .logoText {
+        font-size: 22px;
+    }
+    
+    .logoImage {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        height: 70px;
+        padding: 0 16px;
+    }
+    
+    .logoText {
+        font-size: 20px;
+        display: none; /* Hide text on very small screens */
+    }
+    
+    .logoImage {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .mobileNavLink {
+        font-size: 16px;
+        padding: 12px 16px;
+    }
+    
+    .mobileJoinButton {
+        font-size: 16px;
+        padding: 12px 16px;
+    }
+    
+    .mobileLogo span {
+        font-size: 20px;
+    }
+    
+    .mobileLogoImage {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+
+.logoContainer:has(.logoImage[src*="undefined"]) .logoFallback,
+.logoContainer:has(.logoImage:not([src])) .logoFallback {
+    display: flex;
+}
+
+.logoContainer:has(.logoFallback) .logoImage {
+    display: none;
+}

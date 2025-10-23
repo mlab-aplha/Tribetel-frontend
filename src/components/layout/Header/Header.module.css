@@ -1,0 +1,551 @@
+.header {
+  width: 100%;
+  height: 90px;
+  background: #F4942F;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 42px;
+}
+
+/* Logo Section - Left */
+.logoSection {
+  flex-shrink: 0;
+}
+
+.logoLink {
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease;
+}
+
+.logoLink:hover {
+  transform: scale(1.05);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logoImage {
+  width: 67px;
+  height: 67px;
+  object-fit: contain;
+}
+
+.logoText {
+  color: #470F51;
+  font-size: 32px;
+  font-family: 'Michroma', monospace;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* Right Section - Navigation and Auth Buttons */
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Navigation Menu */
+.navMenu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navItem {
+  padding: 12.50px;
+  border-radius: 11.11px;
+  justify-content: center;
+  align-items: center;
+  gap: 12.50px;
+  display: flex;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 25px;
+  color: #F3F3F3;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.navItem.active {
+  color: #F5F5F5;
+}
+
+.navItem:hover {
+  background: rgba(71, 15, 81, 0.1);
+}
+
+/* Auth Buttons - Logged Out State */
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.signInButton {
+  padding: 12px 20px;
+  border-radius: 11.11px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 25px;
+  color: #1E1E1E;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.signInButton:hover {
+  background: rgba(71, 15, 81, 0.1);
+}
+
+.joinButton {
+  width: 120px;
+  height: 60px;
+  background: #470F51;
+  color: #FDC959;
+  font-size: 25px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 25px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  border-radius: 11.11px;
+  white-space: nowrap;
+}
+
+.joinButton:hover {
+  background: #5a1466;
+  transform: translateY(-2px);
+}
+
+.joinButton:active {
+  transform: translateY(0);
+}
+
+/* Profile Section - Logged In State */
+.profileSection {
+  position: relative;
+}
+
+.profileContainer {
+  width: 233px;
+  height: 90px;
+  background: #470F51;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 29px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.profileContainer:hover {
+  background: #5a1466;
+}
+
+.profileAvatar {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #470F51;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarCircle {
+  width: 60px;
+  height: 60px;
+  background: #470F51;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.avatarInitial {
+  width: 39.27px;
+  height: 38px;
+  background: #FDC959;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #470F51;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.profileName {
+  color: white;
+  font-size: 18px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  line-height: 21.60px;
+  white-space: nowrap;
+}
+
+.dropdownArrow {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.arrowIcon {
+  width: 12px;
+  height: 6px;
+  position: absolute;
+  left: 6px;
+  top: 9px;
+  outline: 2px white solid;
+  outline-offset: -1px;
+  transform: rotate(45deg);
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transition: transform 0.3s ease;
+}
+
+.profileContainer:hover .arrowIcon {
+  transform: rotate(225deg);
+}
+
+/* Dropdown Menu */
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  z-index: 1001;
+  overflow: hidden;
+}
+
+.dropdownItem {
+  width: 100%;
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  color: #1E1E1E;
+  transition: background-color 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.dropdownItem:hover {
+  background: #f8f9fa;
+  color: #470F51;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .headerContent {
+    padding: 0 32px;
+  }
+  
+  .rightSection {
+    gap: 30px;
+  }
+  
+  .navMenu {
+    gap: 16px;
+  }
+  
+  .navItem,
+  .signInButton,
+  .joinButton {
+    font-size: 22px;
+    padding: 10px 16px;
+  }
+  
+  .joinButton {
+    width: 100px;
+    height: 55px;
+  }
+  
+  .profileContainer {
+    width: 200px;
+    height: 80px;
+    gap: 12px;
+    padding: 0 20px;
+  }
+  
+  .profileAvatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .avatarCircle {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .avatarInitial {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+  
+  .logoText {
+    font-size: 28px;
+  }
+  
+  .logoImage {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .header {
+    height: 80px;
+  }
+  
+  .headerContent {
+    padding: 0 24px;
+  }
+  
+  .rightSection {
+    gap: 24px;
+  }
+  
+  .navMenu {
+    gap: 12px;
+  }
+  
+  .navItem,
+  .signInButton,
+  .joinButton {
+    font-size: 20px;
+    padding: 8px 12px;
+  }
+  
+  .joinButton {
+    width: 90px;
+    height: 50px;
+  }
+  
+  .profileContainer {
+    width: 180px;
+    height: 70px;
+    gap: 10px;
+    padding: 0 16px;
+  }
+  
+  .profileAvatar {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .avatarCircle {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .avatarInitial {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+  
+  .profileName {
+    font-size: 16px;
+  }
+  
+  .logoImage {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+@media (max-width: 900px) {
+  .navMenu {
+    display: none;
+  }
+  
+  .rightSection {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: 70px;
+  }
+  
+  .headerContent {
+    padding: 0 16px;
+  }
+  
+  .logoText {
+    display: none;
+  }
+  
+  .authButtons {
+    gap: 8px;
+  }
+  
+  .signInButton,
+  .joinButton {
+    font-size: 18px;
+    padding: 8px 12px;
+  }
+  
+  .joinButton {
+    width: 80px;
+    height: 45px;
+  }
+  
+  .profileContainer {
+    width: 150px;
+    height: 60px;
+    gap: 8px;
+    padding: 0 12px;
+  }
+  
+  .profileAvatar {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .avatarCircle {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .avatarInitial {
+    width: 26px;
+    height: 26px;
+    font-size: 16px;
+  }
+  
+  .profileName {
+    font-size: 14px;
+  }
+  
+  .dropdownArrow {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .arrowIcon {
+    width: 10px;
+    height: 5px;
+    left: 5px;
+    top: 7px;
+  }
+  
+  .logoImage {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    height: 60px;
+  }
+  
+  .headerContent {
+    padding: 0 12px;
+  }
+  
+  .authButtons {
+    gap: 6px;
+  }
+  
+  .signInButton,
+  .joinButton {
+    font-size: 16px;
+    padding: 6px 10px;
+  }
+  
+  .joinButton {
+    width: 70px;
+    height: 40px;
+  }
+  
+  .profileContainer {
+    width: 120px;
+    height: 50px;
+    gap: 6px;
+    padding: 0 8px;
+  }
+  
+  .profileAvatar {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .avatarCircle {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .avatarInitial {
+    width: 22px;
+    height: 22px;
+    font-size: 14px;
+  }
+  
+  .profileName {
+    font-size: 12px;
+  }
+  
+  .dropdownArrow {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .arrowIcon {
+    width: 8px;
+    height: 4px;
+    left: 4px;
+    top: 6px;
+  }
+  
+  .logoImage {
+    width: 45px;
+    height: 45px;
+  }
+}

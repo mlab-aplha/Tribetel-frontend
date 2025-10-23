@@ -1,0 +1,166 @@
+.serviceCard {
+  width: 387px;
+  height: 611px;
+  background: var(--color-white);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 0;
+  border-radius: 0;
+}
+
+.serviceCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.graphicContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: var(--color-white);
+}
+
+.decorativeSquare {
+  width: 93px;
+  height: 93px;
+  position: absolute;
+  left: 81px;
+  top: 101px;
+  background: var(--color-gray);
+  transition: background-color 0.3s ease;
+}
+
+.decorativeCircle {
+  width: 126px;
+  height: 126px;
+  position: absolute;
+  left: 180px;
+  top: 89px;
+  background: var(--color-gray);
+  border-radius: 9999px;
+  transition: background-color 0.3s ease;
+}
+
+.serviceCard:hover .decorativeSquare,
+.serviceCard:hover .decorativeCircle {
+  background: var(--color-primary);
+}
+
+.gradientOverlay {
+  width: 100%;
+  height: 310px;
+  position: absolute;
+  left: 0;
+  top: 301px;
+  background: linear-gradient(0deg, var(--color-accent) 0%, rgba(71, 15, 81, 0) 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 33px;
+}
+
+.serviceInfo {
+  width: 129px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.serviceTitle {
+  align-self: stretch;
+  color: var(--color-white);
+  font-size: 38px;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-regular);
+  line-height: 45.60px;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+.serviceDescription {
+  align-self: stretch;
+  color: var(--color-white);
+  font-size: 24px;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-regular);
+  line-height: 28.80px;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .serviceCard {
+    width: 100%;
+    max-width: 387px;
+    height: 500px;
+  }
+
+  .decorativeSquare {
+    width: 70px;
+    height: 70px;
+    left: 50px;
+    top: 80px;
+  }
+
+  .decorativeCircle {
+    width: 100px;
+    height: 100px;
+    left: 140px;
+    top: 70px;
+  }
+
+  .gradientOverlay {
+    height: 250px;
+    top: 250px;
+  }
+
+  .serviceTitle {
+    font-size: 32px;
+    line-height: 38.4px;
+  }
+
+  .serviceDescription {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .serviceCard {
+    height: 450px;
+  }
+
+  .decorativeSquare {
+    width: 50px;
+    height: 50px;
+    left: 30px;
+    top: 60px;
+  }
+
+  .decorativeCircle {
+    width: 80px;
+    height: 80px;
+    left: 100px;
+    top: 50px;
+  }
+
+  .gradientOverlay {
+    height: 200px;
+    top: 250px;
+    padding: 20px;
+  }
+
+  .serviceTitle {
+    font-size: 28px;
+    line-height: 33.6px;
+  }
+
+  .serviceDescription {
+    font-size: 18px;
+    line-height: 21.6px;
+  }
+}

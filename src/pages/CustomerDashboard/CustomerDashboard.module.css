@@ -1,0 +1,127 @@
+.dashboard {
+    min-height: 100vh;
+    background: #f8f9fa;
+}
+
+.mainContent {
+    padding-top: 0;
+    width: 100%;
+}
+
+/* Section Styles - Following Hero/Footer patterns */
+.section {
+    width: 100%;
+    padding: 80px 24px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.section:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.sectionContent {
+    width: 100%;
+    max-width: 1396px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 40px;
+    box-sizing: border-box;
+}
+
+/* Large Desktop */
+@media (min-width: 1441px) {
+    .section {
+        padding: 100px 32px;
+    }
+    
+    .sectionContent {
+        gap: 60px;
+    }
+}
+
+@media (max-width: 1440px) {
+    .section {
+        padding: 80px 32px;
+    }
+    
+    .sectionContent {
+        gap: 50px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .section {
+        padding: 70px 28px;
+    }
+    
+    .sectionContent {
+        gap: 40px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .section {
+        padding: 60px 24px;
+    }
+    
+    .sectionContent {
+        gap: 35px;
+    }
+}
+
+@media (max-width: 900px) {
+    .section {
+        padding: 50px 20px;
+    }
+    
+    .sectionContent {
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 40px 20px;
+    }
+    
+    .sectionContent {
+        gap: 25px;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .section {
+        padding: 32px 16px;
+    }
+    
+    .sectionContent {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section {
+        padding: 24px 12px;
+    }
+    
+    .sectionContent {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    .section {
+        padding: 20px 8px;
+    }
+    
+    .sectionContent {
+        gap: 12px;
+    }
+}

@@ -1,0 +1,137 @@
+.testimonialCard {
+  flex: 1 1 0;
+  min-width: 300px;
+  padding: 24px;
+  background: var(--color-white);
+  border-radius: 8px;
+  outline: 1px solid var(--color-light-gray);
+  outline-offset: -1px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 24px;
+  display: flex;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.testimonialCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.quoteSection {
+  align-self: stretch;
+  justify-content: flex-start;
+  align-items: flex-start;
+  display: inline-flex;
+}
+
+.quoteText {
+  flex: 1 1 0;
+  color: var(--color-black);
+  font-size: 24px;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: 28.80px;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+.authorSection {
+  width: 139px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 12px;
+  display: inline-flex;
+}
+
+.authorImage {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 9999px;
+}
+
+.image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 9999px;
+}
+
+.authorInfo {
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2px;
+  display: inline-flex;
+}
+
+.authorName {
+  align-self: stretch;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  color: var(--color-dark-gray);
+  font-size: 16px;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: 22.40px;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+.authorRole {
+  align-self: stretch;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  color: var(--color-gray);
+  font-size: 16px;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-regular);
+  line-height: 22.40px;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .testimonialCard {
+    min-width: 280px;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .quoteText {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .authorName,
+  .authorRole {
+    font-size: 14px;
+    line-height: 19.6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonialCard {
+    min-width: 100%;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .quoteText {
+    font-size: 18px;
+    line-height: 21.6px;
+  }
+
+  .authorSection {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
