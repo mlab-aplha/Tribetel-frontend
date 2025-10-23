@@ -1,0 +1,627 @@
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 800px;
+  background: white;
+  overflow: hidden;
+  margin-top: 90px;
+}
+
+.backgroundSlideshow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Gradient Overlay */
+.gradientOverlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: linear-gradient(90deg, rgba(71, 15, 81, 0.30) 75%, rgba(160, 34, 183, 0) 100%);
+  backdrop-filter: blur(2px);
+  z-index: 1;
+}
+
+/* Content Section */
+.contentSection {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 79px;
+  padding-top: 90px;
+}
+
+.contentWrapper {
+  max-width: 581px;
+  margin-top: -90px;
+}
+
+.mainTitle {
+  color: #FDC959;
+  font-size: 56px;
+  font-family: 'Michroma', sans-serif;
+  font-weight: 400;
+  line-height: 67.20px;
+  margin-bottom: 37px;
+  word-wrap: break-word;
+}
+
+.subtitle {
+  color: white;
+  font-size: 24px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  line-height: 28.80px;
+  margin-bottom: 94px;
+  word-wrap: break-word;
+  max-width: 611px;
+}
+
+.exploreButton {
+  width: 250px;
+  height: 70px;
+  background: #470F51;
+  color: #FDC959;
+  font-size: 28px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  line-height: 33.60px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.exploreButton:hover {
+  background: #5a1466;
+  transform: translateY(-2px);
+}
+
+/* Search Card */
+.searchCard {
+  position: absolute;
+  width: 1122px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 55px;
+  z-index: 3;
+}
+
+.searchCardContent {
+  display: flex;
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  height: 98px;
+  align-items: center;
+}
+
+.searchField {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 26px;
+  background: white;
+  border-right: 1px solid #B9B5AF;
+  position: relative;
+  height: 100%;
+  min-height: 98px;
+}
+
+.searchField:last-of-type {
+  border-right: none;
+}
+
+.fieldContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+
+.fieldLabel {
+  color: #470F51;
+  font-size: 16px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  font-size: 28px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 400;
+  color: #1E1E1E;
+  background: transparent;
+  width: 100%;
+  padding: 0;
+}
+
+.searchInput::placeholder {
+  color: #8E8E8E;
+}
+
+.dateInputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dateInput {
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 400;
+  color: #1E1E1E;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  flex: 1;
+}
+
+.dateInput.hasValue {
+  color: #470F51;
+  font-weight: 500;
+}
+
+.dateInput:not(.hasValue) {
+  color: #8E8E8E;
+}
+
+.dateSeparator {
+  color: #B9B5AF;
+  font-weight: 500;
+  font-size: 28px;
+}
+
+.fieldIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+}
+
+.locationIcon {
+  width: 24px;
+  height: 12px;
+  border: 4px solid #1E1E1E;
+  border-radius: 2px;
+  position: relative;
+}
+
+.locationIcon::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #1E1E1E;
+  border-radius: 50%;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.calendarIcon {
+  width: 36px;
+  height: 40px;
+  border: 4px solid #1E1E1E;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+.calendarIcon::before {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 4px;
+  background: #1E1E1E;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Date Picker */
+.datePicker {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #B9B5AF;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  margin-top: 0.5rem;
+}
+
+.datePickerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #B9B5AF;
+  background: #470F51;
+  color: white;
+}
+
+.datePickerHeader h4 {
+  margin: 0;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar {
+  padding: 1rem;
+}
+
+.calendarHeader {
+  text-align: center;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #470F51;
+  margin-bottom: 1rem;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.calendarDayHeader {
+  text-align: center;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #8E8E8E;
+  padding: 0.5rem;
+}
+
+.calendarDay {
+  border: none;
+  background: transparent;
+  padding: 0.75rem 0.5rem;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.calendarDay:hover:not(.disabled) {
+  background: #FDC959;
+  color: #470F51;
+}
+
+.calendarDay.selected {
+  background: #470F51;
+  color: white;
+}
+
+.calendarDay.disabled {
+  color: #B9B5AF;
+  cursor: not-allowed;
+  background: #F6F6F6;
+}
+
+.availabilityButton {
+  width: 281px;
+  height: 98px;
+  background: #1E1E1E;
+  color: #FDC959;
+  font-size: 28px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  line-height: 33.60px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0;
+}
+
+.availabilityButton:hover {
+  background: #333;
+  transform: translateY(-2px);
+}
+
+.carouselIndicators {
+  position: absolute;
+  right: 1265px;
+  bottom: 596px;
+  display: flex;
+  gap: 11.58px;
+  align-items: center;
+  z-index: 2;
+  transform: translateX(100%);
+  right: 2%;
+}
+
+.indicator {
+  width: 16.54px;
+  height: 16.54px;
+  background: rgba(44, 44, 44, 0.50);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .searchCard {
+    width: 90%;
+    max-width: 1122px;
+  }
+  
+  .carouselIndicators {
+    right: 5%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .heroSection {
+    margin-top: 90px;
+  }
+
+  .searchCard {
+    top: 80px;
+  }
+
+  .searchCardContent {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 0;
+  }
+
+  .searchField {
+    border-right: none;
+    border-bottom: 1px solid #B9B5AF;
+    min-height: 80px;
+    flex: 1 1 100%;
+    padding: 0 20px;
+  }
+
+  .searchField:last-of-type {
+    border-bottom: none;
+  }
+
+  .availabilityButton {
+    flex: 1 1 100%;
+    height: 80px;
+    width: 100%;
+  }
+
+  .contentSection {
+    padding-left: 5%;
+    padding-top: 90px;
+  }
+
+  .mainTitle {
+    font-size: 48px;
+    line-height: 57.6px;
+  }
+
+  .subtitle {
+    font-size: 22px;
+    line-height: 26.4px;
+    margin-bottom: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    min-height: 700px;
+    margin-top: 70px;
+  }
+
+  .searchCard {
+    width: 95%;
+    top: 60px;
+  }
+
+  .searchCardContent {
+    flex-direction: column;
+  }
+
+  .searchField {
+    flex: 1 1 100%;
+    border-right: none;
+    border-bottom: 1px solid #B9B5AF;
+    min-height: 70px;
+    padding: 0 16px;
+  }
+
+  .searchField:last-of-type {
+    border-bottom: 1px solid #B9B5AF;
+  }
+
+  .availabilityButton {
+    width: 100%;
+    height: 70px;
+    font-size: 24px;
+  }
+
+  .contentSection {
+    padding: 0 5%;
+    padding-top: 120px;
+    text-align: center;
+  }
+
+  .contentWrapper {
+    max-width: none;
+    margin-top: 0;
+  }
+
+  .mainTitle {
+    font-size: 36px;
+    line-height: 43.2px;
+    margin-bottom: 24px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    line-height: 21.6px;
+    margin-bottom: 40px;
+  }
+
+  .exploreButton {
+    width: 200px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .searchInput,
+  .dateInput {
+    font-size: 22px;
+  }
+
+  .fieldLabel {
+    font-size: 14px;
+  }
+
+  .gradientOverlay {
+    background: linear-gradient(90deg, rgba(71, 15, 81, 0.40) 50%, rgba(160, 34, 183, 0) 100%);
+  }
+
+  .carouselIndicators {
+    right: 5%;
+    bottom: 8%;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection {
+    min-height: 600px;
+    margin-top: 70px;
+  }
+
+  .searchCard {
+    width: 90%;
+    top: 50px;
+  }
+
+  .searchCardContent {
+    padding: 0;
+  }
+
+  .searchField {
+    min-height: 60px;
+    padding: 0 12px;
+  }
+
+  .fieldLabel {
+    font-size: 12px;
+  }
+
+  .searchInput,
+  .dateInput {
+    font-size: 18px;
+  }
+
+  .availabilityButton {
+    height: 60px;
+    font-size: 20px;
+  }
+
+  .mainTitle {
+    font-size: 28px;
+    line-height: 33.6px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    line-height: 19.2px;
+  }
+
+  .exploreButton {
+    width: 180px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .calendar {
+    padding: 0.75rem;
+  }
+
+  .calendarDay {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.8rem;
+  }
+
+  .contentSection {
+    padding-top: 100px;
+  }
+
+  .carouselIndicators {
+    bottom: 6%;
+  }
+  
+  .indicator {
+    width: 12px;
+    height: 12px;
+  }
+}
