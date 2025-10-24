@@ -7,11 +7,8 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* Use Header instead of Navbar for the main navigation */}
-
         <main className="main-content">
           <Routes>
-            {/*<Route path="/" element={<LandingPage />} />*/}
             <Route path="/" element={<CustomerDashboard />} />
             <Route path="/hotels" element={<div style={{ paddingTop: '90px', minHeight: '100vh' }}>Hotels Page - Coming Soon</div>} />
             <Route path="/deals" element={<div style={{ paddingTop: '90px', minHeight: '100vh' }}>Deals Page - Coming Soon</div>} />
