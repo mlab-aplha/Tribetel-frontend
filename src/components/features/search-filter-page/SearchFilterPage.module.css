@@ -1,0 +1,66 @@
+:root{
+  --brand-1: #470F51; /* deep purple primary */
+  --accent-1: #FDC959; /* warm gold */
+  --accent-2: #F4942F; /* orange accent */
+  --muted: #6b6b6b;
+  --bg: #ffffff;
+}
+
+/* page layout */
+.page { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color:#111; background:var(--bg); min-height:100vh; display:flex; flex-direction:column; }
+.header { background: linear-gradient(90deg, rgba(71,15,81,0.95), rgba(244,148,47,0.06)); color:#fff; padding:24px 0; }
+.headerInner { max-width:1100px; margin:0 auto; padding:0 16px; display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+.title { margin:0; font-size:1.15rem; font-weight:700; color:var(--accent-1); }
+
+/* searchbar wrapper (SearchBar component will render inside) */
+.searchWrap { max-width:520px; width:100%; }
+
+/* content layout */
+.content { max-width:1100px; margin:20px auto; padding:0 16px; display:grid; grid-template-columns: 260px 1fr; gap:20px; align-items:start; }
+
+/* filters */
+.filters { position:sticky; top:24px; align-self:start; }
+.filterCard { background:#fff; border-radius:10px; padding:12px; margin-bottom:12px; box-shadow:0 4px 18px rgba(16,16,16,0.06); }
+.filterTitle { margin:0 0 8px 0; font-size:0.95rem; color:var(--brand-1); }
+.rangeRow { display:flex; gap:8px; }
+.inputSmall { width:100%; padding:8px; border-radius:6px; border:1px solid #e6e6e6; }
+.select { width:100%; padding:8px; border-radius:6px; border:1px solid #e6e6e6; }
+
+/* results */
+.resultsHeader { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; color:var(--muted); }
+.list { display:flex; flex-direction:column; gap:12px; }
+
+.card { display:flex; gap:12px; background:#fff; border-radius:10px; padding:12px; box-shadow:0 6px 20px rgba(16,16,16,0.06); align-items:stretch; }
+.thumb { width:160px; height:110px; object-fit:cover; border-radius:8px; flex-shrink:0; }
+.cardContent { display:flex; flex-direction:column; flex:1; }
+.cardTop { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+.hotelName { margin:0; font-size:1.05rem; color:var(--brand-1); }
+.location { color:var(--muted); font-size:0.9rem; margin-top:4px; }
+.rating { display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
+.score { background:var(--brand-1); color:var(--accent-1); padding:6px 8px; border-radius:6px; font-weight:700; }
+.reviews { font-size:0.8rem; color:var(--muted); }
+
+.description { margin:8px 0 0 0; color:#333; font-size:0.95rem; }
+
+/* card footer */
+.cardFooter { display:flex; justify-content:space-between; align-items:center; margin-top:auto; gap:12px; }
+.price { font-weight:800; color:var(--brand-1); font-size:1.05rem; }
+.perNight { font-weight:400; color:var(--muted); font-size:0.85rem; margin-left:6px; }
+.bookBtn { background:var(--accent-2); color:#fff; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:700; }
+
+/* footer */
+.footer { margin-top:32px; padding:18px 0; background:#fafafa; border-top:1px solid #eee; }
+.footerInner { max-width:1100px; margin:0 auto; padding:0 16px; display:flex; justify-content:space-between; align-items:center; color:var(--muted); }
+
+/* responsive */
+@media (max-width:900px) {
+  .content { grid-template-columns: 1fr; }
+  .filters { position:static; }
+  .thumb { width:120px; height:90px; }
+  .headerInner { padding-bottom:8px; gap:8px; }
+}
+@media (max-width:500px) {
+  .thumb { width:100px; height:75px; }
+  .hotelName { font-size:1rem; }
+  .cardFooter { flex-direction:column; align-items:flex-start; gap:8px; }
+}
