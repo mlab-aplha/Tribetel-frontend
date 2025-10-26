@@ -1,14 +1,6 @@
 import React from 'react';
+import { RoomCardProps } from '../../types/common';
 import styles from './RoomCard.module.css';
-
-interface RoomCardProps {
-    title?: string;
-    price?: string;
-    imageUrl?: string;
-    description?: string;
-    className?: string;
-    onClick?: () => void;
-}
 
 const RoomCard: React.FC<RoomCardProps> = ({
     title = "Room Type",

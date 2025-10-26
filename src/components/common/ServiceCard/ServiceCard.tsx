@@ -1,15 +1,7 @@
 import React from 'react';
+import { ServiceCardProps } from '../../types/common';
 import styles from './ServiceCard.module.css';
 import Button from '../Button/Button';
-
-interface ServiceCardProps {
-    title: string;
-    description: string;
-    price: string;
-    imageUrl: string;
-    isNew?: boolean;
-    onViewOffer?: () => void;
-}
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
     title,

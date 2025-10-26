@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Button from '../../../common/Button/Button';
 import Card from '../../../common/Card/Card';
 import styles from './HeroSection.module.css';
-
-import heroImage from '../../../../assets/hero-image.png';
-import service1 from '../../../../assets/service1.png';
-import service2 from '../../../../assets/service2.png';
-import service3 from '../../../../assets/service3.png';
-
+import heroImage from '../../../assets/hero-image.png';
+import service1 from '../../../assets/service1.png';
+import service2 from '../../../assets/service2.png';
+import service3 from '../../../assets/service3.png';
 
 const mockUser = {
-    isLoggedIn: false, // Changed to false to show default welcome message
+    isLoggedIn: false,
     name: "Wendy"
 };
 

@@ -1,65 +1,169 @@
 import React from 'react';
 import styles from './BookingSummary.module.css';
-
-interface Room {
-  id?: string | number;
-  title: string;
-  pricePerNight: number;
-  
-}
-
-interface FormData {
-  checkIn: string;
-  checkOut: string;
-  guests: number;
-  
-}
+import { RoomSummary, BookingSummaryData, PriceBreakdown } from '../../../types/common';
 
 interface BookingSummaryProps {
-  form: FormData;
-  room: Room;
-  nights: number;
+  form: BookingSummaryData;
+  room: RoomSummary;
+  priceBreakdown: PriceBreakdown;
   onConfirm: () => void;
+  onEdit?: () => void;
+  isLoading?: boolean;
+  isConfirmed?: boolean;
+  policies?: {
+    cancellation: string;
+    checkIn: string;
+    checkOut: string;
+  };
 }
 
-const BookingSummary: React.FC<BookingSummaryProps> = ({ form, room, nights, onConfirm }) => {
-  const total = nights * room.pricePerNight;
+const BookingSummary: React.FC<BookingSummaryProps> = ({
+  form,
+  room,
+  priceBreakdown,
+  onConfirm,
+  onEdit,
+  isLoading = false,
+  isConfirmed = false,
+  policies
+}) => {
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
 
   return (
     <div className={styles.summary}>
-      <h4 className={styles.h}>Booking Summary</h4>
-
-      <div className={styles.row}>
-        <strong>Room</strong>
-        <span>{room.title}</span>
+      <div className={styles.header}>
+        <h4 className={styles.h}>Booking Summary</h4>
+        {onEdit && !isConfirmed && (
+          <button className={styles.editBtn} onClick={onEdit} disabled={isLoading}>
+            Edit
+          </button>
+        )}
       </div>
 
-      <div className={styles.row}>
-        <strong>Dates</strong>
-        <span>
-          {form.checkIn} → {form.checkOut} ({nights} nights)
-        </span>
+      {/* Room Information */}
+      <div className={styles.section}>
+        <h5 className={styles.sectionTitle}>Room</h5>
+        <div className={styles.roomInfo}>
+          {room.image && (
+            <img src={room.image} alt={room.title} className={styles.roomImage} />
+          )}
+          <div className={styles.roomDetails}>
+            <span className={styles.roomTitle}>{room.title}</span>
+            <span className={styles.roomType}>{room.type}</span>
+            <div className={styles.guestsInfo}>
+              🧑‍🤝‍🧑 Max {room.maxGuests} guests
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className={styles.row}>
-        <strong>Guests</strong>
-        <span>{form.guests}</span>
+      {/* Stay Details */}
+      <div className={styles.section}>
+        <h5 className={styles.sectionTitle}>Stay Details</h5>
+        <div className={styles.detailRow}>
+          <div className={styles.detailItem}>
+            <span className={styles.detailLabel}>Check-in</span>
+            <span className={styles.detailValue}>{formatDate(form.checkIn)}</span>
+            {policies && <span className={styles.detailNote}>After {policies.checkIn}</span>}
+          </div>
+          <div className={styles.detailItem}>
+            <span className={styles.detailLabel}>Check-out</span>
+            <span className={styles.detailValue}>{formatDate(form.checkOut)}</span>
+            {policies && <span className={styles.detailNote}>Before {policies.checkOut}</span>}
+          </div>
+        </div>
+
+        <div className={styles.row}>
+          <strong>Duration</strong>
+          <span>{priceBreakdown.nights} night{priceBreakdown.nights > 1 ? 's' : ''}</span>
+        </div>
+
+        <div className={styles.row}>
+          <strong>Guests</strong>
+          <span>{form.guests} guest{form.guests > 1 ? 's' : ''}</span>
+        </div>
       </div>
 
-      <div className={styles.row}>
-        <strong>Price / night</strong>
-        <span>R {room.pricePerNight}</span>
+      {/* Special Requests */}
+      {form.specialRequests && (
+        <div className={styles.section}>
+          <h5 className={styles.sectionTitle}>Special Requests</h5>
+          <p className={styles.specialRequests}>{form.specialRequests}</p>
+        </div>
+      )}
+
+      {/* Price Breakdown */}
+      <div className={styles.section}>
+        <h5 className={styles.sectionTitle}>Price Details</h5>
+        <div className={styles.priceDetails}>
+          <div className={styles.priceRow}>
+            <span>R {room.pricePerNight} × {priceBreakdown.nights} nights</span>
+            <span>R {priceBreakdown.subtotal}</span>
+          </div>
+
+          {priceBreakdown.discount > 0 && (
+            <div className={`${styles.priceRow} ${styles.discount}`}>
+              <span>Discount</span>
+              <span>-R {priceBreakdown.discount}</span>
+            </div>
+          )}
+
+          <div className={styles.priceRow}>
+            <span>Taxes & Fees</span>
+            <span>R {priceBreakdown.taxes}</span>
+          </div>
+
+          <div className={styles.priceRow}>
+            <span>Service Fee</span>
+            <span>R {priceBreakdown.serviceFee}</span>
+          </div>
+
+          <div className={styles.totalRow}>
+            <strong>Total Amount</strong>
+            <strong>R {priceBreakdown.total}</strong>
+          </div>
+        </div>
       </div>
 
-      <div className={styles.totalRow}>
-        <strong>Total</strong>
-        <span>R {total}</span>
-      </div>
+      {/* Policies */}
+      {policies && (
+        <div className={styles.policySection}>
+          <p className={styles.policyText}>{policies.cancellation}</p>
+        </div>
+      )}
 
-      <div className={styles.confirmWrap}>
-        <button className={styles.confirmBtn} onClick={onConfirm}>
-          Confirm Booking
-        </button>
+      {/* Confirmation Section */}
+      <div className={styles.confirmSection}>
+        {isLoading ? (
+          <div className={styles.loadingState}>
+            <div className={styles.spinner}></div>
+            <span>Processing your booking...</span>
+          </div>
+        ) : isConfirmed ? (
+          <div className={styles.confirmedState}>
+            <span className={styles.successIcon}>✓</span>
+            <span>Booking Confirmed!</span>
+          </div>
+        ) : (
+          <div className={styles.confirmWrap}>
+            <button
+              className={styles.confirmBtn}
+              onClick={onConfirm}
+              disabled={isLoading}
+            >
+              Confirm Booking - R {priceBreakdown.total}
+            </button>
+            <p className={styles.securityNote}>
+              🔒 Secure & encrypted payment
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

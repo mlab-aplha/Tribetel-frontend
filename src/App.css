@@ -10,6 +10,9 @@
   box-sizing: border-box;
 }
 
+.app {
+  min-height: 100vh;
+}
 html {
   scroll-behavior: smooth;
   font-size: 16px; /* Base font size */

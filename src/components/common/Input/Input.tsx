@@ -1,21 +1,6 @@
 import React from 'react';
+import { InputProps } from '../../types/common';
 import styles from './Input.module.css';
-
-interface InputProps {
-    type?: 'text' | 'email' | 'password' | 'textarea' | 'select';
-    value: string;
-    onChange: (value: string) => void;
-    placeholder?: string;
-    label?: string;
-    id?: string;
-    required?: boolean;
-    maxLength?: number;
-    rows?: number;
-    className?: string;
-    error?: string;
-    disabled?: boolean;
-    options?: { value: string; label: string }[];
-}
 
 const Input: React.FC<InputProps> = ({
     type = 'text',

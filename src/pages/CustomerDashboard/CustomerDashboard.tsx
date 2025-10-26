@@ -1,6 +1,6 @@
 import React from 'react';
 import HeroSection from '../../components/features/hero/HeroSection/HeroSection';
-import Active_bookings from '../../components/features/Active bookings/Active-booking';
+import Active_bookings from '../../components/features/Active bookings/active-bookings';
 import Offers from '../../components/features/Offers/Offers';
 import AddReview from '../../components/features/Add review/Add-Review';
 import HotelLocations from '../../components/features/HotelLocations/HotelLocations';

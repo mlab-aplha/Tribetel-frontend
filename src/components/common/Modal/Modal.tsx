@@ -1,12 +1,6 @@
 import React from 'react';
+import { ModalProps } from '../../types/common';
 import styles from './Modal.module.css';
-
-interface ModalProps {
-    children: React.ReactNode;
-    isOpen: boolean;
-    onClose?: () => void;
-    className?: string;
-}
 
 const Modal: React.FC<ModalProps> = ({
     children,
