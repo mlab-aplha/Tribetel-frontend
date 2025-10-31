@@ -11,15 +11,24 @@ const Button: React.FC<ButtonProps> = ({
     disabled = false,
     className = '',
     fullWidth = false,
+    style = {}, // Add style prop
 }) => {
-    const buttonClass = `${styles.button} ${styles[variant]} ${styles[size]} ${fullWidth ? styles.fullWidth : ''} ${className}`;
+    const buttonClasses = [
+        styles.button,
+        styles[variant],
+        styles[size],
+        disabled ? styles.disabled : '',
+        fullWidth ? styles.fullWidth : '',
+        className
+    ].filter(Boolean).join(' ');
 
     return (
         <button
             type={type}
-            className={buttonClass}
+            className={buttonClasses}
             onClick={onClick}
             disabled={disabled}
+            style={style}
         >
             {children}
         </button>

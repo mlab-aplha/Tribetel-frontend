@@ -89,7 +89,8 @@
 }
 
 .navItem.active {
-  color: #F5F5F5;
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
 }
 
 .navItem:hover {
@@ -277,6 +278,100 @@
   color: #470F51;
 }
 
+/* Mobile Menu Button */
+.mobileMenuButton {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  gap: 4px;
+}
+
+.mobileMenuButton span {
+  width: 25px;
+  height: 3px;
+  background: #470F51;
+  transition: all 0.3s ease;
+}
+
+/* Mobile Menu */
+.mobileMenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #F4942F;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+}
+
+.mobileLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 0 20px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mobileLogoImage {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.mobileLogo span {
+  color: #470F51;
+  font-size: 24px;
+  font-family: 'Michroma', sans-serif;
+  font-weight: 400;
+}
+
+.mobileNavLink {
+  padding: 15px 20px;
+  background: none;
+  border: none;
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mobileNavLink:hover,
+.mobileNavLink.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FDC959;
+}
+
+.mobileJoinButton {
+  margin-top: 15px;
+  padding: 15px 20px;
+  background: #470F51;
+  color: #FDC959;
+  text-decoration: none;
+  text-align: center;
+  font-size: 18px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.mobileJoinButton:hover {
+  background: #5a1466;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .headerContent {
@@ -403,8 +498,20 @@
     display: none;
   }
   
-  .rightSection {
-    gap: 16px;
+  .authButtons {
+    display: none;
+  }
+  
+  .profileSection {
+    display: none;
+  }
+  
+  .mobileMenuButton {
+    display: flex;
+  }
+  
+  .mobileMenu {
+    display: flex;
   }
 }
 
@@ -419,60 +526,6 @@
   
   .logoText {
     display: none;
-  }
-  
-  .authButtons {
-    gap: 8px;
-  }
-  
-  .signInButton,
-  .joinButton {
-    font-size: 18px;
-    padding: 8px 12px;
-  }
-  
-  .joinButton {
-    width: 80px;
-    height: 45px;
-  }
-  
-  .profileContainer {
-    width: 150px;
-    height: 60px;
-    gap: 8px;
-    padding: 0 12px;
-  }
-  
-  .profileAvatar {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .avatarCircle {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .avatarInitial {
-    width: 26px;
-    height: 26px;
-    font-size: 16px;
-  }
-  
-  .profileName {
-    font-size: 14px;
-  }
-  
-  .dropdownArrow {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .arrowIcon {
-    width: 10px;
-    height: 5px;
-    left: 5px;
-    top: 7px;
   }
   
   .logoImage {
@@ -490,62 +543,27 @@
     padding: 0 12px;
   }
   
-  .authButtons {
-    gap: 6px;
-  }
-  
-  .signInButton,
-  .joinButton {
-    font-size: 16px;
-    padding: 6px 10px;
-  }
-  
-  .joinButton {
-    width: 70px;
-    height: 40px;
-  }
-  
-  .profileContainer {
-    width: 120px;
-    height: 50px;
-    gap: 6px;
-    padding: 0 8px;
-  }
-  
-  .profileAvatar {
-    width: 35px;
-    height: 35px;
-  }
-  
-  .avatarCircle {
-    width: 35px;
-    height: 35px;
-  }
-  
-  .avatarInitial {
-    width: 22px;
-    height: 22px;
-    font-size: 14px;
-  }
-  
-  .profileName {
-    font-size: 12px;
-  }
-  
-  .dropdownArrow {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .arrowIcon {
-    width: 8px;
-    height: 4px;
-    left: 4px;
-    top: 6px;
-  }
-  
   .logoImage {
     width: 45px;
     height: 45px;
+  }
+  
+  .mobileNavLink {
+    font-size: 16px;
+    padding: 12px 16px;
+  }
+  
+  .mobileJoinButton {
+    font-size: 16px;
+    padding: 12px 16px;
+  }
+  
+  .mobileLogo span {
+    font-size: 20px;
+  }
+  
+  .mobileLogoImage {
+    width: 35px;
+    height: 35px;
   }
 }

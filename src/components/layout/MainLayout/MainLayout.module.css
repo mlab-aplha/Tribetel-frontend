@@ -6,14 +6,27 @@
 
 .mainContent {
   flex: 1;
-  margin-top: var(--header-height);
-  min-height: calc(100vh - var(--header-height));
+  margin-top: 90px; 
+  min-height: calc(100vh - 90px);
 }
 
+@media (max-width: 1024px) {
+  .mainContent {
+    margin-top: 80px;
+    min-height: calc(100vh - 80px);
+  }
+}
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .mainContent {
     margin-top: 70px;
     min-height: calc(100vh - 70px);
+  }
+}
+
+@media (max-width: 480px) {
+  .mainContent {
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
   }
 }

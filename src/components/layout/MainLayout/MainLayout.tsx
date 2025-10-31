@@ -1,18 +1,15 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import styles from './MainLayout.module.css';
 
-interface MainLayoutProps {
-    children: React.ReactNode;
-}
-
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+const MainLayout: React.FC = () => {
     return (
         <div className={styles.layout}>
             <Header />
             <main className={styles.mainContent}>
-                {children}
+                <Outlet />
             </main>
             <Footer />
         </div>

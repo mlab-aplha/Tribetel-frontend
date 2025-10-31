@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./SignInForm.css";
+import { useAuth } from '../../../hooks/useAuth';
 
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,9 @@ const SignInForm: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
+
+  // Add auth hook
+  const { login, isLoading } = useAuth();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
