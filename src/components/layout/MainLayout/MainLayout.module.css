@@ -30,3 +30,10 @@
     min-height: calc(100vh - 60px);
   }
 }
+.layout {
+    min-height: 100vh;
+}
+
+.layout-main {
+    min-height: 100vh;
+}

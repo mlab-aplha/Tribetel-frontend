@@ -93,6 +93,7 @@ export interface AuthContextType {
     logout: () => void;
     adminLogin: (adminData: any) => void;
     adminLogout: () => void;
+    register: (userData: RegisterRequest) => Promise<AuthResponse>;
 }
 
 export interface ProtectedRouteProps {
@@ -157,6 +158,51 @@ export interface UserPreferences {
     specialRequests?: string;
 }
 
+export interface UserProfile {
+    id: string;
+    email: string;
+    name: string;
+    phone?: string;
+    preferences?: {
+        favoriteDestinations: string[];
+        roomPreferences: string[];
+        specialRequests?: string;
+    };
+    bookings: BookingConfirmation[];
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface LoginRequest {
+    email: string;
+    password: string;
+    rememberMe?: boolean;
+}
+
+export interface RegisterRequest {
+    name: string;
+    email: string;
+    password: string;
+    phone?: string;
+    country?: string;
+    preferences?: {
+        newsletter?: boolean;
+    };
+}
+
+export interface AuthResponse {
+    user: User;
+    token: string;
+    expiresIn: number;
+}
+
+export interface UserSession {
+    user: User | null;
+    token: string | null;
+    expiresAt: number | null;
+    permissions: string[];
+}
+
 // ============ HOTEL & ROOM TYPES ============
 
 export interface Hotel {
@@ -173,19 +219,56 @@ export interface Hotel {
     slug?: string;
     images?: string[];
     distance?: string;
+    contactInfo?: {
+        phone: string;
+        email: string;
+        address: string;
+    };
+    policies?: {
+        checkIn: string;
+        checkOut: string;
+        cancellation: string;
+        pets: boolean;
+        smoking: boolean;
+    };
+    nearbyAttractions?: string[];
+    transportation?: string[];
+}
+
+export interface HotelSummary {
+    id: string;
+    name: string;
+    location: string;
+    rating: number;
+    reviews: number;
+    description: string;
+    pricePerNight: number;
+    image: string;
+    distanceKm?: number;
+    tags?: string[];
+    amenities: string[];
 }
 
 export interface Room {
     id: string;
-    image: string;
     title: string;
-    location: string;
     description: string;
-    features: string[];
     pricePerNight: number;
+    image: string;
+    location: string;
+    rating?: number;
+    amenities: string[];
     maxGuests: number;
     available: boolean;
+    features?: string[];
     type?: string;
+    images?: string[];
+    size?: string;
+    bedType?: string;
+    view?: string;
+    bathroom?: string;
+    includedAmenities?: string[];
+    reviews?: Review[];
 }
 
 export interface RoomSummary {
@@ -209,6 +292,15 @@ export interface HotelAvailability {
     amenities: string[];
 }
 
+export interface Review {
+    id: string;
+    userName: string;
+    rating: number;
+    comment: string;
+    date: string;
+    verified?: boolean;
+}
+
 // ============ SEARCH & FILTER TYPES ============
 
 export interface SearchParams {
@@ -225,6 +317,21 @@ export interface SearchParams {
 }
 
 export interface HotelSearchParams extends SearchParams {
+}
+
+export interface RoomSearchParams {
+    location?: string;
+    checkIn?: string;
+    checkOut?: string;
+    guests?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    type?: string;
+    amenities?: string[];
+    page?: number;
+    limit?: number;
+    sortBy?: 'price' | 'rating' | 'name';
+    sortOrder?: 'asc' | 'desc';
 }
 
 export interface DateRange {
@@ -265,6 +372,46 @@ export interface DateRangePickerProps {
     required?: boolean;
 }
 
+export interface SearchDestination {
+    id: string;
+    name: string;
+    type: 'city' | 'region' | 'resort';
+    country: string;
+}
+
+export interface PriceEstimate {
+    minPrice: number;
+    maxPrice: number;
+    averagePrice: number;
+    currency: string;
+    nights?: number;
+    isEstimated?: boolean;
+}
+
+export interface FilterOption {
+    id: string;
+    label: string;
+    type: 'pill' | 'dropdown';
+}
+
+export interface SortOption {
+    id: string;
+    label: string;
+}
+
+export interface SearchState {
+    params: SearchParams;
+    results: Hotel[];
+    loading: boolean;
+    error: string | null;
+    filters: {
+        priceRange: [number, number];
+        amenities: string[];
+        rating: number;
+    };
+    sortBy: string;
+}
+
 // ============ BOOKING TYPES ============
 
 export interface BookingData {
@@ -290,47 +437,70 @@ export interface BookingFormData {
     paymentMethod?: string;
 }
 
-export interface BookingRequest extends BookingFormData {
+export interface BookingRequest {
     roomId: string;
+    checkIn: string;
+    checkOut: string;
+    guests: number;
+    nights: number;
     totalPrice: number;
-    userId?: string;
+    specialRequests?: string;
+    customerName: string;
+    customerEmail: string;
+    customerPhone?: string;
 }
 
 export interface BookingResponse {
     id: string;
     roomId: string;
+    roomTitle: string;
     checkIn: string;
     checkOut: string;
     guests: number;
+    nights: number;
+    totalAmount: number;
     totalPrice: number;
     status: 'confirmed' | 'pending' | 'cancelled';
     bookingDate: string;
+    createdAt: string;
     specialRequests?: string;
+    customerName: string;
+    customerEmail: string;
+    customerPhone?: string;
 }
 
 export interface BookingConfirmation {
     id: string;
+    roomId: string;
     bookingNumber: string;
     fullName: string;
     roomTitle: string;
-    nights: number;
     checkIn: string;
     checkOut: string;
-    confirmedAt: string;
-    total: number;
-    email: string;
-    roomId: string;
-    status: 'confirmed' | 'pending' | 'cancelled';
+    nights: number;
     guests: number;
-    specialRequests?: string;
+    total: number;
+    status: 'confirmed' | 'pending' | 'cancelled';
     paymentStatus: 'paid' | 'pending' | 'failed';
-    paymentMethod?: string;
+    email: string;
+    confirmedAt: string;
+    specialRequests?: string;
+    customerPhone?: string;
 }
 
 export interface ActiveBookingsProps {
     bookings?: BookingData[];
     onCancelBooking?: (bookingId: string) => Promise<void> | void;
     isLoading?: boolean;
+}
+
+export interface BookingState {
+    step: 'selection' | 'details' | 'payment' | 'confirmation';
+    room: Room | null;
+    form: BookingFormData;
+    payment: PaymentData | null;
+    loading: boolean;
+    error: string | null;
 }
 
 // ============ PAYMENT TYPES ============
@@ -366,11 +536,12 @@ export interface PaymentRequest {
 
 export interface PaymentResponse {
     id: string;
-    status: 'succeeded' | 'pending' | 'failed';
-    transactionId: string;
+    bookingId: string;
     amount: number;
     currency: string;
+    status: 'pending' | 'succeeded' | 'failed';
     paymentMethod: string;
+    transactionId: string;
     paidAt: string;
     receiptUrl?: string;
 }
@@ -401,7 +572,7 @@ export interface AddReviewProps {
     maxTitleLength?: number;
 }
 
-// ============ HOTEL LISTINGS TYPES ============
+// ============ COMPONENT PROPS TYPES ============
 
 export interface HotelListingsProps {
     hotels?: Hotel[];
@@ -413,19 +584,6 @@ export interface HotelListingsProps {
     onHotelClick?: (hotel: Hotel) => void;
     onBookNow?: () => void;
     onLoad?: (hotels: Hotel[]) => void;
-}
-
-// ============ SEARCH RESULTS TYPES ============
-
-export interface FilterOption {
-    id: string;
-    label: string;
-    type: 'pill' | 'dropdown';
-}
-
-export interface SortOption {
-    id: string;
-    label: string;
 }
 
 export interface SearchResultsProps {
@@ -442,8 +600,6 @@ export interface SearchResultsProps {
     onSortChange?: (sortBy: string) => void;
 }
 
-// ============ PAGE DESCRIPTION TYPES ============
-
 export interface PageDescriptionProps {
     title: string;
     description: string;
@@ -454,8 +610,6 @@ export interface PageDescriptionProps {
     height?: string;
     reverseLayout?: boolean;
 }
-
-// ============ BOOKING SUMMARY TYPES ============
 
 export interface PriceBreakdown {
     roomRate: number;
@@ -484,10 +638,10 @@ export interface BookingSummaryProps {
 
 // ============ API RESPONSE TYPES ============
 
-export interface ApiResponse<T> {
-    data: T;
-    message: string;
+export interface ApiResponse<T = any> {
     success: boolean;
+    message: string;
+    data: T;
     pagination?: PaginationInfo;
 }
 
@@ -504,6 +658,14 @@ export interface HotelSearchResponse {
     limit: number;
     hasMore: boolean;
     filters?: HotelFilters;
+}
+
+export interface RoomSearchResponse {
+    rooms: Room[];
+    total: number;
+    page: number;
+    limit: number;
+    hasMore: boolean;
 }
 
 export interface AvailabilityResponse {
@@ -524,7 +686,7 @@ export interface ConfirmationApiResponse {
     };
 }
 
-// ============  FILTER TYPES ============
+// ============ FILTER & PAGINATION TYPES ============
 
 export interface PaginationInfo {
     page: number;
@@ -539,66 +701,8 @@ export interface HotelFilters {
     rating: number;
 }
 
-// ============ ENHANCED TYPES ============
+// ============ CACHE TYPES ============
 
-export interface EndHotel extends Hotel {
-    contactInfo?: {
-        phone: string;
-        email: string;
-        address: string;
-    };
-    policies?: {
-        checkIn: string;
-        checkOut: string;
-        cancellation: string;
-        pets: boolean;
-        smoking: boolean;
-    };
-    nearbyAttractions?: string[];
-    transportation?: string[];
-}
-
-export interface EndRoom extends Room {
-    size?: string;
-    bedType?: string;
-    view?: string;
-    bathroom?: string;
-    includedAmenities?: string[];
-    images?: string[];
-}
-
-export interface SearchState {
-    params: SearchParams;
-    results: Hotel[];
-    loading: boolean;
-    error: string | null;
-    filters: {
-        priceRange: [number, number];
-        amenities: string[];
-        rating: number;
-    };
-    sortBy: string;
-}
-
-// Booking state management
-export interface BookingState {
-    step: 'selection' | 'details' | 'payment' | 'confirmation';
-    room: Room | null;
-    form: BookingFormData;
-    payment: PaymentData | null;
-    loading: boolean;
-    error: string | null;
-}
-
-// User session state
-export interface UserSession {
-    user: User | null;
-    token: string | null;
-    expiresAt: number | null;
-    permissions: string[];
-}
-
-// Cache types 
 export interface CacheItem<T> {
     data: T;
     timestamp: number;
@@ -609,144 +713,4 @@ export interface CacheStore {
     hotels: CacheItem<Hotel[]>;
     searchResults: CacheItem<HotelSearchResponse>;
     user: CacheItem<User>;
-}
-
-//
-// Add these interfaces to your existing types
-export interface BookingResponse {
-    id: string;
-    roomId: string;
-    roomTitle: string;
-    checkIn: string;
-    checkOut: string;
-    guests: number;
-    nights: number;
-    totalAmount: number;
-    status: 'pending' | 'confirmed' | 'cancelled';
-    createdAt: string;
-    specialRequests?: string;
-    customerName: string;
-    customerEmail: string;
-    customerPhone: string;
-}
-
-export interface PaymentResponse {
-    id: string;
-    bookingId: string;
-    amount: number;
-    currency: string;
-    status: 'pending' | 'succeeded' | 'failed';
-    paymentMethod: string;
-    transactionId: string;
-    paidAt: string;
-    receiptUrl?: string;
-}
-//
-export interface Room {
-    id: string;
-    title: string;
-    description: string;
-    pricePerNight: number;
-    image: string;
-    location: string;
-    rating?: number;
-    amenities: string[];
-    maxGuests: number;
-    available: boolean;
-    features?: string[];
-    type?: string;
-    images?: string[];
-    size?: string;
-    bedType?: string;
-    reviews?: Review[];
-}
-
-export interface RoomSearchParams {
-    location?: string;
-    checkIn?: string;
-    checkOut?: string;
-    guests?: number;
-    minPrice?: number;
-    maxPrice?: number;
-    type?: string;
-    amenities?: string[];
-    page?: number;
-    limit?: number;
-    sortBy?: 'price' | 'rating' | 'name';
-    sortOrder?: 'asc' | 'desc';
-}
-
-export interface RoomSearchResponse {
-    rooms: Room[];
-    total: number;
-    page: number;
-    limit: number;
-    hasMore: boolean;
-}
-
-export interface Review {
-    id: string;
-    userName: string;
-    rating: number;
-    comment: string;
-    date: string;
-    verified?: boolean;
-}
-
-export interface ApiResponse<T> {
-    success: boolean;
-    message: string;
-    data: T;
-}
-
-
-export interface BookingConfirmation {
-    id: string;
-    roomId: string;
-    bookingNumber: string;
-    fullName: string;
-    roomTitle: string;
-    checkIn: string;
-    checkOut: string;
-    nights: number;
-    guests: number;
-    total: number;
-    status: 'confirmed' | 'pending' | 'cancelled';
-    paymentStatus: 'paid' | 'pending' | 'failed';
-    email: string;
-    confirmedAt: string;
-    specialRequests?: string;
-    customerPhone?: string;
-}
-
-export interface BookingRequest {
-    roomId: string;
-    checkIn: string;
-    checkOut: string;
-    guests: number;
-    nights: number;
-    totalPrice: number;
-    specialRequests?: string;
-    customerName: string;
-    customerEmail: string;
-    customerPhone?: string;
-}
-
-export interface BookingResponse {
-    id: string;
-    roomId: string;
-    roomTitle: string;
-    checkIn: string;
-    checkOut: string;
-    guests: number;
-    nights: number;
-    totalAmount: number;
-    totalPrice: number;
-    status: 'confirmed' | 'pending' | 'cancelled';
-    bookingDate: string;
-    createdAt: string;
-    specialRequests?: string;
-    customerName: string;
-    customerEmail: string;
-    customerPhone?: string;
 }

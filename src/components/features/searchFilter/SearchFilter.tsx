@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styles from "./SearchFilterPage.module.css";
-import type { HotelSummary } from "./types";
-import { SearchBar } from "../../common/SearchBar/searchBar";
+import styles from "./SearchResultsPage.module.css";
+import type { HotelSummary } from "../../types/common";
+import SearchBar from "../../components/common/SearchBar/SearchBar";
 
 const sampleHotels: HotelSummary[] = [
   {
@@ -16,6 +16,7 @@ const sampleHotels: HotelSummary[] = [
     image: "/images/grand-suite.jpg",
     distanceKm: 2.1,
     tags: ["Free parking", "Kitchen"],
+    amenities: ["Free WiFi", "Swimming Pool", "Kitchen"]
   },
   {
     id: "2",
@@ -29,6 +30,7 @@ const sampleHotels: HotelSummary[] = [
     image: "/images/ebumnandini.jpg",
     distanceKm: 3.7,
     tags: ["Pool", "Breakfast"],
+    amenities: ["Free WiFi", "Swimming Pool", "Breakfast Included"]
   },
 ];
 
@@ -38,7 +40,7 @@ const sampleDestinations = [
   { id: "capetown", name: "Cape Town", type: 'city' as const, country: "South Africa" },
 ];
 
-export default function SearchFilterPage(): React.JSX.Element {
+const SearchResultsPage: React.FC = () => {
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState<"recommended" | "distance" | "price">(
     "recommended"
@@ -47,7 +49,6 @@ export default function SearchFilterPage(): React.JSX.Element {
   const [priceMax, setPriceMax] = useState<number | "">("");
   const [loading, setLoading] = useState(false);
 
-  // Mock function implementations
   const handleSearch = (searchParams: any) => {
     console.log('Search params:', searchParams);
     setLoading(true);
@@ -230,13 +231,8 @@ export default function SearchFilterPage(): React.JSX.Element {
           </div>
         </section>
       </section>
-
-      <footer className={styles.footer}>
-        <div className={styles.footerInner}>
-          <div>Use cases · Explore · Company · Legal</div>
-          <div className={styles.social}>FB · TW · IG</div>
-        </div>
-      </footer>
     </main>
   );
-}
+};
+
+export default SearchResultsPage;
