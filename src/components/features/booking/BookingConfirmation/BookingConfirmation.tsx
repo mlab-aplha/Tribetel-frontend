@@ -91,21 +91,37 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
 
   if (error) {
     return (
-      <ErrorMessage
-        message={error}
-        onRetry={() => urlBookingId && fetchBookingConfirmation(urlBookingId)}
-        retryText="Try Again"
-      />
+      <div className={styles.errorContainer}>
+        <ErrorMessage
+          message={error}
+          variant="error"
+          size="large"
+        />
+        <button
+          className={styles.retryButton}
+          onClick={() => urlBookingId && fetchBookingConfirmation(urlBookingId)}
+        >
+          Try Again
+        </button>
+      </div>
     );
   }
 
   if (!booking) {
     return (
-      <ErrorMessage
-        message="Booking confirmation not found"
-        onRetry={() => navigate('/bookings')}
-        retryText="View My Bookings"
-      />
+      <div className={styles.errorContainer}>
+        <ErrorMessage
+          message="Booking confirmation not found"
+          variant="error"
+          size="large"
+        />
+        <button
+          className={styles.retryButton}
+          onClick={() => navigate('/my-bookings')}
+        >
+          View My Bookings
+        </button>
+      </div>
     );
   }
 

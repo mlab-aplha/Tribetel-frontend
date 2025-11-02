@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
-// Button
+// ============ COMMON UI =============
+
 export interface ButtonProps {
     children: ReactNode;
     variant?: 'primary' | 'secondary' | 'outline' | 'outlineSecondary' | 'ghost' | 'join' | 'signIn' | 'location';
@@ -13,13 +14,11 @@ export interface ButtonProps {
     style?: React.CSSProperties;
 }
 
-// Card
 export interface CardProps {
     children: ReactNode;
     className?: string;
 }
 
-// ErrorMessage
 export interface ErrorMessageProps {
     message: string;
     variant?: 'error' | 'warning' | 'info' | 'success';
@@ -30,7 +29,6 @@ export interface ErrorMessageProps {
     fullWidth?: boolean;
 }
 
-// Loader
 export interface LoaderProps {
     type?: 'spinner' | 'dots';
     size?: 'small' | 'medium' | 'large' | 'xlarge';
@@ -42,7 +40,6 @@ export interface LoaderProps {
     className?: string;
 }
 
-// Input
 export interface InputProps {
     type?: 'text' | 'email' | 'password' | 'textarea' | 'select';
     value: string;
@@ -59,7 +56,6 @@ export interface InputProps {
     options?: { value: string; label: string }[];
 }
 
-// Modal
 export interface ModalProps {
     children: ReactNode;
     isOpen: boolean;
@@ -67,7 +63,6 @@ export interface ModalProps {
     className?: string;
 }
 
-// RoomCard
 export interface RoomCardProps {
     title?: string;
     price?: string;
@@ -77,7 +72,6 @@ export interface RoomCardProps {
     onClick?: () => void;
 }
 
-// ServiceCard
 export interface ServiceCardProps {
     title: string;
     description: string;
@@ -86,6 +80,193 @@ export interface ServiceCardProps {
     isNew?: boolean;
     onViewOffer?: () => void;
 }
+
+// ============ AUTH TYPES ============
+
+export interface AuthContextType {
+    user: any | null;
+    admin: any | null;
+    isLoading: boolean;
+    isAuthenticated: boolean;
+    isAdmin: boolean;
+    login: (userData: any) => void;
+    logout: () => void;
+    adminLogin: (adminData: any) => void;
+    adminLogout: () => void;
+}
+
+export interface ProtectedRouteProps {
+    children: ReactNode;
+    requireAuth?: boolean;
+    requireAdmin?: boolean;
+    redirectTo?: string;
+    fallback?: ReactNode;
+}
+
+export interface SignInFormData {
+    email: string;
+    password: string;
+    rememberMe?: boolean;
+}
+
+export interface AdminSignInFormData {
+    email: string;
+    password: string;
+    rememberMe?: boolean;
+}
+
+export interface AdminSignInFormProps {
+    onSubmit?: (data: AdminSignInFormData) => Promise<void>;
+    onSuccess?: () => void;
+    onError?: (error: string) => void;
+    allowedDomains?: string[];
+    redirectPath?: string;
+    isLoading?: boolean;
+}
+
+export interface SignInLayoutProps {
+    children: ReactNode;
+    logo?: string;
+    brandName?: string;
+    className?: string;
+}
+
+export interface AdminLayoutProps {
+    children: React.ReactNode;
+    logo?: string;
+    brandName?: string;
+    className?: string;
+    showBranding?: boolean;
+    backgroundImage?: string;
+    theme?: 'default';
+}
+
+// ============ USER & PROFILE TYPES ============
+
+export interface User {
+    id?: string;
+    isLoggedIn: boolean;
+    name: string;
+    email?: string;
+    preferences?: UserPreferences;
+}
+
+export interface UserPreferences {
+    favoriteDestinations?: string[];
+    roomPreferences?: string[];
+    specialRequests?: string;
+}
+
+// ============ HOTEL & ROOM TYPES ============
+
+export interface Hotel {
+    id: string;
+    name: string;
+    location: string;
+    description: string;
+    priceStarting: number;
+    image: string;
+    rating?: number;
+    reviewCount?: number;
+    amenities?: string[];
+    available?: boolean;
+    slug?: string;
+    images?: string[];
+    distance?: string;
+}
+
+export interface Room {
+    id: string;
+    image: string;
+    title: string;
+    location: string;
+    description: string;
+    features: string[];
+    pricePerNight: number;
+    maxGuests: number;
+    available: boolean;
+    type?: string;
+}
+
+export interface RoomSummary {
+    id: string;
+    title: string;
+    pricePerNight: number;
+    image?: string;
+    maxGuests: number;
+    features: string[];
+    type: string;
+}
+
+export interface HotelAvailability {
+    id: string;
+    name: string;
+    location: string;
+    price: number;
+    availableRooms: number;
+    image: string;
+    rating: number;
+    amenities: string[];
+}
+
+// ============ SEARCH & FILTER TYPES ============
+
+export interface SearchParams {
+    destination?: string;
+    checkIn?: string | Date | null;
+    checkOut?: string | Date | null;
+    guests?: number;
+    rooms?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    amenities?: string[];
+    page?: number;
+    limit?: number;
+}
+
+export interface HotelSearchParams extends SearchParams {
+}
+
+export interface DateRange {
+    checkIn: string;
+    checkOut: string;
+    start?: Date | null;
+    end?: Date | null;
+}
+
+export interface CalendarDay {
+    date: Date;
+    isCurrentMonth: boolean;
+    isToday: boolean;
+    isSelected: boolean;
+    isInRange: boolean;
+    isDisabled: boolean;
+    isCheckIn: boolean;
+    isCheckOut: boolean;
+}
+
+export interface DateValidation {
+    isValid: boolean;
+    errors: string[];
+    nights: number;
+}
+
+export interface DateRangePickerProps {
+    checkIn: string;
+    checkOut: string;
+    onChange: (dates: DateRange) => void;
+    onValidationChange?: (isValid: boolean, errors: string[]) => void;
+    minDate?: string;
+    maxDate?: string;
+    disabledDates?: string[];
+    minNights?: number;
+    maxNights?: number;
+    isLoading?: boolean;
+    required?: boolean;
+}
+
+// ============ BOOKING TYPES ============
+
 export interface BookingData {
     id: string;
     guestName: string;
@@ -101,103 +282,12 @@ export interface BookingData {
     currency?: string;
 }
 
-export interface ActiveBookingsProps {
-    bookings?: BookingData[];
-    onCancelBooking?: (bookingId: string) => Promise<void> | void;
-    isLoading?: boolean;
-}
-
-export interface ReviewFormData {
-    rating: number;
-    comment: string;
-    title: string;
-    hotelId?: string;
-    bookingId?: string;
-    userId?: string;
-}
-
-export interface AddReviewProps {
-    onSubmit?: (data: ReviewFormData) => Promise<void>;
-    initialRating?: number;
-    hotelId?: string;
-    bookingId?: string;
-    userId?: string;
-    maxCommentLength?: number;
-    maxTitleLength?: number;
-}
-export interface AdminLayoutProps {
-    children: React.ReactNode;
-    logo?: string;
-    brandName?: string;
-    className?: string;
-    showBranding?: boolean;
-    backgroundImage?: string;
-    theme?: 'default';
-}
-export interface AdminSignInFormData {
-    email: string;
-    password: string;
-    rememberMe?: boolean;
-}
-
-export interface AdminSignInFormProps {
-    onSubmit?: (data: AdminSignInFormData) => Promise<void>;
-    onSuccess?: () => void;
-    onError?: (error: string) => void;
-    allowedDomains?: string[];
-    redirectPath?: string;
-    isLoading?: boolean;
-}
-export interface ProtectedRouteProps {
-    children: ReactNode;
-    requireAuth?: boolean;
-    requireAdmin?: boolean;
-    redirectTo?: string;
-    fallback?: ReactNode;
-}
-
-export interface AuthContextType {
-    user: any | null;
-    admin: any | null;
-    isLoading: boolean;
-    isAuthenticated: boolean;
-    isAdmin: boolean;
-    login: (userData: any) => void;
-    logout: () => void;
-    adminLogin: (adminData: any) => void;
-    adminLogout: () => void;
-}
-export interface SignInFormData {
-    email: string;
-    password: string;
-    rememberMe?: boolean;
-}
-
-export interface SignInLayoutProps {
-    children: ReactNode;
-    logo?: string;
-    brandName?: string;
-    className?: string;
-}
-// Room types
-export interface Room {
-    id: string;
-    image: string;
-    title: string;
-    location: string;
-    description: string;
-    features: string[];
-    pricePerNight: number;
-    maxGuests: number;
-    available: boolean;
-}
-
-// Booking types
 export interface BookingFormData {
     checkIn: string;
     checkOut: string;
     guests: number;
     specialRequests?: string;
+    paymentMethod?: string;
 }
 
 export interface BookingRequest extends BookingFormData {
@@ -218,21 +308,6 @@ export interface BookingResponse {
     specialRequests?: string;
 }
 
-// API Response types
-export interface ApiResponse<T> {
-    data: T;
-    message: string;
-    success: boolean;
-}
-
-export interface ApiError {
-    message: string;
-    code: string;
-    details?: any;
-}
-
-// Add these to your existing types
-
 export interface BookingConfirmation {
     id: string;
     bookingNumber: string;
@@ -252,125 +327,13 @@ export interface BookingConfirmation {
     paymentMethod?: string;
 }
 
-export interface ConfirmationApiResponse {
-    booking: BookingConfirmation;
-    qrCode?: string;
-    cancellationPolicy: string;
-    contactInfo: {
-        phone: string;
-        email: string;
-        address: string;
-    };
-}
-// Add these to your existing types
-
-export interface RoomSummary {
-    id: string;
-    title: string;
-    pricePerNight: number;
-    image?: string;
-    maxGuests: number;
-    features: string[];
-    type: string;
-}
-
-export interface BookingSummaryData {
-    checkIn: string;
-    checkOut: string;
-    guests: number;
-    specialRequests?: string;
-    paymentMethod?: string;
-}
-
-export interface PriceBreakdown {
-    roomRate: number;
-    nights: number;
-    subtotal: number;
-    taxes: number;
-    serviceFee: number;
-    discount?: number;
-    total: number;
-}
-
-export interface BookingSummaryProps {
-    form: BookingSummaryData;
-    room: RoomSummary;
-    priceBreakdown: PriceBreakdown;
-    onConfirm: () => void;
-    onEdit?: () => void;
+export interface ActiveBookingsProps {
+    bookings?: BookingData[];
+    onCancelBooking?: (bookingId: string) => Promise<void> | void;
     isLoading?: boolean;
-    isConfirmed?: boolean;
-    policies?: {
-        cancellation: string;
-        checkIn: string;
-        checkOut: string;
-    };
 }
 
-export interface DateRange {
-    checkIn: string;
-    checkOut: string;
-}
-
-export interface DateRangePickerProps {
-    checkIn: string;
-    checkOut: string;
-    onChange: (dates: DateRange) => void;
-    onValidationChange?: (isValid: boolean, errors: string[]) => void;
-    minDate?: string;
-    maxDate?: string;
-    disabledDates?: string[];
-    minNights?: number;
-    maxNights?: number;
-    isLoading?: boolean;
-    required?: boolean;
-}
-
-export interface DateValidation {
-    isValid: boolean;
-    errors: string[];
-    nights: number;
-}
-
-
-export interface DateRange {
-    checkIn: string;
-    checkOut: string;
-}
-
-export interface DateRangePickerProps {
-    checkIn: string;
-    checkOut: string;
-    onChange: (dates: DateRange) => void;
-    onValidationChange?: (isValid: boolean, errors: string[]) => void;
-    minDate?: string;
-    maxDate?: string;
-    disabledDates?: string[];
-    minNights?: number;
-    maxNights?: number;
-    isLoading?: boolean;
-    required?: boolean;
-}
-
-export interface DateValidation {
-    isValid: boolean;
-    errors: string[];
-    nights: number;
-}
-
-export interface Booking {
-    id?: string;
-    roomTitle: string;
-    total: number;
-    fullName: string;
-    nights: number;
-    checkIn: string;
-    checkOut: string;
-    email: string;
-    roomId: string;
-    guests: number;
-    specialRequests?: string;
-}
+// ============ PAYMENT TYPES ============
 
 export interface PaymentData {
     cardNumber: string;
@@ -416,70 +379,55 @@ export interface PaymentValidation {
     isValid: boolean;
     errors: string[];
 }
-// Hotel Listing Types
-export interface Hotel {
-    id: string;
-    name: string;
-    location: string;
-    description: string;
-    priceStarting: number;
-    image: string;
-    rating?: number;
-    reviewCount?: number;
-    amenities?: string[];
-    available?: boolean;
-    slug?: string;
-    images?: string[];
-    distance?: string;
-}
 
-export interface HotelSearchParams {
-    destination?: string;
-    checkIn?: string;
-    checkOut?: string;
-    guests?: number;
-    minPrice?: number;
-    maxPrice?: number;
-    amenities?: string[];
-    page?: number;
-    limit?: number;
-}
+// ============ REVIEW TYPES ============
 
-export interface HotelSearchResponse {
-    hotels: Hotel[];
-    total: number;
-    page: number;
-    limit: number;
-    hasMore: boolean;
-    filters?: HotelFilters;
-}
-
-export interface HotelFilters {
-    priceRange: [number, number];
-    amenities: string[];
+export interface ReviewFormData {
     rating: number;
-}
-
-export interface PaginationInfo {
-    page: number;
-    totalPages: number;
-    totalResults: number;
-    hasMore: boolean;
-}
-
-// Page Description Types
-export interface PageDescriptionProps {
+    comment: string;
     title: string;
-    description: string;
-    backgroundImage?: string;
-    overlayColor?: string;
-    textColor?: string;
-    accentColor?: string;
-    height?: string;
-    reverseLayout?: boolean;
+    hotelId?: string;
+    bookingId?: string;
+    userId?: string;
 }
 
-// Search Results Types
+export interface AddReviewProps {
+    onSubmit?: (data: ReviewFormData) => Promise<void>;
+    initialRating?: number;
+    hotelId?: string;
+    bookingId?: string;
+    userId?: string;
+    maxCommentLength?: number;
+    maxTitleLength?: number;
+}
+
+// ============ HOTEL LISTINGS TYPES ============
+
+export interface HotelListingsProps {
+    hotels?: Hotel[];
+    title?: string;
+    subtitle?: string;
+    showPromo?: boolean;
+    enableBackend?: boolean;
+    searchParams?: SearchParams;
+    onHotelClick?: (hotel: Hotel) => void;
+    onBookNow?: () => void;
+    onLoad?: (hotels: Hotel[]) => void;
+}
+
+// ============ SEARCH RESULTS TYPES ============
+
+export interface FilterOption {
+    id: string;
+    label: string;
+    type: 'pill' | 'dropdown';
+}
+
+export interface SortOption {
+    id: string;
+    label: string;
+}
+
 export interface SearchResultsProps {
     results: Hotel[];
     currentPage: number;
@@ -494,43 +442,68 @@ export interface SearchResultsProps {
     onSortChange?: (sortBy: string) => void;
 }
 
-export interface FilterOption {
-    id: string;
-    label: string;
-    type: 'pill' | 'dropdown';
+// ============ PAGE DESCRIPTION TYPES ============
+
+export interface PageDescriptionProps {
+    title: string;
+    description: string;
+    backgroundImage?: string;
+    overlayColor?: string;
+    textColor?: string;
+    accentColor?: string;
+    height?: string;
+    reverseLayout?: boolean;
 }
 
-export interface SortOption {
-    id: string;
-    label: string;
+// ============ BOOKING SUMMARY TYPES ============
+
+export interface PriceBreakdown {
+    roomRate: number;
+    nights: number;
+    subtotal: number;
+    taxes: number;
+    serviceFee: number;
+    discount?: number;
+    total: number;
 }
 
-// API Response Types
+export interface BookingSummaryProps {
+    form: BookingFormData;
+    room: RoomSummary;
+    priceBreakdown: PriceBreakdown;
+    onConfirm: () => void;
+    onEdit?: () => void;
+    isLoading?: boolean;
+    isConfirmed?: boolean;
+    policies?: {
+        cancellation: string;
+        checkIn: string;
+        checkOut: string;
+    };
+}
+
+// ============ API RESPONSE TYPES ============
+
 export interface ApiResponse<T> {
     data: T;
     message: string;
     success: boolean;
     pagination?: PaginationInfo;
 }
-export interface User {
-    isLoggedIn: boolean;
-    name: string;
-    email?: string;
-    preferences?: UserPreferences;
+
+export interface ApiError {
+    message: string;
+    code: string;
+    details?: any;
 }
 
-export interface UserPreferences {
-    favoriteDestinations?: string[];
-    roomPreferences?: string[];
-    specialRequests?: string;
-}
-
-export interface SearchParams {
-    destination: string;
-    checkIn: Date | null;
-    checkOut: Date | null;
-    guests?: number;
-    rooms?: number;
+export interface HotelSearchResponse {
+    hotels: Hotel[];
+    total: number;
+    page: number;
+    limit: number;
+    hasMore: boolean;
+    filters?: HotelFilters;
 }
 
 export interface AvailabilityResponse {
@@ -540,29 +513,240 @@ export interface AvailabilityResponse {
     totalResults?: number;
 }
 
-export interface HotelAvailability {
-    id: string;
-    name: string;
-    location: string;
-    price: number;
-    availableRooms: number;
-    image: string;
-    rating: number;
+export interface ConfirmationApiResponse {
+    booking: BookingConfirmation;
+    qrCode?: string;
+    cancellationPolicy: string;
+    contactInfo: {
+        phone: string;
+        email: string;
+        address: string;
+    };
+}
+
+// ============  FILTER TYPES ============
+
+export interface PaginationInfo {
+    page: number;
+    totalPages: number;
+    totalResults: number;
+    hasMore: boolean;
+}
+
+export interface HotelFilters {
+    priceRange: [number, number];
     amenities: string[];
+    rating: number;
 }
 
-export interface CalendarDay {
-    date: Date;
-    isCurrentMonth: boolean;
-    isToday: boolean;
-    isSelected: boolean;
-    isInRange: boolean;
-    isDisabled: boolean;
-    isCheckIn: boolean;
-    isCheckOut: boolean;
+// ============ ENHANCED TYPES ============
+
+export interface EndHotel extends Hotel {
+    contactInfo?: {
+        phone: string;
+        email: string;
+        address: string;
+    };
+    policies?: {
+        checkIn: string;
+        checkOut: string;
+        cancellation: string;
+        pets: boolean;
+        smoking: boolean;
+    };
+    nearbyAttractions?: string[];
+    transportation?: string[];
 }
 
-export interface DateRange {
-    start: Date | null;
-    end: Date | null;
+export interface EndRoom extends Room {
+    size?: string;
+    bedType?: string;
+    view?: string;
+    bathroom?: string;
+    includedAmenities?: string[];
+    images?: string[];
+}
+
+export interface SearchState {
+    params: SearchParams;
+    results: Hotel[];
+    loading: boolean;
+    error: string | null;
+    filters: {
+        priceRange: [number, number];
+        amenities: string[];
+        rating: number;
+    };
+    sortBy: string;
+}
+
+// Booking state management
+export interface BookingState {
+    step: 'selection' | 'details' | 'payment' | 'confirmation';
+    room: Room | null;
+    form: BookingFormData;
+    payment: PaymentData | null;
+    loading: boolean;
+    error: string | null;
+}
+
+// User session state
+export interface UserSession {
+    user: User | null;
+    token: string | null;
+    expiresAt: number | null;
+    permissions: string[];
+}
+
+// Cache types 
+export interface CacheItem<T> {
+    data: T;
+    timestamp: number;
+    expiresIn: number;
+}
+
+export interface CacheStore {
+    hotels: CacheItem<Hotel[]>;
+    searchResults: CacheItem<HotelSearchResponse>;
+    user: CacheItem<User>;
+}
+
+//
+// Add these interfaces to your existing types
+export interface BookingResponse {
+    id: string;
+    roomId: string;
+    roomTitle: string;
+    checkIn: string;
+    checkOut: string;
+    guests: number;
+    nights: number;
+    totalAmount: number;
+    status: 'pending' | 'confirmed' | 'cancelled';
+    createdAt: string;
+    specialRequests?: string;
+    customerName: string;
+    customerEmail: string;
+    customerPhone: string;
+}
+
+export interface PaymentResponse {
+    id: string;
+    bookingId: string;
+    amount: number;
+    currency: string;
+    status: 'pending' | 'succeeded' | 'failed';
+    paymentMethod: string;
+    transactionId: string;
+    paidAt: string;
+    receiptUrl?: string;
+}
+//
+export interface Room {
+    id: string;
+    title: string;
+    description: string;
+    pricePerNight: number;
+    image: string;
+    location: string;
+    rating?: number;
+    amenities: string[];
+    maxGuests: number;
+    available: boolean;
+    features?: string[];
+    type?: string;
+    images?: string[];
+    size?: string;
+    bedType?: string;
+    reviews?: Review[];
+}
+
+export interface RoomSearchParams {
+    location?: string;
+    checkIn?: string;
+    checkOut?: string;
+    guests?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    type?: string;
+    amenities?: string[];
+    page?: number;
+    limit?: number;
+    sortBy?: 'price' | 'rating' | 'name';
+    sortOrder?: 'asc' | 'desc';
+}
+
+export interface RoomSearchResponse {
+    rooms: Room[];
+    total: number;
+    page: number;
+    limit: number;
+    hasMore: boolean;
+}
+
+export interface Review {
+    id: string;
+    userName: string;
+    rating: number;
+    comment: string;
+    date: string;
+    verified?: boolean;
+}
+
+export interface ApiResponse<T> {
+    success: boolean;
+    message: string;
+    data: T;
+}
+
+
+export interface BookingConfirmation {
+    id: string;
+    roomId: string;
+    bookingNumber: string;
+    fullName: string;
+    roomTitle: string;
+    checkIn: string;
+    checkOut: string;
+    nights: number;
+    guests: number;
+    total: number;
+    status: 'confirmed' | 'pending' | 'cancelled';
+    paymentStatus: 'paid' | 'pending' | 'failed';
+    email: string;
+    confirmedAt: string;
+    specialRequests?: string;
+    customerPhone?: string;
+}
+
+export interface BookingRequest {
+    roomId: string;
+    checkIn: string;
+    checkOut: string;
+    guests: number;
+    nights: number;
+    totalPrice: number;
+    specialRequests?: string;
+    customerName: string;
+    customerEmail: string;
+    customerPhone?: string;
+}
+
+export interface BookingResponse {
+    id: string;
+    roomId: string;
+    roomTitle: string;
+    checkIn: string;
+    checkOut: string;
+    guests: number;
+    nights: number;
+    totalAmount: number;
+    totalPrice: number;
+    status: 'confirmed' | 'pending' | 'cancelled';
+    bookingDate: string;
+    createdAt: string;
+    specialRequests?: string;
+    customerName: string;
+    customerEmail: string;
+    customerPhone?: string;
 }

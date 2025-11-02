@@ -1,28 +1,28 @@
 import { useState, useEffect } from 'react';
-import { Hotel } from '../components/features/HotelListings/HotelListings';
-import { hotelService, SearchParams, ApiResponse } from '../services/hotelService';
+import { Hotel } from '../components/types/common';
+import { hotelService, HotelSearchParams, ApiResponse } from '../services/hotelService';
 
 interface UseHotelsReturn {
     hotels: Hotel[];
     loading: boolean;
     error: string | null;
     refetch: () => void;
-    searchHotels: (params: SearchParams) => Promise<void>;
+    searchHotels: (params: HotelSearchParams) => Promise<void>;
 }
 
-export const useHotels = (initialParams?: SearchParams): UseHotelsReturn => {
+export const useHotels = (initialParams?: HotelSearchParams): UseHotelsReturn => {
     const [hotels, setHotels] = useState<Hotel[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchHotels = async (params?: SearchParams) => {
+    const fetchHotels = async (params?: HotelSearchParams) => {
         try {
             setLoading(true);
             setError(null);
-            const response: ApiResponse<Hotel[]> = await hotelService.getHotels(params);
+            const response: ApiResponse<any> = await hotelService.getHotels(params);
 
             if (response.success) {
-                setHotels(response.data);
+                setHotels(response.data.hotels || response.data);
             } else {
                 setError(response.message || 'Failed to fetch hotels');
             }
@@ -34,14 +34,14 @@ export const useHotels = (initialParams?: SearchParams): UseHotelsReturn => {
         }
     };
 
-    const searchHotels = async (params: SearchParams) => {
+    const searchHotels = async (params: HotelSearchParams) => {
         try {
             setLoading(true);
             setError(null);
-            const response: ApiResponse<Hotel[]> = await hotelService.searchHotels(params);
+            const response: ApiResponse<any> = await hotelService.getHotels(params);
 
             if (response.success) {
-                setHotels(response.data);
+                setHotels(response.data.hotels || response.data);
             } else {
                 setError(response.message || 'Search failed');
             }

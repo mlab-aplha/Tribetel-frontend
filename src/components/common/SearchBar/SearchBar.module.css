@@ -1,0 +1,336 @@
+.searchBar {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border: 1px solid #e6e6e6;
+}
+
+.searchBar.compact {
+  padding: 1rem;
+}
+
+.searchFields {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.searchBar.compact .searchFields {
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 0.75rem;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fieldLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.destinationWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.destinationInput {
+  width: 100%;
+}
+
+.destinationDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 0.25rem;
+}
+
+.dropdownItem {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background-color: #f9fafb;
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.destinationName {
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.9rem;
+}
+
+.destinationCountry {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 0.125rem;
+}
+
+.destinationType {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  text-transform: capitalize;
+  margin-top: 0.125rem;
+}
+
+.dateInput,
+.selectInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.dateInput:focus,
+.selectInput:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dateInput:disabled,
+.selectInput:disabled {
+  background-color: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.selectInput {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%236b7280' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.65rem;
+  padding-right: 2.5rem;
+}
+
+.searchButtonGroup {
+  display: flex;
+  align-items: end;
+  height: 100%;
+}
+
+.searchButton {
+  height: fit-content;
+  white-space: nowrap;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .searchFields {
+    grid-template-columns: 1fr 1fr 1fr auto;
+  }
+  
+  .searchBar.compact .searchFields {
+    grid-template-columns: 1fr 1fr auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchBar {
+    padding: 1rem;
+  }
+  
+  .searchFields {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .searchBar.compact .searchFields {
+    grid-template-columns: 1fr;
+  }
+  
+  .searchButtonGroup {
+    margin-top: 0.5rem;
+  }
+  
+  .fieldLabel {
+    font-size: 0.8rem;
+  }
+  
+  .dateInput,
+  .selectInput {
+    padding: 0.625rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchBar {
+    padding: 0.75rem;
+    border-radius: 8px;
+  }
+  
+  .searchFields {
+    gap: 0.75rem;
+  }
+  
+  .fieldLabel {
+    font-size: 0.75rem;
+  }
+  
+  .dateInput,
+  .selectInput {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Animation for dropdown */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.destinationDropdown {
+  animation: slideDown 0.2s ease-out;
+}
+
+/* Focus states for accessibility */
+.destinationInput:focus,
+.dateInput:focus,
+.selectInput:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Loading state */
+.searchBar:has(.searchButton:disabled) {
+  opacity: 0.7;
+  pointer-events: none;
+}
+/* Add to existing CSS */
+
+.inputWithLoader {
+  position: relative;
+  width: 100%;
+}
+
+.inputLoader {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.destinationInfo {
+  flex: 1;
+}
+
+.destinationPrice {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #059669;
+  margin-left: 0.5rem;
+  white-space: nowrap;
+}
+
+.nightsCounter {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.priceEstimateGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.priceEstimate {
+  padding: 0.75rem;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.priceRange {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0369a1;
+}
+
+.priceNote {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.priceLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Enhanced dropdown items */
+.dropdownItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background-color: #f9fafb;
+}
+
+/* Responsive adjustments for new features */
+@media (max-width: 768px) {
+  .destinationPrice {
+    font-size: 0.7rem;
+  }
+  
+  .priceRange {
+    font-size: 0.875rem;
+  }
+  
+  .dropdownItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .destinationPrice {
+    margin-left: 0;
+    align-self: flex-end;
+  }
+}

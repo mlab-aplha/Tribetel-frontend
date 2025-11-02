@@ -1,26 +1,58 @@
-import { Hotel, HotelSearchParams, HotelSearchResponse, ApiResponse } from './types';
+import { Hotel, HotelSearchParams, HotelSearchResponse, ApiResponse } from '../components/types/common';
 
-const /**API_BASE_URL**/ = /**process.env.REACT_APP_API_URL**/;
+// Configuration for Vite
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
+// Mock hotels data
+const mockHotels: Hotel[] = [
+    {
+        id: "1",
+        name: "The Fly Stay",
+        location: "Cape Town, South Africa",
+        description: "Located in the heart of Cape Town, The Fly Stay offers a luxurious experience with stunning views of Table Mountain.",
+        priceStarting: 750,
+        image: "/images/fly-stay.jpg",
+        rating: 4.5,
+        amenities: ["Free WiFi", "Swimming Pool", "Spa", "Gym"]
+    },
+    {
+        id: "2",
+        name: "Elangeni",
+        location: "Mbombela, South Africa",
+        description: "Elangeni is a beachfront hotel in Durban, perfect for a relaxing getaway with top-notch amenities.",
+        priceStarting: 500,
+        image: "/images/bellagen.jpg",
+        rating: 4.2,
+        amenities: ["Beach Access", "Restaurant", "Bar", "Free Parking"]
+    },
+    {
+        id: "3",
+        name: "Diamond Crown",
+        location: "Johannesburg, South Africa",
+        description: "Diamond Crown provides a royal experience in Johannesburg with elegant rooms and exceptional service.",
+        priceStarting: 600,
+        image: "/images/diamond-crown.jpg",
+        rating: 4.7,
+        amenities: ["Luxury Suites", "Fine Dining", "Conference Room", "Spa"]
+    },
+];
 
 export const hotelService = {
     /**
      * Fetch hotels with search parameters
-     *  backend API call
+     * TODO: Replace with actual backend API call
      */
     async getHotels(searchParams?: HotelSearchParams): Promise<ApiResponse<HotelSearchResponse>> {
         try {
-
+            // TODO: Uncomment when backend is ready
             // const response = await fetch(`${API_BASE_URL}/hotels?${new URLSearchParams(searchParams as any)}`);
             // const data = await response.json();
             // return data;
 
-            // Mock implementation for now
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
             let filteredHotels = [...mockHotels];
 
-            // Mock filtering based on search params
             if (searchParams?.destination) {
                 filteredHotels = filteredHotels.filter(hotel =>
                     hotel.location.toLowerCase().includes(searchParams.destination!.toLowerCase())
@@ -65,16 +97,16 @@ export const hotelService = {
         }
     },
 
-    /**actual backend API call
+    /**
+     * TODO: Replace with actual backend API call
      */
     async getFeaturedHotels(): Promise<ApiResponse<Hotel[]>> {
         try {
-
+            // TODO: Uncomment when backend is ready
             // const response = await fetch(`${API_BASE_URL}/hotels/featured`);
             // const data = await response.json();
             // return data;
 
-            // Mock implementation
             await new Promise(resolve => setTimeout(resolve, 500));
 
             return {
@@ -92,16 +124,16 @@ export const hotelService = {
         }
     },
 
-    /** backend API call
+    /**
+     * TODO: Replace with actual backend API call
      */
     async getHotelById(id: string): Promise<ApiResponse<Hotel>> {
         try {
-
+            // TODO: Uncomment when backend is ready
             // const response = await fetch(`${API_BASE_URL}/hotels/${id}`);
             // const data = await response.json();
             // return data;
 
-            // Mock implementation
             await new Promise(resolve => setTimeout(resolve, 500));
 
             const hotel = mockHotels.find(h => h.id === id);
@@ -127,4 +159,8 @@ export const hotelService = {
             };
         }
     },
-}
+
+    async searchHotels(params: HotelSearchParams): Promise<ApiResponse<HotelSearchResponse>> {
+        return this.getHotels(params);
+    }
+};

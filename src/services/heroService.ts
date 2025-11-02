@@ -1,9 +1,10 @@
 import { SearchParams, AvailabilityResponse, User } from '../components/types/common';
-const /**API_BASE_URL **/= /**process.env.REACT_APP_API_URL  **/;
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 export const heroService = {
     async checkAvailability(searchParams: SearchParams): Promise<AvailabilityResponse> {
         try {
+            // TODO: Replace with actual API call when backend is ready
             // const response = await fetch(`${API_BASE_URL}/hotels/availability`, {
             //   method: 'POST',
             //   headers: {
@@ -23,7 +24,9 @@ export const heroService = {
             // }
             // 
             // return await response.json();
+
             await new Promise(resolve => setTimeout(resolve, 1500));
+
             if (searchParams.destination.toLowerCase().includes('cape town') ||
                 searchParams.destination.toLowerCase().includes('johannesburg') ||
                 searchParams.destination.toLowerCase().includes('durban')) {
@@ -54,9 +57,10 @@ export const heroService = {
             throw new Error('Failed to check hotel availability');
         }
     },
+
     async getUserData(): Promise<User> {
         try {
-
+            // TODO: Replace with actual API call
             // const response = await fetch(`${API_BASE_URL}/user/profile`, {
             //   headers: {
             //     'Authorization': `Bearer ${token}`
@@ -68,6 +72,7 @@ export const heroService = {
             // }
             // 
             // return await response.json();
+
             await new Promise(resolve => setTimeout(resolve, 500));
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
@@ -96,14 +101,17 @@ export const heroService = {
             };
         }
     },
+
     async getPopularDestinations(): Promise<string[]> {
         try {
+            // TODO: Replace with actual API call
             // const response = await fetch(`${API_BASE_URL}/destinations/popular`);
             // if (!response.ok) {
             //   throw new Error('Failed to fetch destinations');
             // }
             // const data = await response.json();
             // return data.destinations;
+
             await new Promise(resolve => setTimeout(resolve, 300));
 
             return [
@@ -120,8 +128,10 @@ export const heroService = {
             return [];
         }
     },
+
     async trackSearch(searchParams: SearchParams): Promise<void> {
         try {
+            // TODO: Replace with actual API call
             // await fetch(`${API_BASE_URL}/analytics/search`, {
             //   method: 'POST',
             //   headers: { 'Content-Type': 'application/json' },
@@ -137,9 +147,10 @@ export const heroService = {
             console.error('Error tracking search:', error);
         }
     },
+
     async getUnavailableDates(destination: string): Promise<Date[]> {
         try {
-
+            // TODO: Replace with actual API call
             // const response = await fetch(`${API_BASE_URL}/availability/unavailable-dates?destination=${encodeURIComponent(destination)}`);
             // if (!response.ok) {
             //   throw new Error('Failed to fetch unavailable dates');

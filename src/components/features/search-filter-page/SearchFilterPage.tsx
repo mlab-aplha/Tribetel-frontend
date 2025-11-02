@@ -1,7 +1,7 @@
-import { useState,} from "react";
+import React, { useState } from 'react';
 import styles from "./SearchFilterPage.module.css";
 import type { HotelSummary } from "./types";
-import { SearchBar } from "../../components/common/searchBar/searchBar";
+import { SearchBar } from "../../common/SearchBar/searchBar";
 
 const sampleHotels: HotelSummary[] = [
   {
@@ -33,27 +33,77 @@ const sampleHotels: HotelSummary[] = [
 ];
 
 const sampleDestinations = [
-  { id: "lanseria", label: "Lanseria" },
-  { id: "johannesburg", label: "Johannesburg" },
-  { id: "capetown", label: "Cape Town" },
+  { id: "lanseria", name: "Lanseria", type: 'region' as const, country: "South Africa" },
+  { id: "johannesburg", name: "Johannesburg", type: 'city' as const, country: "South Africa" },
+  { id: "capetown", name: "Cape Town", type: 'city' as const, country: "South Africa" },
 ];
 
-export default function SearchFilterPage(): JSX.Element {
+export default function SearchFilterPage(): React.JSX.Element {
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState<"recommended" | "distance" | "price">(
     "recommended"
   );
   const [priceMin, setPriceMin] = useState<number | "">("");
   const [priceMax, setPriceMax] = useState<number | "">("");
+  const [loading, setLoading] = useState(false);
+
+  // Mock function implementations
+  const handleSearch = (searchParams: any) => {
+    console.log('Search params:', searchParams);
+    setLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setLoading(false);
+      // You can update the hotels based on search params here
+    }, 1000);
+  };
+
+  const fetchDestinations = async () => {
+    // Simulate API call for destinations
+    return new Promise<any[]>((resolve) => {
+      setTimeout(() => {
+        resolve(sampleDestinations);
+      }, 500);
+    });
+  };
+
+  const calculatePrice = async (params: {
+    destinationId: string;
+    checkIn: string;
+    checkOut: string;
+    guests: number;
+    rooms?: number;
+  }) => {
+    // Simulate price calculation
+    return new Promise<any>((resolve) => {
+      setTimeout(() => {
+        const nights = Math.ceil(
+          (new Date(params.checkOut).getTime() - new Date(params.checkIn).getTime()) /
+          (1000 * 3600 * 24)
+        );
+        resolve({
+          min: 500 * nights,
+          max: 1500 * nights,
+          currency: 'ZAR',
+          nights: nights,
+          isEstimated: true
+        });
+      }, 800);
+    });
+  };
+
+  const handlePriceEstimate = (estimate: any) => {
+    console.log('Price estimate:', estimate);
+  };
 
   const filtered = sampleHotels
     .filter((h) =>
       query
         ? h.location.toLowerCase().includes(query.toLowerCase()) ||
-          h.name.toLowerCase().includes(query.toLowerCase()) ||
-          (h.tags ?? []).some((t) =>
-            t.toLowerCase().includes(query.toLowerCase())
-          )
+        h.name.toLowerCase().includes(query.toLowerCase()) ||
+        (h.tags ?? []).some((t) =>
+          t.toLowerCase().includes(query.toLowerCase())
+        )
         : true
     )
     .filter((h) => (priceMin !== "" ? h.pricePerNight >= Number(priceMin) : true))
@@ -72,14 +122,12 @@ export default function SearchFilterPage(): JSX.Element {
 
           <div className={styles.searchWrap}>
             <SearchBar
-              destinations={sampleDestinations}
-              initialDestinationId="lanseria"
-              onSearch={({ destinationId }) => setQuery(destinationId)}
-              performSearch={async () => Promise.resolve()}
-              disabled={false}
-              size="medium"
-              className=""
-              ariaLabel="Search available stays"
+              onSearch={handleSearch}
+              fetchDestinations={fetchDestinations}
+              calculatePrice={calculatePrice}
+              enablePriceEstimation={true}
+              onPriceEstimate={handlePriceEstimate}
+              disabled={loading}
             />
           </div>
         </div>
@@ -161,7 +209,7 @@ export default function SearchFilterPage(): JSX.Element {
                     </div>
                     <div className={styles.rating}>
                       <div className={styles.score}>{h.rating}</div>
-                      <div className={styles.reviews}>{h.reviews}</div>
+                      <div className={styles.reviews}>{h.reviews} reviews</div>
                     </div>
                   </div>
 
