@@ -1,29 +1,18 @@
 import { useState, useContext, createContext, ReactNode } from 'react';
-import { AuthContextType, User, RegisterRequest, LoginRequest, AuthResponse } from '../components/types/common';
+import {
+    AuthContextType,
+    User,
+    RegisterRequest,
+    LoginRequest,
+    AuthResponse
+} from '../components/types/common';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Auth provider props
 interface AuthProviderProps {
     children: ReactNode;
 }
-const mockUser: User = {
-    id: '1',
-    isLoggedIn: true,
-    name: 'John Doe',
-    email: 'john@example.com',
-    preferences: {
-        favoriteDestinations: ['Cape Town', 'Johannesburg'],
-        roomPreferences: ['King Bed', 'Ocean View'],
-        specialRequests: 'Early check-in preferred'
-    }
-};
-
-const mockAdmin = {
-    id: 'admin1',
-    name: 'Admin User',
-    email: 'admin@tribtel.com',
-    role: 'admin'
-};
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
@@ -45,7 +34,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
             await simulateAPICall(1500);
 
-            // Validate email uniqueness (mock)
             const existingUsers = ['test@example.com', 'user@example.com'];
             if (existingUsers.includes(userData.email)) {
                 throw new Error('Email already exists. Please use a different email address.');
@@ -75,11 +63,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const authResponse: AuthResponse = {
                 user: newUser,
                 token: `token_${Math.random().toString(36).substr(2, 16)}`,
-                expiresIn: 24 * 60 * 60 * 1000
+                expiresIn: 24 * 60 * 60 * 1000 // 24 hours
             };
 
             setUser(newUser);
 
+            // Store in localStorage for persistence
             localStorage.setItem('auth_token', authResponse.token);
             localStorage.setItem('user', JSON.stringify(newUser));
 
@@ -189,11 +178,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 throw new Error('Invalid admin credentials.');
             }
 
-            setAdmin(mockAdmin);
+            const adminUser = {
+                id: 'admin1',
+                name: 'Admin User',
+                email: adminData.email,
+                role: 'admin'
+            };
+
+            setAdmin(adminUser);
 
             // Store admin session
             localStorage.setItem('admin_token', `admin_token_${Math.random().toString(36).substr(2, 16)}`);
-            localStorage.setItem('admin', JSON.stringify(mockAdmin));
+            localStorage.setItem('admin', JSON.stringify(adminUser));
 
         } catch (error) {
             console.error('Admin login error:', error);
@@ -273,13 +269,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value= { contextValue } >
-        { children }
+        <AuthContext.Provider value={contextValue} >
+            {children}
         </AuthContext.Provider>
-  );
+    );
 };
 
-// Custom hook to use auth context
 export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
 

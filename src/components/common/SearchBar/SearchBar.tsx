@@ -1,58 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+// components/common/SearchBar/SearchBar.tsx
+import React, { useRef, useEffect } from 'react';
 import styles from './SearchBar.module.css';
 import Button from '../Button/Button';
 import Loader from '../Loader/Loader';
-
-export interface SearchDestination {
-    id: string;
-    name: string;
-    type: 'city' | 'region' | 'hotel';
-    country?: string;
-    priceRange?: {
-        min: number;
-        max: number;
-        currency: string;
-    };
-}
-
-export interface SearchParams {
-    destination: string;
-    destinationId?: string;
-    checkIn: string;
-    checkOut: string;
-    guests: number;
-    rooms?: number;
-    estimatedPrice?: PriceEstimate;
-}
-
-export interface PriceEstimate {
-    min: number;
-    max: number;
-    currency: string;
-    nights: number;
-    isEstimated: boolean;
-}
-
-export interface SearchBarProps {
-    destinations?: SearchDestination[];
-    initialDestinationId?: string;
-    onSearch: (searchParams: SearchParams) => void;
-    className?: string;
-    disabled?: boolean;
-    showGuests?: boolean;
-    showRooms?: boolean;
-    compact?: boolean;
-    enablePriceEstimation?: boolean;
-    onPriceEstimate?: (estimate: PriceEstimate | null) => void;
-    fetchDestinations?: () => Promise<SearchDestination[]>;
-    calculatePrice?: (params: {
-        destinationId: string;
-        checkIn: string;
-        checkOut: string;
-        guests: number;
-        rooms?: number;
-    }) => Promise<PriceEstimate>;
-}
+import { useSearchBar } from '../../../hooks/useSearch';
+import { SearchBarProps } from '../../types/common';
 
 export const SearchBar: React.FC<SearchBarProps> = ({
     destinations = [],
@@ -68,175 +20,62 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     fetchDestinations,
     calculatePrice
 }) => {
-    const [destination, setDestination] = useState('');
-    const [destinationId, setDestinationId] = useState<string>('');
-    const [checkIn, setCheckIn] = useState('');
-    const [checkOut, setCheckOut] = useState('');
-    const [guests, setGuests] = useState(2);
-    const [rooms, setRooms] = useState(1);
-    const [showDestinationDropdown, setShowDestinationDropdown] = useState(false);
-    const [filteredDestinations, setFilteredDestinations] = useState<SearchDestination[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isCalculatingPrice, setIsCalculatingPrice] = useState(false);
-    const [priceEstimate, setPriceEstimate] = useState<PriceEstimate | null>(null);
-    const [availableDestinations, setAvailableDestinations] = useState<SearchDestination[]>(destinations);
+    const {
+        // Destination
+        destination,
+        filteredDestinations,
+        isLoading,
+        showDestinationDropdown,
+        handleDestinationSelect,
+        handleDestinationChange,
+        handleDestinationFocus,
+        closeDropdown,
+
+        // Dates
+        checkIn,
+        setCheckIn,
+        checkOut,
+        setCheckOut,
+        getMinCheckOutDate,
+
+        // Guests & Rooms
+        guests,
+        setGuests,
+        rooms,
+        setRooms,
+
+        // Price estimation
+        priceEstimate,
+        isCalculatingPrice,
+
+        // Utilities
+        nights,
+        formatPrice,
+        handleSearch
+    } = useSearchBar({
+        destinations,
+        initialDestinationId,
+        showRooms,
+        enablePriceEstimation,
+        fetchDestinations,
+        calculatePrice,
+        onPriceEstimate
+    });
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const destinationInputRef = useRef<HTMLInputElement>(null);
 
-    // Fetch destinations 
-    useEffect(() => {
-        const loadDestinations = async () => {
-            if (fetchDestinations && availableDestinations.length === 0) {
-                try {
-                    setIsLoading(true);
-                    const fetchedDestinations = await fetchDestinations();
-                    setAvailableDestinations(fetchedDestinations);
-                } catch (error) {
-                    console.error('Failed to fetch destinations:', error);
-                } finally {
-                    setIsLoading(false);
-                }
-            }
-        };
-
-        loadDestinations();
-    }, [fetchDestinations, availableDestinations.length]);
-
-    // Set initial destination 
-    useEffect(() => {
-        if (initialDestinationId && availableDestinations.length > 0) {
-            const initialDest = availableDestinations.find(dest => dest.id === initialDestinationId);
-            if (initialDest) {
-                setDestination(initialDest.name);
-                setDestinationId(initialDest.id);
-            }
-        }
-    }, [initialDestinationId, availableDestinations]);
-
-    // Filter destinations 
-    useEffect(() => {
-        if (destination.trim() === '') {
-            setFilteredDestinations(availableDestinations.slice(0, 5));
-        } else {
-            const filtered = availableDestinations.filter(dest =>
-                dest.name.toLowerCase().includes(destination.toLowerCase()) ||
-                dest.country?.toLowerCase().includes(destination.toLowerCase())
-            ).slice(0, 5);
-            setFilteredDestinations(filtered);
-        }
-    }, [destination, availableDestinations]);
-
-    // Calculate price 
-    useEffect(() => {
-        const estimatePrice = async () => {
-            if (!enablePriceEstimation || !destinationId || !checkIn || !checkOut || !calculatePrice) {
-                setPriceEstimate(null);
-                if (onPriceEstimate) onPriceEstimate(null);
-                return;
-            }
-
-            try {
-                setIsCalculatingPrice(true);
-                const estimate = await calculatePrice({
-                    destinationId,
-                    checkIn,
-                    checkOut,
-                    guests,
-                    rooms: showRooms ? rooms : undefined
-                });
-                setPriceEstimate(estimate);
-                if (onPriceEstimate) onPriceEstimate(estimate);
-            } catch (error) {
-                console.error('Price calculation failed:', error);
-                setPriceEstimate(null);
-                if (onPriceEstimate) onPriceEstimate(null);
-            } finally {
-                setIsCalculatingPrice(false);
-            }
-        };
-
-        // Debounce price calculation
-        const timeoutId = setTimeout(estimatePrice, 500);
-        return () => clearTimeout(timeoutId);
-    }, [destinationId, checkIn, checkOut, guests, rooms, enablePriceEstimation, calculatePrice, onPriceEstimate, showRooms]);
-
-    // Close dropdown 
+    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setShowDestinationDropdown(false);
+                closeDropdown();
             }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    const handleDestinationSelect = (dest: SearchDestination) => {
-        setDestination(dest.name);
-        setDestinationId(dest.id);
-        setShowDestinationDropdown(false);
-    };
-
-    const handleSearch = () => {
-        if (!destination.trim()) {
-            alert('Please select a destination');
-            return;
-        }
-
-        if (!checkIn || !checkOut) {
-            alert('Please select check-in and check-out dates');
-            return;
-        }
-
-        const searchParams: SearchParams = {
-            destination: destination.trim(),
-            destinationId,
-            checkIn,
-            checkOut,
-            guests,
-            ...(showRooms && { rooms }),
-            ...(priceEstimate && { estimatedPrice: priceEstimate })
-        };
-
-        onSearch(searchParams);
-    };
-
-    const getMinCheckOutDate = () => {
-        return checkIn || new Date().toISOString().split('T')[0];
-    };
-
-    const handleDestinationFocus = () => {
-        setShowDestinationDropdown(true);
-    };
-
-    const handleDestinationChange = (value: string) => {
-        setDestination(value);
-        setDestinationId('');
-        setShowDestinationDropdown(true);
-        setPriceEstimate(null);
-        if (onPriceEstimate) onPriceEstimate(null);
-    };
-
-    const calculateNights = (): number => {
-        if (!checkIn || !checkOut) return 0;
-        const start = new Date(checkIn);
-        const end = new Date(checkOut);
-        const timeDiff = end.getTime() - start.getTime();
-        return Math.ceil(timeDiff / (1000 * 3600 * 24));
-    };
-
-    const formatPrice = (price: number, currency: string = 'ZAR'): string => {
-        return new Intl.NumberFormat('en-ZA', {
-            style: 'currency',
-            currency: currency,
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(price);
-    };
-
-    const nights = calculateNights();
+    }, [closeDropdown]);
 
     return (
         <div className={`${styles.searchBar} ${className} ${compact ? styles.compact : ''}`}>
@@ -246,7 +85,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                     <label className={styles.fieldLabel}>Destination</label>
                     <div className={styles.destinationWrapper} ref={dropdownRef}>
                         <div className={styles.inputWithLoader}>
-                            {/* Custom input for destination with focus handling */}
                             <input
                                 type="text"
                                 value={destination}
@@ -293,7 +131,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 {/* Check-in Date */}
                 <div className={styles.fieldGroup}>
                     <label className={styles.fieldLabel}>Check-in</label>
-                    {/* Use native input for date type */}
                     <input
                         type="date"
                         value={checkIn}
@@ -307,7 +144,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 {/* Check-out Date */}
                 <div className={styles.fieldGroup}>
                     <label className={styles.fieldLabel}>Check-out</label>
-                    {/* Use native input for date type */}
                     <input
                         type="date"
                         value={checkOut}
@@ -390,7 +226,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                     <Button
                         variant="primary"
                         size={compact ? "medium" : "large"}
-                        onClick={handleSearch}
+                        onClick={() => handleSearch(onSearch)}
                         disabled={disabled || isLoading}
                         className={styles.searchButton}
                         fullWidth

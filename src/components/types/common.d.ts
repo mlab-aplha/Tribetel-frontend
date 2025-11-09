@@ -1,3 +1,4 @@
+// components/types/common.d.ts
 import { ReactNode } from 'react';
 
 // ============ COMMON UI =============
@@ -203,110 +204,64 @@ export interface UserSession {
     permissions: string[];
 }
 
-// ============ HOTEL & ROOM TYPES ============
-
-export interface Hotel {
-    id: string;
-    name: string;
-    location: string;
-    description: string;
-    priceStarting: number;
-    image: string;
-    rating?: number;
-    reviewCount?: number;
-    amenities?: string[];
-    available?: boolean;
-    slug?: string;
-    images?: string[];
-    distance?: string;
-    contactInfo?: {
-        phone: string;
-        email: string;
-        address: string;
-    };
-    policies?: {
-        checkIn: string;
-        checkOut: string;
-        cancellation: string;
-        pets: boolean;
-        smoking: boolean;
-    };
-    nearbyAttractions?: string[];
-    transportation?: string[];
-}
-
-export interface HotelSummary {
-    id: string;
-    name: string;
-    location: string;
-    rating: number;
-    reviews: number;
-    description: string;
-    pricePerNight: number;
-    image: string;
-    distanceKm?: number;
-    tags?: string[];
-    amenities: string[];
-}
-
-export interface Room {
-    id: string;
-    title: string;
-    description: string;
-    pricePerNight: number;
-    image: string;
-    location: string;
-    rating?: number;
-    amenities: string[];
-    maxGuests: number;
-    available: boolean;
-    features?: string[];
-    type?: string;
-    images?: string[];
-    size?: string;
-    bedType?: string;
-    view?: string;
-    bathroom?: string;
-    includedAmenities?: string[];
-    reviews?: Review[];
-}
-
-export interface RoomSummary {
-    id: string;
-    title: string;
-    pricePerNight: number;
-    image?: string;
-    maxGuests: number;
-    features: string[];
-    type: string;
-}
-
-export interface HotelAvailability {
-    id: string;
-    name: string;
-    location: string;
-    price: number;
-    availableRooms: number;
-    image: string;
-    rating: number;
-    amenities: string[];
-}
-
-export interface Review {
-    id: string;
-    userName: string;
-    rating: number;
-    comment: string;
-    date: string;
-    verified?: boolean;
-}
-
 // ============ SEARCH & FILTER TYPES ============
 
+export interface SearchDestination {
+    id: string;
+    name: string;
+    type: 'city' | 'region' | 'hotel' | 'resort';
+    country?: string;
+    priceRange?: {
+        min: number;
+        max: number;
+        currency: string;
+    };
+}
+
 export interface SearchParams {
+    destination: string;
+    destinationId?: string;
+    checkIn: string;
+    checkOut: string;
+    guests: number;
+    rooms?: number;
+    estimatedPrice?: PriceEstimate;
+}
+
+// FIXED: Single consistent PriceEstimate definition
+export interface PriceEstimate {
+    min: number;
+    max: number;
+    currency: string;
+    nights: number;
+    isEstimated: boolean;
+}
+
+export interface SearchBarProps {
+    destinations?: SearchDestination[];
+    initialDestinationId?: string;
+    onSearch: (searchParams: SearchParams) => void;
+    className?: string;
+    disabled?: boolean;
+    showGuests?: boolean;
+    showRooms?: boolean;
+    compact?: boolean;
+    enablePriceEstimation?: boolean;
+    onPriceEstimate?: (estimate: PriceEstimate | null) => void;
+    fetchDestinations?: () => Promise<SearchDestination[]>;
+    calculatePrice?: (params: {
+        destinationId: string;
+        checkIn: string;
+        checkOut: string;
+        guests: number;
+        rooms?: number;
+    }) => Promise<PriceEstimate>;
+}
+
+export interface HotelSearchParams {
     destination?: string;
-    checkIn?: string | Date | null;
-    checkOut?: string | Date | null;
+    checkIn?: string;
+    checkOut?: string;
     guests?: number;
     rooms?: number;
     minPrice?: number;
@@ -314,9 +269,6 @@ export interface SearchParams {
     amenities?: string[];
     page?: number;
     limit?: number;
-}
-
-export interface HotelSearchParams extends SearchParams {
 }
 
 export interface RoomSearchParams {
@@ -372,22 +324,6 @@ export interface DateRangePickerProps {
     required?: boolean;
 }
 
-export interface SearchDestination {
-    id: string;
-    name: string;
-    type: 'city' | 'region' | 'resort';
-    country: string;
-}
-
-export interface PriceEstimate {
-    minPrice: number;
-    maxPrice: number;
-    averagePrice: number;
-    currency: string;
-    nights?: number;
-    isEstimated?: boolean;
-}
-
 export interface FilterOption {
     id: string;
     label: string;
@@ -410,6 +346,108 @@ export interface SearchState {
         rating: number;
     };
     sortBy: string;
+}
+
+// ============ HOTEL & ROOM TYPES ============
+
+export interface Hotel {
+    id: string;
+    name: string;
+    location: string;
+    description: string;
+    priceStarting: number;
+    image: string;
+    rating?: number;
+    reviewCount?: number;
+    amenities?: string[];
+    available?: boolean;
+    slug?: string;
+    images?: string[];
+    distance?: string;
+    contactInfo?: {
+        phone: string;
+        email: string;
+        address: string;
+    };
+    policies?: {
+        checkIn: string;
+        checkOut: string;
+        cancellation: string;
+        pets: boolean;
+        smoking: boolean;
+    };
+    nearbyAttractions?: string[];
+    transportation?: string[];
+}
+
+export interface HotelSummary {
+    id: string;
+    name: string;
+    location: string;
+    rating: number;
+    reviews: number;
+    description: string;
+    pricePerNight: number;
+    image: string;
+    distanceKm?: number;
+    tags?: string[];
+    amenities: string[];
+}
+
+export interface HotelAvailability {
+    id: string;
+    name: string;
+    location: string;
+    rating: number;
+    reviews: number;
+    description: string;
+    pricePerNight: number;
+    image: string;
+    distanceKm?: number;
+    tags?: string[];
+    amenities?: string[];
+    available?: boolean;
+}
+
+export interface Room {
+    id: string;
+    title: string;
+    description: string;
+    pricePerNight: number;
+    image: string;
+    location: string;
+    rating?: number;
+    amenities: string[];
+    maxGuests: number;
+    available: boolean;
+    features?: string[];
+    type?: string;
+    images?: string[];
+    size?: string;
+    bedType?: string;
+    view?: string;
+    bathroom?: string;
+    includedAmenities?: string[];
+    reviews?: Review[];
+}
+
+export interface RoomSummary {
+    id: string;
+    title: string;
+    pricePerNight: number;
+    image?: string;
+    maxGuests: number;
+    features: string[];
+    type: string;
+}
+
+export interface Review {
+    id: string;
+    userName: string;
+    rating: number;
+    comment: string;
+    date: string;
+    verified?: boolean;
 }
 
 // ============ BOOKING TYPES ============
