@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from "./SearchFilter.module.css";
-import SearchBar from "../../common/searchbar/searchbar";
+import SearchBar from "../../common/Searchbar/SearchBar";
 import { SearchParams, PriceEstimate, SearchDestination } from "../../types/common";
 
 const sampleDestinations: SearchDestination[] = [

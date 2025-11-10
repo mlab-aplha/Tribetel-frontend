@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from "./Search_ResultsPage.module.css";
 import type { HotelSummary } from "../../components/types/common";
-import SearchBar from "../../components/common/searchbar/searchbar";
+import SearchBar from "../../components/common/Searchbar/SearchBar";
 
 const sampleHotels: HotelSummary[] = [
     {
@@ -57,15 +57,13 @@ const SearchResultsPage: React.FC = () => {
     const handleSearch = (searchParams: any) => {
         console.log('Search params:', searchParams);
         setLoading(true);
-        // Simulate API call
         setTimeout(() => {
             setLoading(false);
-            // You can update the hotels based on search params here
+
         }, 1000);
     };
 
     const fetchDestinations = async () => {
-        // Simulate API call for destinations
         return new Promise<any[]>((resolve) => {
             setTimeout(() => {
                 resolve(sampleDestinations);
