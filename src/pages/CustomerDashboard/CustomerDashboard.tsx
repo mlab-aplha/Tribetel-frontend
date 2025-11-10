@@ -1,12 +1,13 @@
 import React from 'react';
 import HeroSection from '../../components/features/hero/HeroSection/HeroSection';
-import Active_bookings from '../../components/features/Active bookings/active-bookings';
+import Active_bookings from '../../components/features/active-bookings/active-bookings';
 import Offers from '../../components/features/Offers/Offers';
-import AddReview from '../../components/features/Add review/Add-Review';
+import AddReview from '../../components/features/add-review/add-review';
 import HotelLocations from '../../components/features/HotelLocations/HotelLocations';
 import styles from './CustomerDashboard.module.css';
 import Footer from '../../components/layout/Footer/Footer';
 import Header from '../../components/layout/Header/Header';
+
 interface ReviewData {
     rating: number;
     comment: string;
@@ -31,7 +32,6 @@ const CustomerDashboard: React.FC = () => {
                 hotelName="Tribtel Lux - Grand Suite"
                 hotelAddress="41 Hill Drive, Cape Town, South Africa"
                 guestCount={1}
-
             />
             <Offers />
             <AddReview onSubmit={handleReviewSubmit} />

@@ -1,9 +1,5 @@
 import { Hotel, HotelSearchParams, HotelSearchResponse, ApiResponse } from '../components/types/common';
 
-// Configuration for Vite
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
-
-// Mock hotels data
 const mockHotels: Hotel[] = [
     {
         id: "1",
@@ -38,13 +34,8 @@ const mockHotels: Hotel[] = [
 ];
 
 export const hotelService = {
-    /**
-     * Fetch hotels with search parameters
-     * TODO: Replace with actual backend API call
-     */
     async getHotels(searchParams?: HotelSearchParams): Promise<ApiResponse<HotelSearchResponse>> {
         try {
-            // TODO: Uncomment when backend is ready
             // const response = await fetch(`${API_BASE_URL}/hotels?${new URLSearchParams(searchParams as any)}`);
             // const data = await response.json();
             // return data;
@@ -97,12 +88,8 @@ export const hotelService = {
         }
     },
 
-    /**
-     * TODO: Replace with actual backend API call
-     */
     async getFeaturedHotels(): Promise<ApiResponse<Hotel[]>> {
         try {
-            // TODO: Uncomment when backend is ready
             // const response = await fetch(`${API_BASE_URL}/hotels/featured`);
             // const data = await response.json();
             // return data;
@@ -124,12 +111,8 @@ export const hotelService = {
         }
     },
 
-    /**
-     * TODO: Replace with actual backend API call
-     */
     async getHotelById(id: string): Promise<ApiResponse<Hotel>> {
         try {
-            // TODO: Uncomment when backend is ready
             // const response = await fetch(`${API_BASE_URL}/hotels/${id}`);
             // const data = await response.json();
             // return data;
@@ -158,6 +141,16 @@ export const hotelService = {
                 data: {} as Hotel
             };
         }
+    },
+
+    async trackHotelView(hotelId: string): Promise<void> {
+        console.log('Tracking hotel view:', hotelId);
+        await new Promise(resolve => setTimeout(resolve, 100));
+    },
+
+    async trackHotelClick(hotelId: string): Promise<void> {
+        console.log('Tracking hotel click:', hotelId);
+        await new Promise(resolve => setTimeout(resolve, 100));
     },
 
     async searchHotels(params: HotelSearchParams): Promise<ApiResponse<HotelSearchResponse>> {

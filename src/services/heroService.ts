@@ -1,13 +1,10 @@
-// services/heroService.ts
 import {
     HotelAvailability,
     SearchParams,
     AvailabilityResponse,
-    User,
-    HotelSearchParams
+    User
 } from '../components/types/common';
-
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://tribetel-frontend.onrender.com/api';
 
 export interface SearchFilters {
     destination?: string;
@@ -23,12 +20,9 @@ export interface SearchFilters {
 
 export const searchHotels = async (searchParams: SearchParams, filters?: SearchFilters): Promise<HotelAvailability[]> => {
     try {
-        // Validate required parameters
         if (!searchParams.destination) {
             throw new Error('Destination is required');
         }
-
-        // Build query parameters
         const queryParams = new URLSearchParams();
         queryParams.append('destination', searchParams.destination);
 
@@ -49,7 +43,7 @@ export const searchHotels = async (searchParams: SearchParams, filters?: SearchF
         }
 
         // Simulate API call - replace with actual API endpoint
-        const response = await fetch(`${API_BASE_URL}/api/hotels?${queryParams}`);
+        const response = await fetch(`${API_BASE_URL}/hotels?${queryParams}`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -81,7 +75,7 @@ export const searchHotels = async (searchParams: SearchParams, filters?: SearchF
 
 export const getHotelDetails = async (hotelId: string): Promise<HotelAvailability> => {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}`);
+        const response = await fetch(`${API_BASE_URL}/hotels/${hotelId}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -103,24 +97,59 @@ export const heroService = {
 
             if (destination.includes('cape town') ||
                 destination.includes('johannesburg') ||
-                destination.includes('durban')) {
+                destination.includes('durban') ||
+                destination.includes('mbombela') ||
+                destination.includes('pretoria')) {
+
+                const mockHotels: HotelAvailability[] = [
+                    {
+                        id: "1",
+                        name: "The Fly Stay",
+                        location: searchParams.destination || 'Cape Town, South Africa',
+                        pricePerNight: 250,
+                        available: true,
+                        rating: 4.5,
+                        reviews: 120,
+                        description: "Luxury accommodation with premium amenities",
+                        image: "/images/fly-stay.jpg",
+                        amenities: ["Free WiFi", "Pool", "Spa", "Gym"],
+                        distanceKm: 2.5,
+                        tags: ["Luxury", "Beachfront", "Spa"]
+                    },
+                    {
+                        id: "2",
+                        name: "Elangeni Hotel",
+                        location: searchParams.destination || 'Mbombela, South Africa',
+                        pricePerNight: 180,
+                        available: true,
+                        rating: 4.2,
+                        reviews: 89,
+                        description: "Comfortable stay in the heart of the city",
+                        image: "/images/elangeni.jpg",
+                        amenities: ["Free WiFi", "Restaurant", "Parking"],
+                        distanceKm: 1.2,
+                        tags: ["City Center", "Business", "Comfort"]
+                    },
+                    {
+                        id: "3",
+                        name: "Diamond Crown",
+                        location: searchParams.destination || 'Johannesburg, South Africa',
+                        pricePerNight: 320,
+                        available: true,
+                        rating: 4.7,
+                        reviews: 156,
+                        description: "Premium luxury experience with exceptional service",
+                        image: "/images/diamond-crown.jpg",
+                        amenities: ["Free WiFi", "Pool", "Spa", "Fine Dining", "Concierge"],
+                        distanceKm: 5.8,
+                        tags: ["Luxury", "5-Star", "Executive"]
+                    }
+                ];
+
                 return {
                     available: true,
-                    totalResults: 12,
-                    hotels: [
-                        {
-                            id: "1",
-                            name: "The Fly Stay",
-                            location: searchParams.destination || 'Unknown Location',
-                            pricePerNight: 250,
-                            available: true,
-                            rating: 4.5,
-                            reviews: 120,
-                            description: "Luxury accommodation with premium amenities",
-                            image: "/images/fly-stay.jpg",
-                            amenities: ["Free WiFi", "Pool", "Spa"]
-                        }
-                    ]
+                    totalResults: mockHotels.length,
+                    hotels: mockHotels
                 };
             }
 
@@ -137,30 +166,44 @@ export const heroService = {
     async getUserData(): Promise<User> {
         try {
             await new Promise(resolve => setTimeout(resolve, 500));
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-            if (isLoggedIn) {
-                return {
-                    isLoggedIn: true,
-                    name: localStorage.getItem('userName') || 'Guest',
-                    email: localStorage.getItem('userEmail') || '',
-                    preferences: {
-                        favoriteDestinations: ['Cape Town', 'Johannesburg', 'Durban'],
-                        roomPreferences: ['King Bed', 'Ocean View'],
-                        specialRequests: 'Early check-in preferred'
-                    }
-                };
+            // Get user data from localStorage with proper fallbacks
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const userStr = localStorage.getItem('user');
+
+            if (isLoggedIn && userStr) {
+                try {
+                    const userData = JSON.parse(userStr);
+                    return {
+                        id: userData.id || '',
+                        email: userData.email || '',
+                        name: userData.name || 'Guest',
+                        isLoggedIn: true,
+                        preferences: {
+                            favoriteDestinations: ['Cape Town', 'Johannesburg', 'Durban'],
+                            roomPreferences: ['King Bed', 'Ocean View'],
+                            specialRequests: 'Early check-in preferred'
+                        }
+                    };
+                } catch (parseError) {
+                    console.error('Error parsing user data:', parseError);
+                }
             }
 
+            // Return default guest user
             return {
-                isLoggedIn: false,
-                name: 'Guest'
+                id: '',
+                email: '',
+                name: 'Guest',
+                isLoggedIn: false
             };
         } catch (error) {
             console.error('Error fetching user data:', error);
             return {
-                isLoggedIn: false,
-                name: 'Guest'
+                id: '',
+                email: '',
+                name: 'Guest',
+                isLoggedIn: false
             };
         }
     },
@@ -176,7 +219,8 @@ export const heroService = {
                 "Mbombela, South Africa",
                 "Kimberley, South Africa",
                 "Pretoria, South Africa",
-                "Port Elizabeth, South Africa"
+                "Port Elizabeth, South Africa",
+                "Bloemfontein, South Africa"
             ];
         } catch (error) {
             console.error('Error fetching destinations:', error);
@@ -186,7 +230,27 @@ export const heroService = {
 
     async trackSearch(searchParams: SearchParams): Promise<void> {
         try {
-            console.log('Search tracked:', searchParams);
+            // Log search for analytics - in a real app, send to analytics service
+            console.log('Search tracked:', {
+                destination: searchParams.destination,
+                checkIn: searchParams.checkIn,
+                checkOut: searchParams.checkOut,
+                guests: searchParams.guests,
+                rooms: searchParams.rooms,
+                timestamp: new Date().toISOString()
+            });
+
+            // Store recent searches in localStorage
+            const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+            recentSearches.unshift({
+                ...searchParams,
+                timestamp: new Date().toISOString()
+            });
+
+            // Keep only last 5 searches
+            const limitedSearches = recentSearches.slice(0, 5);
+            localStorage.setItem('recentSearches', JSON.stringify(limitedSearches));
+
         } catch (error) {
             console.error('Error tracking search:', error);
         }
@@ -196,17 +260,49 @@ export const heroService = {
         try {
             await new Promise(resolve => setTimeout(resolve, 200));
 
+            // Use the destination parameter to determine unavailable dates
+            console.log('Checking unavailable dates for:', destination);
+
             const unavailableDates: Date[] = [];
             const today = new Date();
-            for (let i = 0; i < 5; i++) {
+
+            // Generate some random unavailable dates based on destination
+            const baseUnavailableDays = destination.toLowerCase().includes('cape town') ? 3 :
+                destination.toLowerCase().includes('johannesburg') ? 2 : 4;
+
+            for (let i = 0; i < baseUnavailableDays; i++) {
                 const randomDay = new Date(today);
-                randomDay.setDate(today.getDate() + Math.floor(Math.random() * 30));
+                randomDay.setDate(today.getDate() + Math.floor(Math.random() * 30) + 1);
                 unavailableDates.push(randomDay);
             }
+
+            // Add some fixed unavailable dates (weekends might be busy)
+            const nextWeekend1 = new Date(today);
+            nextWeekend1.setDate(today.getDate() + (7 - today.getDay())); // Next Saturday
+            unavailableDates.push(nextWeekend1);
+
+            const nextWeekend2 = new Date(nextWeekend1);
+            nextWeekend2.setDate(nextWeekend1.getDate() + 1); // Next Sunday
+            unavailableDates.push(nextWeekend2);
 
             return unavailableDates;
         } catch (error) {
             console.error('Error fetching unavailable dates:', error);
+            return [];
+        }
+    },
+
+    // Additional helper method to get search suggestions
+    async getSearchSuggestions(query: string): Promise<string[]> {
+        try {
+            await new Promise(resolve => setTimeout(resolve, 200));
+
+            const allDestinations = await this.getPopularDestinations();
+            return allDestinations.filter(dest =>
+                dest.toLowerCase().includes(query.toLowerCase())
+            ).slice(0, 5); // Return top 5 matches
+        } catch (error) {
+            console.error('Error getting search suggestions:', error);
             return [];
         }
     }

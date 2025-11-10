@@ -1,13 +1,9 @@
-import { User, UserProfile, ApiResponse } from '../components/types/common';
-
-// Configuration for Vite
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+import { UserProfile, ApiResponse } from '../components/types/common';
 
 export const userService = {
-    async getProfile(userId: string): Promise<ApiResponse<UserProfile>> {
+    async getProfile(): Promise<ApiResponse<UserProfile>> {
         try {
-            // TODO: Replace with actual API call when backend is ready
-            // const response = await fetch(`${API_BASE_URL}/users/${userId}/profile`);
+            // const response = await fetch(`${API_BASE_URL}/users/profile`);
             // const data = await response.json();
             // return data;
 
@@ -53,10 +49,9 @@ export const userService = {
         }
     },
 
-    async updateProfile(userId: string, updates: Partial<UserProfile>): Promise<ApiResponse<UserProfile>> {
+    async updateProfile(updates: Partial<UserProfile>): Promise<ApiResponse<UserProfile>> {
         try {
-            // TODO: Replace with actual API call when backend is ready
-            // const response = await fetch(`${API_BASE_URL}/users/${userId}/profile`, {
+            // const response = await fetch(`${API_BASE_URL}/users/profile`, {
             //     method: 'PUT',
             //     headers: {
             //         'Content-Type': 'application/json',
@@ -115,10 +110,9 @@ export const userService = {
         }
     },
 
-    async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<ApiResponse<{ message: string }>> {
+    async changePassword(currentPassword: string, newPassword: string): Promise<ApiResponse<{ message: string }>> {
         try {
-            // TODO: Replace with actual API call when backend is ready
-            // const response = await fetch(`${API_BASE_URL}/users/${userId}/password`, {
+            // const response = await fetch(`${API_BASE_URL}/users/password`, {
             //     method: 'PUT',
             //     headers: {
             //         'Content-Type': 'application/json',
@@ -130,7 +124,7 @@ export const userService = {
 
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            // Mock password change
+            console.log(`Changing password from ${currentPassword} to ${newPassword}`);
             return {
                 success: true,
                 message: 'Password changed successfully',
@@ -146,15 +140,8 @@ export const userService = {
         }
     },
 
-    async deleteAccount(userId: string): Promise<ApiResponse<{ message: string }>> {
+    async deleteAccount(): Promise<ApiResponse<{ message: string }>> {
         try {
-
-            // const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
-            //     method: 'DELETE'
-            // });
-            // const data = await response.json();
-            // return data;
-
             await new Promise(resolve => setTimeout(resolve, 700));
 
             localStorage.removeItem('authToken');

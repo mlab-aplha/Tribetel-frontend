@@ -1,30 +1,23 @@
 import { User, LoginRequest, RegisterRequest, AuthResponse, ApiResponse } from '../components/types/common';
 
-// Configuration for Vite
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
-
-// Mock user data for development
 const mockUsers = [
     {
         id: "1",
         email: "admin@tritel.co.za",
         password: "password123",
-        name: "Admin User",
-        role: "admin"
+        name: "Admin User"
     },
     {
         id: "2",
         email: "user@tritel.co.za",
         password: "password123",
-        name: "Regular User",
-        role: "user"
+        name: "Regular User"
     }
 ];
 
 export const authService = {
     async login(credentials: LoginRequest): Promise<ApiResponse<AuthResponse>> {
         try {
-            // Simulate API call
             await new Promise(resolve => setTimeout(resolve, 800));
 
             const user = mockUsers.find(u =>
@@ -37,13 +30,11 @@ export const authService = {
                         id: user.id,
                         email: user.email,
                         name: user.name,
-                        role: user.role
+                        isLoggedIn: true
                     },
                     token: `mock-jwt-token-${user.id}`,
                     expiresIn: 3600
                 };
-
-                // Store in localStorage for persistence
                 localStorage.setItem('authToken', authResponse.token);
                 localStorage.setItem('user', JSON.stringify(authResponse.user));
                 localStorage.setItem('isLoggedIn', 'true');
@@ -57,7 +48,16 @@ export const authService = {
                 return {
                     success: false,
                     message: 'Invalid email or password',
-                    data: {} as AuthResponse
+                    data: {
+                        user: {
+                            id: '',
+                            email: '',
+                            name: '',
+                            isLoggedIn: false
+                        },
+                        token: '',
+                        expiresIn: 0
+                    }
                 };
             }
         } catch (error) {
@@ -65,7 +65,16 @@ export const authService = {
             return {
                 success: false,
                 message: 'Login failed',
-                data: {} as AuthResponse
+                data: {
+                    user: {
+                        id: '',
+                        email: '',
+                        name: '',
+                        isLoggedIn: false
+                    },
+                    token: '',
+                    expiresIn: 0
+                }
             };
         }
     },
@@ -73,24 +82,28 @@ export const authService = {
     async register(userData: RegisterRequest): Promise<ApiResponse<AuthResponse>> {
         try {
             await new Promise(resolve => setTimeout(resolve, 800));
-
-            // Check if user already exists
             const existingUser = mockUsers.find(u => u.email === userData.email);
             if (existingUser) {
                 return {
                     success: false,
                     message: 'User already exists',
-                    data: {} as AuthResponse
+                    data: {
+                        user: {
+                            id: '',
+                            email: '',
+                            name: '',
+                            isLoggedIn: false
+                        },
+                        token: '',
+                        expiresIn: 0
+                    }
                 };
             }
-
-            // Create new user
             const newUser = {
                 id: Math.random().toString(36).substr(2, 9),
                 email: userData.email,
                 password: userData.password,
-                name: userData.name,
-                role: 'user'
+                name: userData.name
             };
 
             mockUsers.push(newUser);
@@ -100,13 +113,12 @@ export const authService = {
                     id: newUser.id,
                     email: newUser.email,
                     name: newUser.name,
-                    role: newUser.role
+                    isLoggedIn: true
                 },
                 token: `mock-jwt-token-${newUser.id}`,
                 expiresIn: 3600
             };
 
-            // Store in localStorage
             localStorage.setItem('authToken', authResponse.token);
             localStorage.setItem('user', JSON.stringify(authResponse.user));
             localStorage.setItem('isLoggedIn', 'true');
@@ -121,7 +133,16 @@ export const authService = {
             return {
                 success: false,
                 message: 'Registration failed',
-                data: {} as AuthResponse
+                data: {
+                    user: {
+                        id: '',
+                        email: '',
+                        name: '',
+                        isLoggedIn: false
+                    },
+                    token: '',
+                    expiresIn: 0
+                }
             };
         }
     },
@@ -151,9 +172,15 @@ export const authService = {
         try {
             const token = localStorage.getItem('authToken');
             const userStr = localStorage.getItem('user');
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
             if (token && userStr) {
-                const user = JSON.parse(userStr);
+                const userData = JSON.parse(userStr);
+                const user: User = {
+                    ...userData,
+                    isLoggedIn: isLoggedIn
+                };
+
                 return {
                     success: true,
                     message: 'User fetched successfully',
@@ -163,7 +190,12 @@ export const authService = {
                 return {
                     success: false,
                     message: 'No user logged in',
-                    data: {} as User
+                    data: {
+                        id: '',
+                        email: '',
+                        name: '',
+                        isLoggedIn: false
+                    }
                 };
             }
         } catch (error) {
@@ -171,7 +203,12 @@ export const authService = {
             return {
                 success: false,
                 message: 'Failed to get current user',
-                data: {} as User
+                data: {
+                    id: '',
+                    email: '',
+                    name: '',
+                    isLoggedIn: false
+                }
             };
         }
     },
@@ -202,7 +239,24 @@ export const authService = {
                 data: { message: 'Password reset failed' }
             };
         }
+    },
+
+    async validateToken(): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) return false;
+
+            return token.startsWith('mock-jwt-token-');
+        } catch (error) {
+            console.error('Token validation error:', error);
+            return false;
+        }
+    },
+    isAuthenticated(): boolean {
+        const token = localStorage.getItem('authToken');
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        return !!(token && isLoggedIn);
     }
 };
 
-export const { login, register, logout, getCurrentUser, resetPassword } = authService;
+export const { login, register, logout, getCurrentUser, resetPassword, validateToken, isAuthenticated } = authService;

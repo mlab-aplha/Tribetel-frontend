@@ -1,5 +1,5 @@
 import React from 'react';
-import './Layout.css';
+import './MainLayout.module.css';
 
 interface LayoutProps {
     children: React.ReactNode;

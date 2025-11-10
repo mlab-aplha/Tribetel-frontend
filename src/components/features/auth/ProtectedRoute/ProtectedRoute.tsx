@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { ProtectedRouteProps } from '../../../types/common';
 import Loader from '../../../common/Loader/Loader';
-import { useAuth } from '../../../../hooks/useAuth.js';
+import { useAuth } from '../../../../hooks/useAuth';
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     children,
@@ -11,11 +11,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     redirectTo = '/signin',
     fallback = <Loader text="Checking authentication..." fullscreen />
 }) => {
-    const { user, admin, isLoading, isAuthenticated, isAdmin } = useAuth();
+    const { isLoading, isAuthenticated, isAdmin } = useAuth();
     const location = useLocation();
+
     if (isLoading) {
         return <>{fallback}</>;
     }
+
     if (requireAuth && !isAuthenticated) {
         return (
             <Navigate
@@ -25,6 +27,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             />
         );
     }
+
     if (requireAdmin && !isAdmin) {
         console.warn('Admin access required. Redirecting to home.');
         return (
@@ -35,6 +38,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             />
         );
     }
+
     if (!requireAuth && isAuthenticated && (location.pathname === '/signin' || location.pathname === '/signup')) {
         return (
             <Navigate
@@ -43,6 +47,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             />
         );
     }
+
     if (!requireAdmin && isAdmin && location.pathname === '/admin/signin') {
         return (
             <Navigate
@@ -51,6 +56,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             />
         );
     }
+
     return <>{children}</>;
 };
 

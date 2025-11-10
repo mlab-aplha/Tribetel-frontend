@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import SignInLayout from '../../components/layout/SignInLayout/SignInLayout';
-import SignInForm from '../../components/features/auth/SignInForm/SignInForm';
-import AdminLayout from '../../components/layout/AdminLayout/AdminLayout';
-import AdminSignInForm from '../../components/features/auth/AdminSignInForm/AdminSignInForm';
+import SignInLayout from '../../components/features/auth/SignIn/SignInLayout';
+import SignInForm from '../../components/features/auth/SignIn/SignInForm';
+import AdminLayout from '../../components/features/auth/AdminSignIn/AdminLayout';
+import AdminSignInForm from '../../components/features/auth/AdminSignIn/AdminSignInForm';
 import ProtectedRoute from '../../components/features/auth/ProtectedRoute/ProtectedRoute';
 import { useAuth } from '../../hooks/useAuth';
 import Loader from '../../components/common/Loader/Loader';

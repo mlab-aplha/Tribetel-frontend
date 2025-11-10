@@ -1,129 +1,126 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './BookingCard.module.css';
-import BookingForm from '../BookingForm/BookingForm';
-import { Room, BookingFormData, BookingRequest, BookingResponse } from '../../../types/common';
-import { createBooking } from '../../../../services/bookingService';
-import LoadingSpinner from '../../../common/Loader/Loader';
+
+interface BookingConfirmation {
+  id: string;
+  bookingNumber: string;
+  fullName: string;
+  roomTitle: string;
+  checkIn: string;
+  checkOut: string;
+  status: 'confirmed' | 'cancelled' | 'pending';
+  roomId?: string;
+  nights?: number;
+  guests?: number;
+  total?: number;
+  paymentStatus?: 'pending' | 'paid' | 'failed' | 'refunded';
+  email?: string;
+  confirmedAt?: string;
+  specialRequests?: string;
+  customerPhone?: string;
+}
 
 interface BookingCardProps {
-  room: Room;
-  onBookingSuccess?: (booking: BookingResponse) => void;
-  onBookingError?: (error: string) => void;
+  booking: BookingConfirmation;
+  onAction: (bookingId: string, action: "cancel" | "modify") => Promise<void>;
+  showActions: boolean;
 }
 
 const BookingCard: React.FC<BookingCardProps> = ({
-  room,
-  onBookingSuccess,
-  onBookingError
+  booking,
+  onAction,
+  showActions
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [bookingError, setBookingError] = useState<string | null>(null);
+  const handleCancel = async () => {
+    await onAction(booking.id, 'cancel');
+  };
 
-  const handleBookingSubmit = async (formData: BookingFormData) => {
-    if (!room.available) {
-      const error = 'This room is currently not available for booking';
-      setBookingError(error);
-      onBookingError?.(error);
-      return;
-    }
+  const handleModify = async () => {
+    await onAction(booking.id, 'modify');
+  };
 
-    setIsLoading(true);
-    setBookingError(null);
-
-    try {
-      const bookingRequest: BookingRequest = {
-        ...formData,
-        roomId: room.id,
-        totalPrice: calculateTotalPrice(formData.checkIn, formData.checkOut, room.pricePerNight),
-        // In a real app, this would come from auth context
-        userId: 'current-user-id' // This would come from your auth context
-      };
-
-      const bookingResponse = await createBooking(bookingRequest);
-
-      if (bookingResponse.success) {
-        onBookingSuccess?.(bookingResponse.data);
-      } else {
-        throw new Error(bookingResponse.message || 'Booking failed');
-      }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Booking failed. Please try again.';
-      setBookingError(errorMessage);
-      onBookingError?.(errorMessage);
-    } finally {
-      setIsLoading(false);
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'confirmed': return '#28a745';
+      case 'pending': return '#ffc107';
+      case 'cancelled': return '#dc3545';
+      default: return '#6c757d';
     }
   };
 
-  const calculateTotalPrice = (checkIn: string, checkOut: string, pricePerNight: number): number => {
-    const start = new Date(checkIn);
-    const end = new Date(checkOut);
-    const nights = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-    return nights * pricePerNight;
+  // Calculate nights if not provided
+  const calculateNights = () => {
+    const checkIn = new Date(booking.checkIn);
+    const checkOut = new Date(booking.checkOut);
+    return Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
   };
-
-  if (!room.available) {
-    return (
-      <div className={styles.card}>
-        <div className={styles.unavailable}>
-          <h3>Currently Unavailable</h3>
-          <p>This room is not available for booking at the moment.</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className={styles.card}>
-      <div className={styles.left}>
-        <div className={styles.leftSplit}>
-          <div className={styles.imageWrap}>
-            <img
-              src={room.image}
-              alt={room.title}
-              className={styles.image}
-              loading="lazy"
-            />
-            {!room.available && (
-              <div className={styles.unavailableBadge}>Unavailable</div>
-            )}
-          </div>
-
-          <div className={styles.description}>
-            <h2 className={styles.title}>{room.title}</h2>
-            <p className={styles.location}>{room.location}</p>
-            <p className={styles.text}>{room.description}</p>
-            <div className={styles.price}>
-              ${room.pricePerNight} <span>/ night</span>
-            </div>
-            <ul className={styles.features}>
-              {room.features.map((feature, index) => (
-                <li key={index} className={styles.featureItem}>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            <div className={styles.capacity}>
-              Max guests: {room.maxGuests}
-            </div>
-          </div>
+    <div className={styles.bookingCard}>
+      <div className={styles.bookingHeader}>
+        <div className={styles.bookingInfo}>
+          <h3 className={styles.roomTitle}>{booking.roomTitle}</h3>
+          <p className={styles.bookingNumber}>Booking #: {booking.bookingNumber}</p>
+        </div>
+        <div
+          className={styles.statusBadge}
+          style={{ backgroundColor: getStatusColor(booking.status) }}
+        >
+          {booking.status.toUpperCase()}
         </div>
       </div>
 
-      <div className={styles.right}>
-        {isLoading && <LoadingSpinner />}
-        {bookingError && (
-          <div className={styles.error}>
-            {bookingError}
+      <div className={styles.bookingDetails}>
+        <div className={styles.detailRow}>
+          <span className={styles.detailLabel}>Guest:</span>
+          <span className={styles.detailValue}>{booking.fullName}</span>
+        </div>
+        <div className={styles.detailRow}>
+          <span className={styles.detailLabel}>Check-in:</span>
+          <span className={styles.detailValue}>{new Date(booking.checkIn).toLocaleDateString()}</span>
+        </div>
+        <div className={styles.detailRow}>
+          <span className={styles.detailLabel}>Check-out:</span>
+          <span className={styles.detailValue}>{new Date(booking.checkOut).toLocaleDateString()}</span>
+        </div>
+        <div className={styles.detailRow}>
+          <span className={styles.detailLabel}>Nights:</span>
+          <span className={styles.detailValue}>{booking.nights || calculateNights()}</span>
+        </div>
+        <div className={styles.detailRow}>
+          <span className={styles.detailLabel}>Guests:</span>
+          <span className={styles.detailValue}>{booking.guests || 'Not specified'}</span>
+        </div>
+        <div className={styles.detailRow}>
+          <span className={styles.detailLabel}>Total:</span>
+          <span className={styles.detailValue}>{booking.total ? `R${booking.total}` : 'Not specified'}</span>
+        </div>
+        {booking.specialRequests && (
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Special Requests:</span>
+            <span className={styles.detailValue}>{booking.specialRequests}</span>
           </div>
         )}
-        <BookingForm
-          room={room}
-          onSubmit={handleBookingSubmit}
-          isLoading={isLoading}
-          isDisabled={!room.available}
-        />
       </div>
+
+      {showActions && booking.status === 'confirmed' && (
+        <div className={styles.bookingActions}>
+          <button
+            onClick={handleModify}
+            className={styles.modifyBtn}
+            disabled={booking.status !== 'confirmed'}
+          >
+            Modify
+          </button>
+          <button
+            onClick={handleCancel}
+            className={styles.cancelBtn}
+            disabled={booking.status !== 'confirmed'}
+          >
+            Cancel
+          </button>
+        </div>
+      )}
     </div>
   );
 };

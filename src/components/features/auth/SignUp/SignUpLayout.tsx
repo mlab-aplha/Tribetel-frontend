@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../../Assets/tribtel-logo.png";
+import logo from "../../../../assets/tribtel-logo.png";
 import "./SignUpLayout.css";
 
 interface SignUpLayoutProps {
@@ -13,7 +13,7 @@ const SignUpLayout: React.FC<SignUpLayoutProps> = ({ children }) => {
         <img src={logo} alt="Tribtel Logo" className="signup-logo" />
         <h1 className="signup-brand">Tribtel</h1>
       </div>
-      
+
       <div className="signup-right">{children}</div>
     </div>
   );

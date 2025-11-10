@@ -51,7 +51,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
 
     const renderPagination = () => {
         const pages = [];
-        const maxVisiblePages = 5;
+        // Remove the unused maxVisiblePages variable since it's not being used
         pages.push(1);
         let startPage = Math.max(2, currentPage - 1);
         let endPage = Math.min(totalPages - 1, currentPage + 1);
@@ -211,7 +211,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                             {/* Amenities */}
                             {hotel.amenities && hotel.amenities.length > 0 && (
                                 <div className={styles.amenities}>
-                                    {hotel.amenities.slice(0, 3).map((amenity, index) => (
+                                    {hotel.amenities.slice(0, 3).map((amenity: string, index: number) => (
                                         <span key={index} className={styles.amenity}>
                                             {amenity}
                                         </span>

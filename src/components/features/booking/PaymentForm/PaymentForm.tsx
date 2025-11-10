@@ -1,17 +1,36 @@
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import styles from './PaymentForm.module.css';
+import styles from './Payment.module.css';
 import BookingConfirmation from '../BookingConfirmation/BookingConfirmation';
-import { Booking, PaymentData, PaymentRequest, PaymentResponse } from '../../../types/common';
+import { PaymentData, PaymentRequest, PaymentResponse } from '../../../types/common';
 import { processPayment } from '../../../../services/paymentService';
 import LoadingSpinner from '../../../common/Loader/Loader';
-import { validatePaymentData } from '../../../../utils/validators';
+
+interface Booking {
+  id: string;
+  roomTitle: string;
+  nights: number;
+  total: number;
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+  fullName: string;
+  email: string;
+}
 
 interface LocationState {
   booking?: Booking;
 }
 
-const PaymentForm: React.FC = () => {
+interface PaymentFormProps {
+  onPaymentSuccess?: () => void;
+  onPaymentError?: (error: string) => void;
+}
+
+const PaymentForm: React.FC<PaymentFormProps> = ({
+  onPaymentSuccess,
+  onPaymentError
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as LocationState;
@@ -71,9 +90,24 @@ const PaymentForm: React.FC = () => {
   };
 
   const validateForm = (): boolean => {
-    const validation = validatePaymentData(payment);
-    if (!validation.isValid) {
-      setError(validation.errors[0]);
+    if (!payment.cardHolderName.trim()) {
+      setError('Card holder name is required');
+      return false;
+    }
+    if (!payment.cardNumber.replace(/\s/g, '').match(/^\d{16}$/)) {
+      setError('Valid card number is required');
+      return false;
+    }
+    if (!payment.bank) {
+      setError('Please select your bank');
+      return false;
+    }
+    if (!payment.expiry) {
+      setError('Expiry date is required');
+      return false;
+    }
+    if (!payment.cvv.match(/^\d{3,4}$/)) {
+      setError('Valid CVV is required');
       return false;
     }
     return true;
@@ -92,12 +126,12 @@ const PaymentForm: React.FC = () => {
     try {
       // Prepare payment request for backend
       const paymentRequest: PaymentRequest = {
-        bookingId: booking.id || 'temp-booking-id', // In real app, this comes from booking creation
+        bookingId: booking.id || 'temp-booking-id',
         amount: booking.total,
         currency: 'ZAR',
         paymentMethod: payment.method,
         paymentDetails: {
-          cardNumber: payment.cardNumber.replace(/\s/g, ''), // Remove spaces for processing
+          cardNumber: payment.cardNumber.replace(/\s/g, ''),
           bank: payment.bank,
           expiry: payment.expiry,
           cvv: payment.cvv,
@@ -117,9 +151,7 @@ const PaymentForm: React.FC = () => {
       if (response.success && response.data.status === 'succeeded') {
         setPaymentResponse(response.data);
         setPaid(true);
-
-        // In a real app, you might want to update booking status here
-        // await updateBookingStatus(booking.id, 'confirmed');
+        onPaymentSuccess?.();
       } else {
         throw new Error(response.message || 'Payment processing failed');
       }
@@ -127,6 +159,7 @@ const PaymentForm: React.FC = () => {
       console.error('Payment error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Payment failed. Please try again.';
       setError(errorMessage);
+      onPaymentError?.(errorMessage);
     } finally {
       setIsProcessing(false);
     }
@@ -134,12 +167,22 @@ const PaymentForm: React.FC = () => {
 
   if (paid && paymentResponse) {
     const confirmedBooking = {
-      ...booking,
-      paymentMethod: payment.method,
-      paymentBank: payment.bank,
-      confirmedAt: paymentResponse.paidAt,
-      transactionId: paymentResponse.transactionId,
-      receiptUrl: paymentResponse.receiptUrl,
+      id: booking.id,
+      roomId: 'temp-room-id',
+      bookingNumber: `BK-${Date.now()}`,
+      fullName: booking.fullName,
+      roomTitle: booking.roomTitle,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      nights: booking.nights,
+      guests: booking.guests,
+      total: booking.total,
+      status: 'confirmed' as const,
+      paymentStatus: 'paid' as const,
+      email: booking.email,
+      confirmedAt: new Date().toISOString(),
+      specialRequests: '',
+      customerPhone: 'Not provided'
     };
     return <BookingConfirmation booking={confirmedBooking} />;
   }
@@ -268,11 +311,18 @@ const PaymentForm: React.FC = () => {
 
         {/* Security Notice */}
         <div className={styles.securityNotice}>
-
           <div className={styles.securityText}>
             Your payment information is secure and encrypted. We do not store your card details.
           </div>
         </div>
+
+        {/* Error Display */}
+        {error && (
+          <div className={styles.errorMessage}>
+            {error}
+          </div>
+        )}
+
         {/* Loading State */}
         {isProcessing && (
           <div className={styles.loadingState}>

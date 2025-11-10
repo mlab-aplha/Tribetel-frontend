@@ -1,6 +1,6 @@
 import React from "react";
 import "./AdminLayout.css";
-import logo from "../../../assets/tribtel-logo.png";
+import logo from "../../../../assets/tribtel-logo.png";
 import { AdminLayoutProps } from '../../../types/common';
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({
@@ -14,7 +14,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({
 }) => {
   return (
     <div className={`admin-container ${className} ${theme}`}>
-      {/* Left side - Branding */}
       {showBranding && (
         <div
           className="admin-left"

@@ -1,11 +1,22 @@
 import React from 'react';
 import styles from './BookingSummary.module.css';
-import { RoomSummary, BookingSummaryData, PriceBreakdown } from '../../../types/common';
+import { RoomSummary, PriceBreakdown } from '../../../types/common';
+
+interface BookingSummaryData {
+  fullName: string;
+  email: string;
+  phone: string;
+  region: string;
+  guests: number;
+  specialRequests: string;
+  checkIn: string;
+  checkOut: string;
+}
 
 interface BookingSummaryProps {
   form: BookingSummaryData;
   room: RoomSummary;
-  priceBreakdown: PriceBreakdown;
+  nights: number;
   onConfirm: () => void;
   onEdit?: () => void;
   isLoading?: boolean;
@@ -20,7 +31,7 @@ interface BookingSummaryProps {
 const BookingSummary: React.FC<BookingSummaryProps> = ({
   form,
   room,
-  priceBreakdown,
+  nights,
   onConfirm,
   onEdit,
   isLoading = false,
@@ -33,6 +44,17 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
       day: 'numeric',
       year: 'numeric'
     });
+  };
+
+  // Create proper PriceBreakdown with ALL required properties
+  const priceBreakdown: PriceBreakdown = {
+    roomRate: room.pricePerNight, // This was missing!
+    subtotal: room.pricePerNight * nights,
+    discount: 0, // Make sure this is defined
+    taxes: room.pricePerNight * nights * 0.15,
+    serviceFee: 50,
+    total: room.pricePerNight * nights * 1.15 + 50,
+    nights: nights
   };
 
   return (
@@ -81,7 +103,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
 
         <div className={styles.row}>
           <strong>Duration</strong>
-          <span>{priceBreakdown.nights} night{priceBreakdown.nights > 1 ? 's' : ''}</span>
+          <span>{nights} night{nights > 1 ? 's' : ''}</span>
         </div>
 
         <div className={styles.row}>
@@ -103,11 +125,11 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
         <h5 className={styles.sectionTitle}>Price Details</h5>
         <div className={styles.priceDetails}>
           <div className={styles.priceRow}>
-            <span>R {room.pricePerNight} × {priceBreakdown.nights} nights</span>
+            <span>R {priceBreakdown.roomRate} × {nights} nights</span>
             <span>R {priceBreakdown.subtotal}</span>
           </div>
 
-          {priceBreakdown.discount > 0 && (
+          {priceBreakdown.discount && priceBreakdown.discount > 0 && (
             <div className={`${styles.priceRow} ${styles.discount}`}>
               <span>Discount</span>
               <span>-R {priceBreakdown.discount}</span>
@@ -131,13 +153,6 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
         </div>
       </div>
 
-      {/* Policies */}
-      {policies && (
-        <div className={styles.policySection}>
-          <p className={styles.policyText}>{policies.cancellation}</p>
-        </div>
-      )}
-
       {/* Confirmation Section */}
       <div className={styles.confirmSection}>
         {isLoading ? (
@@ -160,7 +175,7 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
               Confirm Booking - R {priceBreakdown.total}
             </button>
             <p className={styles.securityNote}>
-              🔒 Secure & encrypted payment
+              Secure & encrypted payment
             </p>
           </div>
         )}

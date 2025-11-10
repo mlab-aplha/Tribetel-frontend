@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from "./Search_ResultsPage.module.css";
-import type { HotelSummary } from "../../types/common";
-import SearchBar from "../../components/common/SearchBar/SearchBar";
+import type { HotelSummary } from "../../components/types/common";
+import SearchBar from "../../components/common/searchbar/searchbar";
 
 const sampleHotels: HotelSummary[] = [
     {
@@ -41,7 +41,7 @@ const sampleDestinations = [
 ];
 
 const SearchResultsPage: React.FC = () => {
-    const [query, setQuery] = useState("");
+    const [query] = useState("");
     const [sortBy, setSortBy] = useState<"recommended" | "distance" | "price">(
         "recommended"
     );

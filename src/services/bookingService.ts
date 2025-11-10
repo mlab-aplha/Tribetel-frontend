@@ -1,10 +1,9 @@
-import { BookingRequest, BookingResponse, BookingConfirmation, ApiResponse } from '../components/types/common';
+import { BookingRequest, BookingResponse, BookingConfirmationData, ApiResponse } from '../components/types/booking';
 
-// Configuration
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'URL';
-const USE_MOCK_DATA = process.env.REACT_APP_USE_MOCK_DATA === 'true' || !process.env.REACT_APP_API_URL;
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://tribetel-frontend.onrender.com/api';
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true' || !import.meta.env.VITE_API_URL;
 
-const mockBookings: BookingConfirmation[] = [
+const mockBookings: BookingConfirmationData[] = [
     {
         id: "1",
         roomId: "1",
@@ -25,7 +24,14 @@ const mockBookings: BookingConfirmation[] = [
     },
 ];
 
-// API Client utilities
+const datesOverlap = (start1: string, end1: string, start2: string, end2: string): boolean => {
+    const d1 = new Date(start1);
+    const d2 = new Date(end1);
+    const d3 = new Date(start2);
+    const d4 = new Date(end2);
+    return d1 < d4 && d2 > d3;
+};
+
 const apiClient = {
     async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
         const url = `${API_BASE_URL}${endpoint}`;
@@ -36,6 +42,15 @@ const apiClient = {
             },
             ...options,
         };
+
+        // Add authorization header
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            config.headers = {
+                ...config.headers,
+                'Authorization': `Bearer ${token}`
+            };
+        }
 
         try {
             const response = await fetch(url, config);
@@ -75,7 +90,7 @@ const apiClient = {
 };
 
 const mockService = {
-    async getBookingConfirmation(id: string): Promise<ApiResponse<{ booking: BookingConfirmation }>> {
+    async getBookingConfirmation(id: string): Promise<ApiResponse<{ booking: BookingConfirmationData }>> {
         await new Promise(resolve => setTimeout(resolve, 600));
 
         const booking = mockBookings.find(booking =>
@@ -94,12 +109,31 @@ const mockService = {
             return {
                 success: false,
                 message: 'Booking not found',
-                data: { booking: {} as BookingConfirmation }
+                data: {
+                    booking: {
+                        id: '',
+                        roomId: '',
+                        bookingNumber: '',
+                        fullName: '',
+                        roomTitle: '',
+                        checkIn: '',
+                        checkOut: '',
+                        nights: 0,
+                        guests: 0,
+                        total: 0,
+                        status: 'pending',
+                        paymentStatus: 'pending',
+                        email: '',
+                        confirmedAt: '',
+                        specialRequests: '',
+                        customerPhone: ''
+                    } as BookingConfirmationData
+                }
             };
         }
     },
 
-    async getBookingsByEmail(email: string): Promise<ApiResponse<BookingConfirmation[]>> {
+    async getBookingsByEmail(email: string): Promise<ApiResponse<BookingConfirmationData[]>> {
         await new Promise(resolve => setTimeout(resolve, 500));
 
         const userBookings = mockBookings.filter(booking =>
@@ -128,15 +162,34 @@ const mockService = {
             guests: bookingRequest.guests,
             nights: bookingRequest.nights,
             totalAmount: bookingRequest.totalPrice,
-            totalPrice: bookingRequest.totalPrice,
             status: 'pending',
-            bookingDate: new Date().toISOString(),
             createdAt: new Date().toISOString(),
-            specialRequests: bookingRequest.specialRequests,
+            updatedAt: new Date().toISOString(),
+            specialRequests: bookingRequest.specialRequests || '',
             customerName: bookingRequest.customerName,
             customerEmail: customerEmail,
-            customerPhone: bookingRequest.customerPhone
+            customerPhone: bookingRequest.customerPhone || ''
         };
+
+        const confirmation: BookingConfirmationData = {
+            id: newBooking.id,
+            roomId: newBooking.roomId,
+            bookingNumber: `BK-TR-${new Date().getFullYear()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`,
+            fullName: bookingRequest.customerName,
+            roomTitle: newBooking.roomTitle,
+            checkIn: newBooking.checkIn,
+            checkOut: newBooking.checkOut,
+            nights: newBooking.nights,
+            guests: newBooking.guests,
+            total: newBooking.totalAmount,
+            status: newBooking.status,
+            paymentStatus: 'pending',
+            email: customerEmail,
+            confirmedAt: new Date().toISOString(),
+            specialRequests: newBooking.specialRequests || '',
+            customerPhone: newBooking.customerPhone || ''
+        };
+        mockBookings.push(confirmation);
 
         return {
             success: true,
@@ -145,79 +198,134 @@ const mockService = {
         };
     },
 
-    async getUserBookings(userId: string): Promise<ApiResponse<BookingConfirmation[]>> {
+    async getUserBookings(userId: string): Promise<ApiResponse<BookingConfirmationData[]>> {
         await new Promise(resolve => setTimeout(resolve, 700));
-        const tritelBookings = mockBookings.filter(booking =>
-            booking.email.endsWith('@tritel.co.za')
+
+        const userBookings = mockBookings.filter(booking =>
+            booking.email.includes(userId) || booking.id === userId
         );
 
         return {
             success: true,
             message: 'User bookings fetched successfully',
-            data: tritelBookings
+            data: userBookings
         };
     },
 
     async cancelBooking(bookingId: string): Promise<ApiResponse<{ message: string }>> {
         await new Promise(resolve => setTimeout(resolve, 500));
-        return {
-            success: true,
-            message: 'Booking cancelled successfully',
-            data: { message: 'Booking cancelled' }
-        };
-    },
+        console.log('Cancelling booking:', bookingId);
 
-    async updateBooking(bookingId: string, updates: Partial<BookingRequest>): Promise<ApiResponse<BookingConfirmation>> {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const booking = mockBookings.find(b => b.id === bookingId);
-        if (booking) {
+        const bookingIndex = mockBookings.findIndex(b => b.id === bookingId);
+        if (bookingIndex !== -1) {
+            mockBookings[bookingIndex].status = 'cancelled';
+            mockBookings[bookingIndex].paymentStatus = 'failed';
             return {
                 success: true,
-                message: 'Booking updated successfully',
-                data: booking
+                message: 'Booking cancelled successfully',
+                data: { message: `Booking ${bookingId} has been cancelled` }
             };
         }
+
         return {
             success: false,
             message: 'Booking not found',
-            data: {} as BookingConfirmation
+            data: { message: 'Booking not found' }
+        };
+    },
+
+    async updateBooking(bookingId: string, updates: Partial<BookingRequest>): Promise<ApiResponse<BookingConfirmationData>> {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        console.log('Updating booking:', bookingId, updates);
+
+        const bookingIndex = mockBookings.findIndex(b => b.id === bookingId);
+        if (bookingIndex !== -1) {
+            const updatedBooking = {
+                ...mockBookings[bookingIndex],
+                fullName: updates.customerName || mockBookings[bookingIndex].fullName,
+                customerPhone: updates.customerPhone || mockBookings[bookingIndex].customerPhone,
+                specialRequests: updates.specialRequests || mockBookings[bookingIndex].specialRequests
+            };
+
+            mockBookings[bookingIndex] = updatedBooking;
+
+            return {
+                success: true,
+                message: 'Booking updated successfully',
+                data: updatedBooking
+            };
+        }
+
+        return {
+            success: false,
+            message: 'Booking not found',
+            data: {
+                id: '',
+                roomId: '',
+                bookingNumber: '',
+                fullName: '',
+                roomTitle: '',
+                checkIn: '',
+                checkOut: '',
+                nights: 0,
+                guests: 0,
+                total: 0,
+                status: 'pending',
+                paymentStatus: 'pending',
+                email: '',
+                confirmedAt: '',
+                specialRequests: '',
+                customerPhone: ''
+            } as BookingConfirmationData
         };
     },
 
     async checkAvailability(roomId: string, checkIn: string, checkOut: string): Promise<ApiResponse<{ available: boolean; conflictingBookings?: string[] }>> {
         await new Promise(resolve => setTimeout(resolve, 300));
+        console.log('Checking availability for room:', roomId, 'from', checkIn, 'to', checkOut);
+
+        const conflictingBookings = mockBookings.filter(booking =>
+            booking.roomId === roomId &&
+            booking.status !== 'cancelled' &&
+            datesOverlap(checkIn, checkOut, booking.checkIn, booking.checkOut)
+        );
+
+        const isAvailable = conflictingBookings.length === 0;
+
         return {
             success: true,
             message: 'Availability checked successfully',
-            data: { available: true }
+            data: {
+                available: isAvailable,
+                conflictingBookings: isAvailable ? undefined : conflictingBookings.map(b => b.bookingNumber)
+            }
         };
     }
 };
 
-// Real API service
 const apiService = {
-    async getBookingConfirmation(id: string): Promise<ApiResponse<{ booking: BookingConfirmation }>> {
-        return await apiClient.get<ApiResponse<{ booking: BookingConfirmation }>>(`/bookings/${id}/confirmation`);
+    async getBookingConfirmation(id: string): Promise<ApiResponse<{ booking: BookingConfirmationData }>> {
+        return await apiClient.get<ApiResponse<{ booking: BookingConfirmationData }>>(`/bookings/${id}/confirmation`);
     },
 
-    async getBookingsByEmail(email: string): Promise<ApiResponse<BookingConfirmation[]>> {
-        return await apiClient.get<ApiResponse<BookingConfirmation[]>>(`/bookings?email=${encodeURIComponent(email)}`);
+    async getBookingsByEmail(email: string): Promise<ApiResponse<BookingConfirmationData[]>> {
+        return await apiClient.get<ApiResponse<BookingConfirmationData[]>>(`/bookings?email=${encodeURIComponent(email)}`);
     },
 
     async createBooking(bookingRequest: BookingRequest): Promise<ApiResponse<BookingResponse>> {
         return await apiClient.post<ApiResponse<BookingResponse>>('/bookings', bookingRequest);
     },
 
-    async getUserBookings(userId: string): Promise<ApiResponse<BookingConfirmation[]>> {
-        return await apiClient.get<ApiResponse<BookingConfirmation[]>>(`/users/${userId}/bookings`);
+    async getUserBookings(userId: string): Promise<ApiResponse<BookingConfirmationData[]>> {
+        return await apiClient.get<ApiResponse<BookingConfirmationData[]>>(`/users/${userId}/bookings`);
     },
 
     async cancelBooking(bookingId: string): Promise<ApiResponse<{ message: string }>> {
         return await apiClient.delete<ApiResponse<{ message: string }>>(`/bookings/${bookingId}`);
     },
 
-    async updateBooking(bookingId: string, updates: Partial<BookingRequest>): Promise<ApiResponse<BookingConfirmation>> {
-        return await apiClient.put<ApiResponse<BookingConfirmation>>(`/bookings/${bookingId}`, updates);
+    async updateBooking(bookingId: string, updates: Partial<BookingRequest>): Promise<ApiResponse<BookingConfirmationData>> {
+        return await apiClient.put<ApiResponse<BookingConfirmationData>>(`/bookings/${bookingId}`, updates);
     },
 
     async checkAvailability(roomId: string, checkIn: string, checkOut: string): Promise<ApiResponse<{ available: boolean; conflictingBookings?: string[] }>> {
@@ -228,7 +336,7 @@ const apiService = {
 };
 
 export const bookingService = {
-    async getBookingConfirmation(id: string): Promise<ApiResponse<{ booking: BookingConfirmation }>> {
+    async getBookingConfirmation(id: string): Promise<ApiResponse<{ booking: BookingConfirmationData }>> {
         try {
             if (USE_MOCK_DATA) {
                 return await mockService.getBookingConfirmation(id);
@@ -240,7 +348,7 @@ export const bookingService = {
         }
     },
 
-    async getBookingsByEmail(email: string): Promise<ApiResponse<BookingConfirmation[]>> {
+    async getBookingsByEmail(email: string): Promise<ApiResponse<BookingConfirmationData[]>> {
         try {
             if (USE_MOCK_DATA) {
                 return await mockService.getBookingsByEmail(email);
@@ -264,7 +372,7 @@ export const bookingService = {
         }
     },
 
-    async getUserBookings(userId: string): Promise<ApiResponse<BookingConfirmation[]>> {
+    async getUserBookings(userId: string): Promise<ApiResponse<BookingConfirmationData[]>> {
         try {
             if (USE_MOCK_DATA) {
                 return await mockService.getUserBookings(userId);
@@ -288,7 +396,7 @@ export const bookingService = {
         }
     },
 
-    async updateBooking(bookingId: string, updates: Partial<BookingRequest>): Promise<ApiResponse<BookingConfirmation>> {
+    async updateBooking(bookingId: string, updates: Partial<BookingRequest>): Promise<ApiResponse<BookingConfirmationData>> {
         try {
             if (USE_MOCK_DATA) {
                 return await mockService.updateBooking(bookingId, updates);

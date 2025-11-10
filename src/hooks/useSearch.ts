@@ -6,7 +6,6 @@ import {
 } from '../components/types/common';
 
 export interface UseSearchBarReturn {
-    // Destination
     destination: string;
     filteredDestinations: SearchDestination[];
     isLoading: boolean;
@@ -15,25 +14,17 @@ export interface UseSearchBarReturn {
     handleDestinationChange: (value: string) => void;
     handleDestinationFocus: () => void;
     closeDropdown: () => void;
-
-    // Dates
     checkIn: string;
     setCheckIn: (date: string) => void;
     checkOut: string;
     setCheckOut: (date: string) => void;
     getMinCheckOutDate: () => string;
-
-    // Guests & Rooms
     guests: number;
     setGuests: (guests: number) => void;
     rooms: number;
     setRooms: (rooms: number) => void;
-
-    // Price estimation
     priceEstimate: PriceEstimate | null;
     isCalculatingPrice: boolean;
-
-    // Utilities
     nights: number;
     formatPrice: (price: number, currency?: string) => string;
     handleSearch: (onSearch: (params: SearchParams) => void) => void;
@@ -54,8 +45,6 @@ export interface UseSearchBarProps {
     }) => Promise<PriceEstimate>;
     onPriceEstimate?: (estimate: PriceEstimate | null) => void;
 }
-
-// Hook for destination management
 export const useDestinations = (
     initialDestinations: SearchDestination[] = [],
     initialDestinationId?: string,
@@ -67,8 +56,6 @@ export const useDestinations = (
     const [filteredDestinations, setFilteredDestinations] = useState<SearchDestination[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showDestinationDropdown, setShowDestinationDropdown] = useState(false);
-
-    // Fetch destinations
     useEffect(() => {
         const loadDestinations = async () => {
             if (fetchDestinations && availableDestinations.length === 0) {
@@ -86,8 +73,6 @@ export const useDestinations = (
 
         loadDestinations();
     }, [fetchDestinations, availableDestinations.length]);
-
-    // Set initial destination
     useEffect(() => {
         if (initialDestinationId && availableDestinations.length > 0) {
             const initialDest = availableDestinations.find(dest => dest.id === initialDestinationId);
@@ -97,8 +82,6 @@ export const useDestinations = (
             }
         }
     }, [initialDestinationId, availableDestinations]);
-
-    // Filter destinations
     useEffect(() => {
         if (destination.trim() === '') {
             setFilteredDestinations(availableDestinations.slice(0, 5));
@@ -222,12 +205,9 @@ export const usePriceEstimation = (
         resetPriceEstimate
     };
 };
-
-// Hook for search form state
 export const useSearchForm = (
     initialGuests: number = 2,
-    initialRooms: number = 1,
-    showRooms: boolean = false
+    initialRooms: number = 1
 ) => {
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
@@ -267,8 +247,6 @@ export const useSearchForm = (
         resetForm
     };
 };
-
-// Main hook that composes all other hooks
 export const useSearchBar = (props: UseSearchBarProps): UseSearchBarReturn => {
     const {
         destinations = [],
@@ -279,10 +257,8 @@ export const useSearchBar = (props: UseSearchBarProps): UseSearchBarReturn => {
         calculatePrice,
         onPriceEstimate
     } = props;
-
-    // Use all the individual hooks
     const destinationsHook = useDestinations(destinations, initialDestinationId, fetchDestinations);
-    const searchFormHook = useSearchForm(2, 1, showRooms);
+    const searchFormHook = useSearchForm(2, 1);
     const priceEstimationHook = usePriceEstimation(
         enablePriceEstimation,
         destinationsHook.destinationId,
@@ -294,11 +270,7 @@ export const useSearchBar = (props: UseSearchBarProps): UseSearchBarReturn => {
         calculatePrice,
         onPriceEstimate
     );
-
-    // Calculate nights
     const nights = searchFormHook.calculateNights();
-
-    // Format price utility function
     const formatPrice = useCallback((price: number, currency: string = 'ZAR'): string => {
         return new Intl.NumberFormat('en-ZA', {
             style: 'currency',
@@ -307,8 +279,6 @@ export const useSearchBar = (props: UseSearchBarProps): UseSearchBarReturn => {
             maximumFractionDigits: 0
         }).format(price);
     }, []);
-
-    // Handle search validation and submission
     const handleSearch = useCallback((onSearch: (params: SearchParams) => void) => {
         if (!destinationsHook.destination.trim()) {
             alert('Please select a destination');
@@ -334,7 +304,6 @@ export const useSearchBar = (props: UseSearchBarProps): UseSearchBarReturn => {
     }, [destinationsHook, searchFormHook, priceEstimationHook, showRooms]);
 
     return {
-        // Destination state and handlers
         destination: destinationsHook.destination,
         filteredDestinations: destinationsHook.filteredDestinations,
         isLoading: destinationsHook.isLoading,
@@ -343,8 +312,6 @@ export const useSearchBar = (props: UseSearchBarProps): UseSearchBarReturn => {
         handleDestinationChange: destinationsHook.handleDestinationChange,
         handleDestinationFocus: destinationsHook.handleDestinationFocus,
         closeDropdown: destinationsHook.closeDropdown,
-
-        // Search form state and handlers
         checkIn: searchFormHook.checkIn,
         setCheckIn: searchFormHook.setCheckIn,
         checkOut: searchFormHook.checkOut,
@@ -354,12 +321,8 @@ export const useSearchBar = (props: UseSearchBarProps): UseSearchBarReturn => {
         rooms: searchFormHook.rooms,
         setRooms: searchFormHook.setRooms,
         getMinCheckOutDate: searchFormHook.getMinCheckOutDate,
-
-        // Price estimation state and handlers
         priceEstimate: priceEstimationHook.priceEstimate,
         isCalculatingPrice: priceEstimationHook.isCalculatingPrice,
-
-        // Utilities
         nights,
         formatPrice,
         handleSearch

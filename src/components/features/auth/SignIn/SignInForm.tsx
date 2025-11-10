@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./SignInForm.css";
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../../hooks/useAuth';
 
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +13,6 @@ const SignInForm: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
-  // Add auth hook
   const { login, isLoading } = useAuth();
 
   const validateEmail = (email: string) => {
@@ -25,8 +24,9 @@ const SignInForm: React.FC = () => {
     return password.length >= 6;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
 
     if (!email || !password) {
       setError("Please fill in both fields.");
@@ -42,12 +42,17 @@ const SignInForm: React.FC = () => {
       setError("Password must be at least 6 characters long.");
       return;
     }
-    setError("");
+
     setIsClicked(true);
 
-    console.log("Form submitted:", { email, password });
-
-    setTimeout(() => setIsClicked(false), 1000);
+    try {
+      await login(email, password);
+      navigate('/');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Login failed');
+    } finally {
+      setIsClicked(false);
+    }
   };
 
   const toggleVisibility = () => {
@@ -56,7 +61,6 @@ const SignInForm: React.FC = () => {
 
   return (
     <form className="signin-form" onSubmit={handleSubmit}>
-      {/*Admin button*/}
       <div className="form-header">
         <button
           type="button"
@@ -69,7 +73,6 @@ const SignInForm: React.FC = () => {
 
       <h2 className="signin-title">Sign In</h2>
 
-      {/* Email field */}
       <label htmlFor="email">E-mail</label>
       <input
         type="email"
@@ -81,7 +84,6 @@ const SignInForm: React.FC = () => {
         required
       />
 
-      {/* Password field */}
       <label htmlFor="password">Password</label>
       <div className="password-field">
         <input
@@ -122,9 +124,9 @@ const SignInForm: React.FC = () => {
       <button
         type="submit"
         className={`signin-btn ${isClicked ? "clicked" : ""}`}
-        disabled={!email || !password}
+        disabled={!email || !password || isLoading}
       >
-        Sign in
+        {isLoading ? 'Signing in...' : 'Sign in'}
       </button>
 
       <p className="register-text">

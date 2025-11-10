@@ -1,7 +1,5 @@
-import React from "react";
-import "./SignInLayout.css";
-import logo from "../../../assets/tribtel-logo.png";
-import { SignInLayoutProps } from '../../../types/common';
+import React from 'react';
+import './SignInLayout.css';
 
 interface SignInLayoutProps {
   children: React.ReactNode;
@@ -9,15 +7,10 @@ interface SignInLayoutProps {
 
 const SignInLayout: React.FC<SignInLayoutProps> = ({ children }) => {
   return (
-    <div className="signin-container">
-
-      <div className="signin-left">
-        <img src={logo} alt="Tribtel-logo" className="signin-logo" />
-        <h1 className="signin-brand">Tribtel</h1>
+    <div className="signin-layout">
+      <div className="signin-container">
+        {children}
       </div>
-
-      {/* Right side - Form */}
-      <div className="signin-right">{children}</div>
     </div>
   );
 };

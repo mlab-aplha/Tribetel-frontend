@@ -33,7 +33,7 @@ const SignUpForm: React.FC = () => {
   const [touched, setTouched] = useState<{ [key: string]: boolean }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, isLoading } = useAuth();
+  const { signup, isLoading } = useAuth(); // Use signup instead of register
   const navigate = useNavigate();
 
   // Password strength indicators
@@ -141,16 +141,8 @@ const SignUpForm: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      await register({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        phone: formData.phone,
-        country: formData.country,
-        preferences: {
-          newsletter: formData.newsletter
-        }
-      });
+      // Call signup with only the required parameters
+      await signup(formData.email, formData.password, formData.name);
 
       console.log("Registration successful");
       navigate("/");
@@ -241,7 +233,6 @@ const SignUpForm: React.FC = () => {
           <option value="">Select your country</option>
           <option value="South Africa">South Africa</option>
           <option value="United States">United States</option>
-
         </select>
         {errors.country && touched.country && <span className="error-text">{errors.country}</span>}
       </div>

@@ -1,8 +1,5 @@
 import { Room, ApiResponse, RoomSearchParams, RoomSearchResponse } from '../components/types/common';
 
-// Configuration for Vite
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
-
 const mockRooms: Room[] = [
     {
         id: "1",
@@ -65,7 +62,6 @@ const mockRooms: Room[] = [
 export const roomService = {
     async getRoomById(id: string): Promise<ApiResponse<Room>> {
         try {
-            // TODO: Replace with actual API call when backend is ready
             // const response = await fetch(`${API_BASE_URL}/rooms/${id}`);
             // const data = await response.json();
             // return data;
@@ -99,7 +95,6 @@ export const roomService = {
 
     async getRooms(searchParams?: RoomSearchParams): Promise<ApiResponse<RoomSearchResponse>> {
         try {
-            // TODO: Replace with actual API call when backend is ready
             // const queryParams = new URLSearchParams(searchParams as any);
             // const response = await fetch(`${API_BASE_URL}/rooms?${queryParams}`);
             // const data = await response.json();
@@ -173,7 +168,6 @@ export const roomService = {
 
     async getFeaturedRooms(): Promise<ApiResponse<Room[]>> {
         try {
-            // TODO: Replace with actual API call when backend is ready
             // const response = await fetch(`${API_BASE_URL}/rooms/featured`);
             // const data = await response.json();
             // return data;
@@ -198,7 +192,6 @@ export const roomService = {
 
     async checkAvailability(roomId: string, checkIn: string, checkOut: string): Promise<ApiResponse<{ available: boolean; message?: string }>> {
         try {
-            // TODO: Replace with actual API call when backend is ready
             // const response = await fetch(`${API_BASE_URL}/rooms/${roomId}/availability`, {
             //   method: 'POST',
             //   headers: {
@@ -231,6 +224,14 @@ export const roomService = {
 
             const today = new Date();
             const checkInDate = new Date(checkIn);
+            const checkOutDate = new Date(checkOut);
+            if (checkOutDate <= checkInDate) {
+                return {
+                    success: true,
+                    message: 'Availability checked successfully',
+                    data: { available: false, message: 'Check-out date must be after check-in date' }
+                };
+            }
 
             if (checkInDate < today) {
                 return {
@@ -257,7 +258,6 @@ export const roomService = {
 
     async getSimilarRooms(roomId: string, limit: number = 4): Promise<ApiResponse<Room[]>> {
         try {
-            // TODO: Replace with actual API call when backend is ready
             // const response = await fetch(`${API_BASE_URL}/rooms/${roomId}/similar?limit=${limit}`);
             // const data = await response.json();
             // return data;
@@ -298,7 +298,6 @@ export const roomService = {
 
     async getRoomTypes(): Promise<ApiResponse<string[]>> {
         try {
-            // TODO: Replace with actual API call when backend is ready
             // const response = await fetch(`${API_BASE_URL}/rooms/types`);
             // const data = await response.json();
             // return data;

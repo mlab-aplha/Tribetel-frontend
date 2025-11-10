@@ -1,22 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './BookingsPage.css';
+import './MyBookingsPage.module.css';
 import BookingCard from '../../components/features/booking/BookingCard/BookingCard';
-import BookingFilters from '../../components/features/booking/BookingFilters/BookingFilters';
-import EmptyState from '../../components/common/EmptyState/EmptyState';
 import LoadingSpinner from '../../components/common/Loader/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage/ErrorMessage';
-import { BookingConfirmation } from '../../components/types/common';
 import { bookingService } from '../../services/bookingService';
 import { useAuth } from '../../hooks/useAuth';
+
+interface BookingConfirmation {
+    id: string;
+    bookingNumber: string;
+    fullName: string;
+    roomTitle: string;
+    checkIn: string;
+    checkOut: string;
+    status: 'confirmed' | 'cancelled' | 'pending';
+    roomId?: string;
+    nights?: number;
+    guests?: number;
+    total?: number;
+    paymentStatus?: 'pending' | 'paid' | 'failed' | 'refunded';
+    email?: string;
+    confirmedAt?: string;
+    specialRequests?: string;
+    customerPhone?: string;
+}
 
 const BookingsPage: React.FC = () => {
     const [bookings, setBookings] = useState<BookingConfirmation[]>([]);
     const [filteredBookings, setFilteredBookings] = useState<BookingConfirmation[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [activeFilter, setActiveFilter] = useState<'all' | 'upcoming' | 'past' | 'cancelled'>('all');
-    const [searchTerm, setSearchTerm] = useState('');
+    const [activeFilter] = useState<'all' | 'upcoming' | 'past' | 'cancelled'>('all');
+    const [searchTerm] = useState('');
 
     const { user, isAuthenticated } = useAuth();
     const navigate = useNavigate();
@@ -37,8 +53,28 @@ const BookingsPage: React.FC = () => {
             const response = await bookingService.getBookingsByEmail(userEmail);
 
             if (response.success) {
-                setBookings(response.data);
-                setFilteredBookings(response.data);
+                // Transform the API response to match our local interface
+                const transformedBookings: BookingConfirmation[] = response.data.map((booking: any) => ({
+                    id: booking.id,
+                    bookingNumber: booking.bookingNumber,
+                    fullName: booking.fullName,
+                    roomTitle: booking.roomTitle,
+                    checkIn: booking.checkIn,
+                    checkOut: booking.checkOut,
+                    status: booking.status,
+                    roomId: booking.roomId,
+                    nights: booking.nights,
+                    guests: booking.guests,
+                    total: booking.total,
+                    paymentStatus: booking.paymentStatus,
+                    email: booking.email,
+                    confirmedAt: booking.confirmedAt,
+                    specialRequests: booking.specialRequests,
+                    customerPhone: booking.customerPhone
+                }));
+
+                setBookings(transformedBookings);
+                setFilteredBookings(transformedBookings);
             } else {
                 throw new Error(response.message || 'Failed to fetch bookings');
             }
@@ -49,16 +85,6 @@ const BookingsPage: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleFilterChange = (filter: 'all' | 'upcoming' | 'past' | 'cancelled') => {
-        setActiveFilter(filter);
-        filterBookings(filter, searchTerm);
-    };
-
-    const handleSearch = (term: string) => {
-        setSearchTerm(term);
-        filterBookings(activeFilter, term);
     };
 
     const filterBookings = (filter: string, search: string) => {
@@ -186,23 +212,12 @@ const BookingsPage: React.FC = () => {
                 {/* Bookings List */}
                 <main className="bookings-main">
                     {filteredBookings.length === 0 ? (
-                        <EmptyState
-                            title={
-                                activeFilter === 'all' && !searchTerm
-                                    ? "No Bookings Yet"
-                                    : "No Matching Bookings"
-                            }
-                            message={
-                                activeFilter === 'all' && !searchTerm
-                                    ? "You haven't made any bookings yet. Start planning your next stay!"
-                                    : searchTerm
-                                        ? `No bookings found for "${searchTerm}". Try adjusting your search.`
-                                        : `No ${activeFilter} bookings found.`
-                            }
-                            actionLabel="Browse Rooms"
-                            onAction={handleNewBooking}
-                            icon="booking"
-                        />
+                        <div className="empty-state">
+                            <p>No bookings found</p>
+                            <button className="primary-btn" onClick={handleNewBooking}>
+                                Book Your First Stay
+                            </button>
+                        </div>
                     ) : (
                         <div className="bookings-grid">
                             {filteredBookings.map(booking => (

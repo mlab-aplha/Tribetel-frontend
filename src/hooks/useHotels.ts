@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Hotel } from '../components/types/common';
-import { hotelService, HotelSearchParams, ApiResponse } from '../services/hotelService';
+import { Hotel, HotelSearchParams, ApiResponse } from '../components/types/common';
+import { hotelService } from '../services/hotelService';
 
 interface UseHotelsReturn {
     hotels: Hotel[];

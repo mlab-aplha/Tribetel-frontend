@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import styles from './BookingPage.module.css';
-import BookingCard from '../../components/features/booking/BookingCard/BookingCard';
+import BookingForm from '../../components/features/booking/BookingForm/BookingForm';
 import BookingConfirmation from '../../components/features/booking/BookingConfirmation/BookingConfirmation';
 import PaymentForm from '../../components/features/booking/PaymentForm/PaymentForm';
-import LoadingSpinner from '../../components/common/Loader/Loader';
 import ErrorMessage from '../../components/common/ErrorMessage/ErrorMessage';
-import { Room, BookingResponse, BookingConfirmation } from '../../components/types/common';
+import { Room, BookingResponse } from '../../components/types/common';
+import { BookingConfirmationData } from '../../components/types/booking';
 import { getRoomById } from '../../services/roomService';
 
 const BookingPage: React.FC = () => {
@@ -15,21 +15,20 @@ const BookingPage: React.FC = () => {
     const location = useLocation();
 
     const [room, setRoom] = useState<Room | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [currentStep, setCurrentStep] = useState<'booking' | 'payment' | 'confirmation'>('booking');
     const [bookingData, setBookingData] = useState<BookingResponse | null>(null);
-    // Remove unused paymentData state
 
     const fetchRoom = async () => {
         if (!id) {
             setError('Room ID is required');
-            setLoading(false);
+            setIsLoading(false);
             return;
         }
 
         try {
-            setLoading(true);
+            setIsLoading(true);
             setError(null);
             const response = await getRoomById(id);
 
@@ -43,7 +42,7 @@ const BookingPage: React.FC = () => {
             setError(errorMessage);
             console.error('Error fetching room:', err);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
@@ -85,8 +84,7 @@ const BookingPage: React.FC = () => {
         window.scrollTo(0, 0);
     };
 
-    // Create a compatible booking confirmation object
-    const createBookingConfirmationData = (booking: BookingResponse): BookingConfirmation => {
+    const createBookingConfirmationData = (booking: BookingResponse): BookingConfirmationData => {
         return {
             id: booking.id,
             roomId: booking.roomId,
@@ -102,15 +100,16 @@ const BookingPage: React.FC = () => {
             paymentStatus: 'paid',
             email: booking.customerEmail || 'guest@example.com',
             confirmedAt: new Date().toISOString(),
-            specialRequests: booking.specialRequests,
-            customerPhone: booking.customerPhone
+            specialRequests: booking.specialRequests || '',
+            customerPhone: booking.customerPhone || 'Not provided'
         };
     };
 
-    if (loading) {
+    // ... rest of your component (loading, error, and return JSX) remains the same
+    if (isLoading) {
         return (
             <div className={styles.loadingContainer}>
-                <LoadingSpinner size="large" />
+                <div>Loading...</div>
                 <p>Loading room details...</p>
             </div>
         );
@@ -209,7 +208,7 @@ const BookingPage: React.FC = () => {
 
                             <div className={styles.bookingContent}>
                                 <div className={styles.formSection}>
-                                    <BookingCard
+                                    <BookingForm
                                         room={room}
                                         onBookingSuccess={handleBookingSuccess}
                                         onBookingError={handleBookingError}
@@ -252,7 +251,6 @@ const BookingPage: React.FC = () => {
                             <div className={styles.paymentContent}>
                                 <div className={styles.paymentForm}>
                                     <PaymentForm
-                                        booking={bookingData}
                                         onPaymentSuccess={() => {
                                             setCurrentStep('confirmation');
                                             window.scrollTo(0, 0);
