@@ -16,6 +16,9 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+    /* ES Module Interop */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
@@ -23,6 +26,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "vite.config.ts"
+    "vite.config.ts",
+    "server.ts"
   ]
 }
