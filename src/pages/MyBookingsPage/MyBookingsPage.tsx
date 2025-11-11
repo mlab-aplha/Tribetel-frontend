@@ -7,7 +7,7 @@ import ErrorMessage from '../../components/common/ErrorMessage/ErrorMessage';
 import { bookingService } from '../../services/bookingService';
 import { useAuth } from '../../hooks/useAuth';
 
-interface BookingConfirmation {
+interface BookingConfirmationData {
     id: string;
     bookingNumber: string;
     fullName: string;
@@ -27,8 +27,8 @@ interface BookingConfirmation {
 }
 
 const BookingsPage: React.FC = () => {
-    const [bookings, setBookings] = useState<BookingConfirmation[]>([]);
-    const [filteredBookings, setFilteredBookings] = useState<BookingConfirmation[]>([]);
+    const [bookings, setBookings] = useState<BookingConfirmationData[]>([]);
+    const [filteredBookings, setFilteredBookings] = useState<BookingConfirmationData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [activeFilter] = useState<'all' | 'upcoming' | 'past' | 'cancelled'>('all');
@@ -53,8 +53,7 @@ const BookingsPage: React.FC = () => {
             const response = await bookingService.getBookingsByEmail(userEmail);
 
             if (response.success) {
-                // Transform the API response to match our local interface
-                const transformedBookings: BookingConfirmation[] = response.data.map((booking: any) => ({
+                const transformedBookings: BookingConfirmationData[] = response.data.map((booking: any) => ({
                     id: booking.id,
                     bookingNumber: booking.bookingNumber,
                     fullName: booking.fullName,
@@ -90,7 +89,6 @@ const BookingsPage: React.FC = () => {
     const filterBookings = (filter: string, search: string) => {
         let filtered = [...bookings];
 
-        // Apply status filter
         if (filter !== 'all') {
             const today = new Date();
             filtered = filtered.filter(booking => {
