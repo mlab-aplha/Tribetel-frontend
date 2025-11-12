@@ -1,0 +1,168 @@
+.reservations {
+  padding: 32px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #6B1B7A;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addButton:hover {
+  background: #5A1668;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.filterButton {
+  padding: 8px 16px;
+  border: 1px solid #E0E0E0;
+  background: white;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filterButton:hover {
+  border-color: #6B1B7A;
+  color: #6B1B7A;
+}
+
+.filterButton.active {
+  background: #6B1B7A;
+  color: white;
+  border-color: #6B1B7A;
+}
+
+.tableContainer {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead {
+  background: #F9F9F9;
+}
+
+.table th {
+  padding: 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.table td {
+  padding: 16px;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.table tbody tr:hover {
+  background: #F9F9F9;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.statusBadge.confirmed {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.statusBadge.pending {
+  background: #FFF3E0;
+  color: #F57C00;
+}
+
+.statusBadge.cancelled {
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+.paymentBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.paymentBadge.paid {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.paymentBadge.pending {
+  background: #FFF3E0;
+  color: #F57C00;
+}
+
+.paymentBadge.refunded {
+  background: #E3F2FD;
+  color: #1565C0;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.iconButton:hover {
+  color: #333;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 48px;
+  color: #999;
+}
