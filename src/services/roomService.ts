@@ -1,4 +1,3 @@
-// services/roomService.ts
 import { Room } from '@/components/types/room';
 import { 
     ApiResponse, 
@@ -100,7 +99,7 @@ interface RoomSearchParams {
 }
 
 export const roomService = {
-    // Get all rooms (simple version)
+    // Get all rooms 
     getAllRooms: async (): Promise<Room[]> => {
         return new Promise((resolve) => {
             setTimeout(() => {
@@ -183,7 +182,6 @@ export const roomService = {
             }, 500);
         });
     },
-
     async getRoomsWithResponse(searchParams?: RoomSearchParams): Promise<ApiResponse<RoomSearchResponse>> {
         try {
             await new Promise(resolve => setTimeout(resolve, 800));
@@ -446,12 +444,18 @@ export const roomService = {
         return new Promise((resolve) => {
             setTimeout(() => {
                 const room = mockRooms.find(r => r.id === roomId);
-                resolve(!!room && room.available);
+                
+                const today = new Date();
+                const checkInDate = new Date(checkIn);
+                const checkOutDate = new Date(checkOut);
+                
+                const isValidDates = checkOutDate > checkInDate && checkInDate >= today;
+                
+                resolve(!!room && room.available && isValidDates);
             }, 200);
         });
     }
 };
-
 export const getRoomById = roomService.getRoomByIdWithResponse;
 export const getRooms = roomService.getRoomsWithResponse;
 export const getFeaturedRooms = roomService.getFeaturedRoomsWithResponse;
