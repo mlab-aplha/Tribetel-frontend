@@ -16,7 +16,24 @@ export interface CardProps {
     children: ReactNode;
     className?: string;
 }
+// components/types/ui.ts
+export interface ButtonProps {
+    children: React.ReactNode;
+    variant?: 'primary' | 'secondary' | 'outline' | 'outlineSecondary' | 'ghost' | 'join' | 'signIn' | 'location';
+    size?: 'small' | 'medium' | 'large' | 'xlarge';
+    onClick?: () => void;
+    type?: 'button' | 'submit' | 'reset';
+    disabled?: boolean;
+    className?: string;
+    fullWidth?: boolean;
+    style?: React.CSSProperties;
+}
 
+export interface CardProps {
+    children: React.ReactNode;
+    className?: string;
+    variant?: 'default' | 'flat' | 'bordered';
+}
 export interface ErrorMessageProps {
     message: string;
     variant?: 'error' | 'warning' | 'info' | 'success';

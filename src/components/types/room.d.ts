@@ -1,4 +1,4 @@
-// src/components/types/room.d.ts
+// components/types/room.ts
 export interface Room {
     id: string;
     title: string;
@@ -58,13 +58,17 @@ export interface AddReviewProps {
     maxCommentLength?: number;
     maxTitleLength?: number;
 }
-export interface RoomSummary {
-    id: string;
-    title: string;
-    type: string;
-    image: string;
-    pricePerNight: number;
-    maxGuests: number;
-    features?: string[];
+export interface RoomSearchParams {
+    location?: string;
+    checkIn?: string;
+    checkOut?: string;
+    guests?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    type?: string;
+    amenities?: string[];
+    page?: number;
+    limit?: number;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
 }
-

@@ -42,7 +42,15 @@ export interface HotelSummary {
     tags?: string[];
     amenities: string[];
 }
-
+// components/types/hotel.ts (or testimonial.ts)
+export interface Testimonial {
+    id: number;
+    quote: string;
+    name: string;
+    role: string;
+    avatar?: string;
+    rating?: number;
+}
 export interface HotelAvailability {
     id: string;
     name: string;

@@ -9,7 +9,17 @@ export interface SearchDestination {
         currency: string;
     };
 }
+// components/types/search.ts
+export interface DateRange {
+    checkIn: string;
+    checkOut: string;
+}
 
+export interface DateValidation {
+    isValid: boolean;
+    errors: string[];
+    nights: number;
+}
 export interface SearchParams {
     destination: string;
     destinationId?: string;
