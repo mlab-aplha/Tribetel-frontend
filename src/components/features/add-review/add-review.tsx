@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Add-Review.module.css';
+import styles from "./add-review.module.css";
 import Button from '@components/common/Button/Button';
 import Input from '@components/common/Input/Input';
 import Loader from '@components/common/Loader/Loader';
@@ -210,5 +210,6 @@ const AddReview: React.FC<AddReviewProps> = ({
 };
 
 export default AddReview;
+
 
 
