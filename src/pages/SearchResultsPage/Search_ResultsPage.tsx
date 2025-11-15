@@ -16,34 +16,26 @@ interface HotelSummary {
     amenities: string[];
 }
 
-// Define SearchBar props interface
+// Define simplified SearchBar props interface
 interface SearchBarProps {
   onSearch: (searchParams: any) => void;
   fetchDestinations: () => Promise<any[]>;
-  calculatePrice: (params: any) => Promise<any>;
-  enablePriceEstimation?: boolean;
-  onPriceEstimate?: (estimate: any) => void;
   disabled?: boolean;
 }
 
-// Create SearchBar component directly in this file
+// Create simplified SearchBar component
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
   fetchDestinations,
-  calculatePrice,
-  enablePriceEstimation = false,
-  onPriceEstimate,
   disabled = false
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [destinations, setDestinations] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = () => {
     if (searchQuery.trim() && !disabled) {
       onSearch({
-        query: searchQuery,
-        destinations: destinations
+        query: searchQuery
       });
     }
   };
@@ -59,15 +51,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
       if (searchQuery.trim()) {
         setIsLoading(true);
         try {
-          const results = await fetchDestinations();
-          setDestinations(results);
+          await fetchDestinations();
         } catch (error) {
           console.error('Failed to fetch destinations:', error);
         } finally {
           setIsLoading(false);
         }
-      } else {
-        setDestinations([]);
       }
     };
 
@@ -164,35 +153,6 @@ const SearchResultsPage: React.FC = () => {
         });
     };
 
-    const calculatePrice = async (params: {
-        destinationId: string;
-        checkIn: string;
-        checkOut: string;
-        guests: number;
-        rooms?: number;
-    }) => {
-        // Simulate price calculation
-        return new Promise<any>((resolve) => {
-            setTimeout(() => {
-                const nights = Math.ceil(
-                    (new Date(params.checkOut).getTime() - new Date(params.checkIn).getTime()) /
-                    (1000 * 3600 * 24)
-                );
-                resolve({
-                    min: 500 * nights,
-                    max: 1500 * nights,
-                    currency: 'ZAR',
-                    nights: nights,
-                    isEstimated: true
-                });
-            }, 800);
-        });
-    };
-
-    const handlePriceEstimate = (estimate: any) => {
-        console.log('Price estimate:', estimate);
-    };
-
     const handleAmenityChange = (amenity: keyof typeof amenitiesFilter) => {
         setAmenitiesFilter(prev => ({
             ...prev,
@@ -234,9 +194,6 @@ const SearchResultsPage: React.FC = () => {
                         <SearchBar
                             onSearch={handleSearch}
                             fetchDestinations={fetchDestinations}
-                            calculatePrice={calculatePrice}
-                            enablePriceEstimation={true}
-                            onPriceEstimate={handlePriceEstimate}
                             disabled={loading}
                         />
                     </div>
