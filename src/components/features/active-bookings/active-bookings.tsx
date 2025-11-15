@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from "./add-review.module.css";
+import styles from "./active-bookings.module.css";
 import Button from '@components/common/Button/Button';
 import Card from '@components/common/Card/Card';
 import Modal from '@components/common/Modal/Modal';
@@ -269,5 +269,6 @@ const Active_bookings: React.FC<ActiveBookingsProps> = (props) => {
 };
 
 export default Active_bookings;
+
 
 
