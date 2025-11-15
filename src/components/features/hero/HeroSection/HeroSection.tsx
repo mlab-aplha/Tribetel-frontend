@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@components/common/Button/Button';
 import Card from '@components/common/Card/Card';
+import DateRangePicker from '@components/features/booking/DateRangePicker/DateRangePicker';
 import styles from './HeroSection.module.css';
 import heroImage from '@/assets/hero-image.png';
 import service1 from '@/assets/service1.png';
@@ -12,26 +13,10 @@ const mockUser = {
     name: "Wendy"
 };
 
-const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-    });
-};
-
-const isDateInPast = (date: Date): boolean => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return date < today;
-};
-
 const HeroSection: React.FC = () => {
     const [destination, setDestination] = useState('');
-    const [checkInDate, setCheckInDate] = useState<Date | null>(null);
-    const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [activeDateField, setActiveDateField] = useState<'checkIn' | 'checkOut' | null>(null);
+    const [checkIn, setCheckIn] = useState('');
+    const [checkOut, setCheckOut] = useState('');
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const heroImages = [
@@ -55,50 +40,32 @@ const HeroSection: React.FC = () => {
     };
 
     const handleCheckAvailability = () => {
-        if (!destination || !checkInDate || !checkOutDate) {
+        if (!destination || !checkIn || !checkOut) {
             alert('Please fill in all fields');
             return;
         }
 
         console.log('Search parameters:', {
             destination,
-            checkIn: checkInDate,
-            checkOut: checkOutDate
+            checkIn,
+            checkOut
         });
     };
 
-    const handleDateSelect = (date: Date) => {
-        if (activeDateField === 'checkIn') {
-            setCheckInDate(date);
-            setActiveDateField('checkOut');
-        } else {
-            setCheckOutDate(date);
-            setShowDatePicker(false);
-            setActiveDateField(null);
-        }
+    const handleDateChange = (dates: { checkIn: string; checkOut: string }) => {
+        setCheckIn(dates.checkIn);
+        setCheckOut(dates.checkOut);
     };
 
-    const generateCalendarDays = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth();
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
-        const days: (Date | null)[] = [];
-        for (let i = 0; i < firstDay.getDay(); i++) {
-            days.push(null);
+    const handleValidationChange = (isValid: boolean, errors: string[]) => {
+        if (!isValid) {
+            console.log('Date validation errors:', errors);
         }
-        for (let i = 1; i <= lastDay.getDate(); i++) {
-            days.push(new Date(year, month, i));
-        }
-        return days;
     };
 
     const handleIndicatorClick = (index: number) => {
         setCurrentSlide(index);
     };
-
-    const calendarDays = generateCalendarDays();
 
     return (
         <div className={styles.heroSection}>
@@ -120,12 +87,18 @@ const HeroSection: React.FC = () => {
             <div className={styles.gradientOverlay}></div>
 
             <div className={styles.contentSection}>
-                <div className={styles.contentWrapper}>
+                <div className={`${styles.contentWrapper} ${mockUser.isLoggedIn ? styles.userWelcome : ''}`}>
                     <h1 className={styles.mainTitle}>
-                        {mockUser.isLoggedIn
-                            ? `Hello ${mockUser.name}, ready for your next adventure?`
-                            : 'Welcome to Tribtel'
-                        }
+                        {mockUser.isLoggedIn ? (
+                            <>
+                                Hello <span className={styles.welcomeHighlight}>{mockUser.name}</span>
+                                <div className={styles.tagline}>ready for your next adventure?</div>
+                            </>
+                        ) : (
+                            <>
+                                Welcome to <span className={styles.welcomeHighlight}>Tribtel</span>
+                            </>
+                        )}
                     </h1>
                     <p className={styles.subtitle}>
                         {mockUser.isLoggedIn
@@ -165,84 +138,18 @@ const HeroSection: React.FC = () => {
                     <div className={styles.searchField}>
                         <div className={styles.fieldContent}>
                             <label className={styles.fieldLabel}>Dates</label>
-                            <div className={styles.dateInputs}>
-                                <button
-                                    type="button"
-                                    className={`${styles.dateInput} ${checkInDate ? styles.hasValue : ''}`}
-                                    onClick={() => {
-                                        setShowDatePicker(true);
-                                        setActiveDateField('checkIn');
-                                    }}
-                                >
-                                    {checkInDate ? formatDate(checkInDate) : 'Check-in'}
-                                </button>
-                                <span className={styles.dateSeparator}>-</span>
-                                <button
-                                    type="button"
-                                    className={`${styles.dateInput} ${checkOutDate ? styles.hasValue : ''}`}
-                                    onClick={() => {
-                                        if (checkInDate) {
-                                            setShowDatePicker(true);
-                                            setActiveDateField('checkOut');
-                                        } else {
-                                            alert('Please select check-in date first');
-                                        }
-                                    }}
-                                >
-                                    {checkOutDate ? formatDate(checkOutDate) : 'Check-out'}
-                                </button>
-                            </div>
-                        </div>
-                        <div className={styles.fieldIcon}>
-                            <div
-                                className={styles.calendarIcon}
-                                onClick={() => setShowDatePicker(!showDatePicker)}
-                            ></div>
+                            <DateRangePicker
+                                checkIn={checkIn}
+                                checkOut={checkOut}
+                                onChange={handleDateChange}
+                                onValidationChange={handleValidationChange}
+                                minNights={1}
+                                maxNights={30}
+                                required={true}
+                            />
                         </div>
                     </div>
 
-                    {showDatePicker && (
-                        <div className={styles.datePicker}>
-                            <div className={styles.datePickerHeader}>
-                                <h4>Select {activeDateField === 'checkIn' ? 'Check-in' : 'Check-out'} Date</h4>
-                                <button
-                                    type="button"
-                                    className={styles.closeButton}
-                                    onClick={() => setShowDatePicker(false)}
-                                >
-                                    ×
-                                </button>
-                            </div>
-                            <div className={styles.calendar}>
-                                <div className={styles.calendarHeader}>
-                                    {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                                </div>
-                                <div className={styles.calendarGrid}>
-                                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                                        <div key={day} className={styles.calendarDayHeader}>
-                                            {day}
-                                        </div>
-                                    ))}
-                                    {calendarDays.map((date, index) => (
-                                        <button
-                                            key={index}
-                                            type="button"
-                                            className={`${styles.calendarDay} ${date && checkInDate && date.getTime() === checkInDate.getTime() ? styles.selected : ''
-                                                } ${date && checkOutDate && date.getTime() === checkOutDate.getTime() ? styles.selected : ''
-                                                } ${date && isDateInPast(date) ? styles.disabled : ''
-                                                }`}
-                                            onClick={() => date && handleDateSelect(date)}
-                                            disabled={date ? isDateInPast(date) : false}
-                                        >
-                                            {date ? date.getDate() : ''}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Search Button */}
                     <Button
                         variant="primary"
                         size="large"
@@ -268,4 +175,3 @@ const HeroSection: React.FC = () => {
 };
 
 export default HeroSection;
-

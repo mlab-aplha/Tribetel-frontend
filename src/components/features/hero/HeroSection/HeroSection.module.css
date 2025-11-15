@@ -1,11 +1,11 @@
 .heroSection {
   position: relative;
   width: 100%;
-  height: 100vh;
-  min-height: 800px;
+  height: 80vh;
+  min-height: 600px;
   background: white;
   overflow: hidden;
-  margin-top: 90px;
+  margin-top: 70px;
 }
 
 .backgroundSlideshow {
@@ -16,37 +16,39 @@
   height: 100%;
   z-index: 0;
 }
-/* Add these styles to enhance the welcome message */
 
+/* Enhanced welcome message styles */
 .welcomeHighlight {
-    color: #FDC959;
-    display: block;
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
+  color: #FDC959;
+  display: block;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .tagline {
-    font-size: 1.3rem;
-    font-weight: 400;
-    opacity: 0.9;
-    margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 400;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+  color: white;
 }
 
 /* Enhanced subtitle for welcome message */
 .contentWrapper:not(.userWelcome) .subtitle {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    opacity: 0.95;
+  font-size: 1rem;
+  line-height: 1.4;
+  opacity: 0.95;
 }
 
 /* Different styling for user welcome vs general welcome */
 .userWelcome .mainTitle {
-    font-size: 2.2rem;
+  font-size: 1.8rem;
 }
 
 .userWelcome .subtitle {
-    font-size: 1.1rem;
+  font-size: 0.9rem;
 }
+
 .slide {
   position: absolute;
   top: 0;
@@ -87,48 +89,48 @@
   height: 100%;
   display: flex;
   align-items: center;
-  padding-left: 79px;
-  padding-top: 90px;
+  padding-left: 50px;
+  padding-top: 60px;
 }
 
 .contentWrapper {
-  max-width: 581px;
-  margin-top: -90px;
+  max-width: 500px;
+  margin-top: -60px;
 }
 
 .mainTitle {
   color: #FDC959;
-  font-size: 56px;
+  font-size: 2.2rem;
   font-family: 'Michroma', sans-serif;
   font-weight: 400;
-  line-height: 67.20px;
-  margin-bottom: 37px;
+  line-height: 1.2;
+  margin-bottom: 20px;
   word-wrap: break-word;
 }
 
 .subtitle {
   color: white;
-  font-size: 24px;
+  font-size: 1rem;
   font-family: 'Instrument Sans', sans-serif;
-  font-weight: 600;
-  line-height: 28.80px;
-  margin-bottom: 94px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 40px;
   word-wrap: break-word;
-  max-width: 611px;
+  max-width: 500px;
 }
 
 .exploreButton {
-  width: 250px;
-  height: 70px;
+  width: 200px;
+  height: 50px;
   background: #470F51;
   color: #FDC959;
-  font-size: 28px;
+  font-size: 1.1rem;
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
-  line-height: 33.60px;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
+  border-radius: 4px;
 }
 
 .exploreButton:hover {
@@ -139,10 +141,11 @@
 /* Search Card */
 .searchCard {
   position: absolute;
-  width: 1122px;
+  width: 90%;
+  max-width: 900px;
   left: 50%;
   transform: translateX(-50%);
-  top: 55px;
+  bottom: 40px;
   z-index: 3;
 }
 
@@ -154,7 +157,7 @@
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   padding: 0;
-  height: 98px;
+  height: 80px;
   align-items: center;
 }
 
@@ -163,12 +166,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 26px;
+  padding: 0 20px;
   background: white;
   border-right: 1px solid #B9B5AF;
   position: relative;
   height: 100%;
-  min-height: 98px;
+  min-height: 80px;
 }
 
 .searchField:last-of-type {
@@ -179,12 +182,12 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 8px;
+  gap: 6px;
 }
 
 .fieldLabel {
   color: #470F51;
-  font-size: 16px;
+  font-size: 12px;
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
   text-transform: uppercase;
@@ -194,7 +197,7 @@
 .searchInput {
   border: none;
   outline: none;
-  font-size: 28px;
+  font-size: 16px;
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 400;
   color: #1E1E1E;
@@ -207,53 +210,19 @@
   color: #8E8E8E;
 }
 
-.dateInputs {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.dateInput {
-  border: none;
-  background: transparent;
-  font-size: 28px;
-  font-family: 'Instrument Sans', sans-serif;
-  font-weight: 400;
-  color: #1E1E1E;
-  cursor: pointer;
-  padding: 0;
-  text-align: left;
-  flex: 1;
-}
-
-.dateInput.hasValue {
-  color: #470F51;
-  font-weight: 500;
-}
-
-.dateInput:not(.hasValue) {
-  color: #8E8E8E;
-}
-
-.dateSeparator {
-  color: #B9B5AF;
-  font-weight: 500;
-  font-size: 28px;
-}
-
 .fieldIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
 }
 
 .locationIcon {
-  width: 24px;
-  height: 12px;
-  border: 4px solid #1E1E1E;
+  width: 18px;
+  height: 9px;
+  border: 3px solid #1E1E1E;
   border-radius: 2px;
   position: relative;
 }
@@ -261,143 +230,23 @@
 .locationIcon::after {
   content: '';
   position: absolute;
-  width: 6px;
-  height: 6px;
-  background: #1E1E1E;
-  border-radius: 50%;
-  bottom: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.calendarIcon {
-  width: 36px;
-  height: 40px;
-  border: 4px solid #1E1E1E;
-  border-radius: 4px;
-  position: relative;
-  cursor: pointer;
-}
-
-.calendarIcon::before {
-  content: '';
-  position: absolute;
-  width: 28px;
+  width: 4px;
   height: 4px;
   background: #1E1E1E;
-  top: -8px;
+  border-radius: 50%;
+  bottom: -9px;
   left: 50%;
   transform: translateX(-50%);
-}
-
-/* Date Picker */
-.datePicker {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #B9B5AF;
-  border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  margin-top: 0.5rem;
-}
-
-.datePickerHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid #B9B5AF;
-  background: #470F51;
-  color: white;
-}
-
-.datePickerHeader h4 {
-  margin: 0;
-  font-family: 'Instrument Sans', sans-serif;
-  font-weight: 600;
-}
-
-.closeButton {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.calendar {
-  padding: 1rem;
-}
-
-.calendarHeader {
-  text-align: center;
-  font-family: 'Instrument Sans', sans-serif;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #470F51;
-  margin-bottom: 1rem;
-}
-
-.calendarGrid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0.25rem;
-}
-
-.calendarDayHeader {
-  text-align: center;
-  font-family: 'Instrument Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.8rem;
-  color: #8E8E8E;
-  padding: 0.5rem;
-}
-
-.calendarDay {
-  border: none;
-  background: transparent;
-  padding: 0.75rem 0.5rem;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 0.9rem;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-}
-
-.calendarDay:hover:not(.disabled) {
-  background: #FDC959;
-  color: #470F51;
-}
-
-.calendarDay.selected {
-  background: #470F51;
-  color: white;
-}
-
-.calendarDay.disabled {
-  color: #B9B5AF;
-  cursor: not-allowed;
-  background: #F6F6F6;
 }
 
 .availabilityButton {
-  width: 281px;
-  height: 98px;
+  width: 200px;
+  height: 80px;
   background: #1E1E1E;
   color: #FDC959;
-  font-size: 28px;
+  font-size: 1.1rem;
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
-  line-height: 33.60px;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -411,19 +260,17 @@
 
 .carouselIndicators {
   position: absolute;
-  right: 1265px;
-  bottom: 596px;
+  right: 30px;
+  bottom: 120px;
   display: flex;
-  gap: 11.58px;
+  gap: 8px;
   align-items: center;
   z-index: 2;
-  transform: translateX(100%);
-  right: 2%;
 }
 
 .indicator {
-  width: 16.54px;
-  height: 16.54px;
+  width: 12px;
+  height: 12px;
   background: rgba(44, 44, 44, 0.50);
   border-radius: 50%;
   cursor: pointer;
@@ -440,24 +287,16 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1400px) {
-  .searchCard {
-    width: 90%;
-    max-width: 1122px;
-  }
-  
-  .carouselIndicators {
-    right: 5%;
-  }
-}
-
 @media (max-width: 1200px) {
   .heroSection {
-    margin-top: 90px;
+    margin-top: 70px;
+    height: 70vh;
+    min-height: 500px;
   }
 
   .searchCard {
-    top: 80px;
+    width: 95%;
+    bottom: 30px;
   }
 
   .searchCardContent {
@@ -470,9 +309,9 @@
   .searchField {
     border-right: none;
     border-bottom: 1px solid #B9B5AF;
-    min-height: 80px;
+    min-height: 70px;
     flex: 1 1 100%;
-    padding: 0 20px;
+    padding: 0 16px;
   }
 
   .searchField:last-of-type {
@@ -481,36 +320,37 @@
 
   .availabilityButton {
     flex: 1 1 100%;
-    height: 80px;
+    height: 60px;
     width: 100%;
   }
 
   .contentSection {
     padding-left: 5%;
-    padding-top: 90px;
+    padding-top: 50px;
   }
 
   .mainTitle {
-    font-size: 48px;
-    line-height: 57.6px;
+    font-size: 1.8rem;
+    line-height: 1.2;
   }
 
   .subtitle {
-    font-size: 22px;
-    line-height: 26.4px;
-    margin-bottom: 60px;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    margin-bottom: 30px;
   }
 }
 
 @media (max-width: 768px) {
   .heroSection {
-    min-height: 700px;
-    margin-top: 70px;
+    min-height: 500px;
+    margin-top: 60px;
+    height: 60vh;
   }
 
   .searchCard {
-    width: 95%;
-    top: 60px;
+    width: 90%;
+    bottom: 20px;
   }
 
   .searchCardContent {
@@ -521,8 +361,8 @@
     flex: 1 1 100%;
     border-right: none;
     border-bottom: 1px solid #B9B5AF;
-    min-height: 70px;
-    padding: 0 16px;
+    min-height: 60px;
+    padding: 0 12px;
   }
 
   .searchField:last-of-type {
@@ -531,13 +371,13 @@
 
   .availabilityButton {
     width: 100%;
-    height: 70px;
-    font-size: 24px;
+    height: 50px;
+    font-size: 1rem;
   }
 
   .contentSection {
     padding: 0 5%;
-    padding-top: 120px;
+    padding-top: 80px;
     text-align: center;
   }
 
@@ -547,30 +387,33 @@
   }
 
   .mainTitle {
-    font-size: 36px;
-    line-height: 43.2px;
-    margin-bottom: 24px;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .welcomeHighlight {
+    font-size: 1.8rem;
   }
 
   .subtitle {
-    font-size: 18px;
-    line-height: 21.6px;
-    margin-bottom: 40px;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    margin-bottom: 30px;
   }
 
   .exploreButton {
-    width: 200px;
-    height: 60px;
-    font-size: 24px;
+    width: 160px;
+    height: 45px;
+    font-size: 1rem;
   }
 
-  .searchInput,
-  .dateInput {
-    font-size: 22px;
+  .searchInput {
+    font-size: 14px;
   }
 
   .fieldLabel {
-    font-size: 14px;
+    font-size: 11px;
   }
 
   .gradientOverlay {
@@ -578,20 +421,21 @@
   }
 
   .carouselIndicators {
-    right: 5%;
-    bottom: 8%;
+    right: 20px;
+    bottom: 80px;
   }
 }
 
 @media (max-width: 480px) {
   .heroSection {
-    min-height: 600px;
-    margin-top: 70px;
+    min-height: 450px;
+    margin-top: 60px;
+    height: 55vh;
   }
 
   .searchCard {
-    width: 90%;
-    top: 50px;
+    width: 85%;
+    bottom: 15px;
   }
 
   .searchCardContent {
@@ -599,59 +443,53 @@
   }
 
   .searchField {
-    min-height: 60px;
-    padding: 0 12px;
+    min-height: 55px;
+    padding: 0 10px;
   }
 
   .fieldLabel {
-    font-size: 12px;
+    font-size: 10px;
   }
 
-  .searchInput,
-  .dateInput {
-    font-size: 18px;
+  .searchInput {
+    font-size: 13px;
   }
 
   .availabilityButton {
-    height: 60px;
-    font-size: 20px;
+    height: 45px;
+    font-size: 0.9rem;
   }
 
   .mainTitle {
-    font-size: 28px;
-    line-height: 33.6px;
+    font-size: 1.3rem;
+    line-height: 1.2;
+  }
+
+  .welcomeHighlight {
+    font-size: 1.5rem;
   }
 
   .subtitle {
-    font-size: 16px;
-    line-height: 19.2px;
+    font-size: 0.8rem;
+    line-height: 1.2;
   }
 
   .exploreButton {
-    width: 180px;
-    height: 50px;
-    font-size: 20px;
-  }
-
-  .calendar {
-    padding: 0.75rem;
-  }
-
-  .calendarDay {
-    padding: 0.5rem 0.25rem;
-    font-size: 0.8rem;
+    width: 140px;
+    height: 40px;
+    font-size: 0.9rem;
   }
 
   .contentSection {
-    padding-top: 100px;
+    padding-top: 60px;
   }
 
   .carouselIndicators {
-    bottom: 6%;
+    bottom: 60px;
   }
   
   .indicator {
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
   }
 }
