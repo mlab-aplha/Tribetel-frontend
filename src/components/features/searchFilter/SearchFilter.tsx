@@ -1,7 +1,5 @@
-
 import React from 'react';
 import styles from "./SearchFilter.module.css";
-
 
 const SearchBar: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }) => {
   const [query, setQuery] = React.useState('');
@@ -32,7 +30,7 @@ interface SearchFilterProps {
 }
 
 const SearchFilter: React.FC<SearchFilterProps> = ({ onFilter }) => {
-  const [filters, setFilters] = React.useState({
+  const [filters] = React.useState({
     priceRange: [0, 1000],
     amenities: [] as string[],
     rating: 0
