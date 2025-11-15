@@ -1,13 +1,19 @@
-import { LayoutDashboard, Calendar, Home, MessageSquare, CalendarDays, DollarSign, Star, Settings, Users } from 'lucide-react';
+import { LayoutDashboard, Calendar, Home, MessageSquare, CalendarDays, Star, Settings, Users, LogOut } from 'lucide-react';
 import styles from './Sidebar.module.css';
 
 interface SidebarProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
+  onLogout?: () => void;
   unreadMessages?: number;
 }
 
-export default function Sidebar({ activeSection, onSectionChange, unreadMessages = 8 }: SidebarProps) {
+export default function Sidebar({
+  activeSection,
+  onSectionChange,
+  onLogout,
+  unreadMessages = 8
+}: SidebarProps) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'reservations', label: 'Reservations', icon: Calendar },
@@ -22,8 +28,8 @@ export default function Sidebar({ activeSection, onSectionChange, unreadMessages
   return (
     <div className={styles.sidebar}>
       <div className={styles.logo}>
-        <div className={styles.logoIcon}>🏨</div>
-        <div className={styles.logoText}>Tribtel</div>
+        <div className={styles.logoIcon}></div>
+        <div className={styles.logoText}>Tribtel CRM</div>
       </div>
       <nav className={styles.nav}>
         {navItems.map((item) => {
@@ -41,6 +47,14 @@ export default function Sidebar({ activeSection, onSectionChange, unreadMessages
           );
         })}
       </nav>
+      {onLogout && (
+        <div className={styles.footer}>
+          <button className={styles.logoutButton} onClick={onLogout}>
+            <LogOut className={styles.navIcon} />
+            <span>Logout</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

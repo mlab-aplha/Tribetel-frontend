@@ -37,19 +37,44 @@ const LoginPage: React.FC = () => {
                     element={
                         <ProtectedRoute requireAuth={false}>
                             <AdminLayout>
-                                <AdminSignInForm />
+                                <AdminSignInForm
+                                    onSubmit={handleAdminSignIn}
+                                    onSuccess={handleAdminSuccess}
+                                    onError={handleAdminError}
+                                    allowedDomains={["@tribtel.com"]}
+                                    redirectPath="/admin/dashboard"
+                                />
                             </AdminLayout>
                         </ProtectedRoute>
                     }
                 />
 
-                {/* Default redirect */}
                 <Route path="/" element={<Navigate to="/signin" replace />} />
                 <Route path="/login" element={<Navigate to="/signin" replace />} />
                 <Route path="/admin" element={<Navigate to="/admin/signin" replace />} />
             </Routes>
         </div>
     );
+};
+
+const handleAdminSignIn = async (formData: any) => {
+    console.log('Admin signing in:', formData);
+
+    if (formData.email === "admin@tribtel.com" && formData.password === "admin123") {
+        localStorage.setItem('adminAuthenticated', 'true');
+        localStorage.setItem('adminUser', JSON.stringify(formData));
+        return Promise.resolve();
+    } else {
+        return Promise.reject(new Error("Invalid admin credentials"));
+    }
+};
+
+const handleAdminSuccess = () => {
+    console.log('Admin login successful');
+};
+
+const handleAdminError = (error: string) => {
+    console.error('Admin login error:', error);
 };
 
 export default LoginPage;

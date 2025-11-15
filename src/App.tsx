@@ -1,48 +1,51 @@
-import { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import Dashboard from './components/Dashboard';
-import Reservations from './components/Reservations';
-import Rooms from './components/Rooms';
-import Users from './components/Users';
-import styles from './App.module.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './hooks/useAuth';
+import LandingPage from './pages/LandingPage/LandingPage';
+import BookingPage from './pages/BookingPage/BookingPage';
+import CustomerDashboard from './pages/CustomerDashboard/CustomerDashboard';
+import MyBookingsPage from './pages/MyBookingsPage/MyBookingsPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import SearchResultsPage from './pages/SearchResultsPage/Search_ResultsPage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import ProtectedRoute from './components/features/auth/ProtectedRoute/ProtectedRoute';
+import './App.css';
 
 function App() {
-  const [activeSection, setActiveSection] = useState('dashboard');
-
-  const renderContent = () => {
-    switch (activeSection) {
-      case 'dashboard':
-        return <Dashboard />;
-      case 'reservations':
-        return <Reservations />;
-      case 'rooms':
-        return <Rooms />;
-      case 'users':
-        return <Users />;
-      case 'messages':
-      case 'calendar':
-      case 'financials':
-      case 'reviews':
-      case 'settings':
-        return (
-          <div className={styles.placeholder}>
-            {activeSection.charAt(0).toUpperCase() + activeSection.slice(1)} section coming soon...
-          </div>
-        );
-      default:
-        return <Dashboard />;
-    }
-  };
-
   return (
-    <div className={styles.layout}>
-      <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
-      <div className={styles.main}>
-        <Header />
-        <div className={styles.content}>{renderContent()}</div>
-      </div>
-    </div>
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            {/* Public Routes - Customer Facing */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/booking" element={<BookingPage />} />
+            <Route path="/dashboard" element={<CustomerDashboard />} />
+            <Route path="/my-bookings" element={<MyBookingsPage />} />
+            <Route path="/search" element={<SearchResultsPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+
+            {/* Authentication Routes */}
+            <Route path="/login/*" element={<LoginPage />} />
+
+            {/* Protected Admin Routes - CRM */}
+            <Route
+              path="/admin/dashboard/*"
+              element={
+                <ProtectedRoute requireAuth={true} adminOnly={true}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* 404 Page */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

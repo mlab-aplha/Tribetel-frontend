@@ -1,12 +1,17 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, LogOut } from 'lucide-react';
 import styles from './Header.module.css';
 
 interface HeaderProps {
   userName?: string;
   userRole?: string;
+  onLogout?: () => void;
 }
 
-export default function Header({ userName = 'Admin', userRole = 'Hotel Manager' }: HeaderProps) {
+export default function Header({
+  userName = 'Admin',
+  userRole = 'Hotel Manager',
+  onLogout
+}: HeaderProps) {
   return (
     <div className={styles.header}>
       <div className={styles.headerLeft}>
@@ -18,12 +23,17 @@ export default function Header({ userName = 'Admin', userRole = 'Hotel Manager' 
       </div>
       <div className={styles.headerRight}>
         <div className={styles.userInfo}>
-          <div className={styles.userName}>{userName} name</div>
+          <div className={styles.userName}>{userName}</div>
           <div className={styles.userRole}>{userRole}</div>
         </div>
         <div className={styles.avatar}>
           <ChevronDown size={20} />
         </div>
+        {onLogout && (
+          <button className={styles.logoutButton} onClick={onLogout} title="Logout">
+            <LogOut size={20} />
+          </button>
+        )}
       </div>
     </div>
   );

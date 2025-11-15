@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Plus, Eye, Edit, Trash2, Check, X } from 'lucide-react';
-import { supabase, type Reservation, type Accommodation } from '../lib/supabase';
-import Modal from './Modal';
+import { supabase, type Reservation, type Accommodation } from '../../../lib/supabase';
+import Modal from '../layout/Modal';
 import styles from './Reservations.module.css';
 import formStyles from './Form.module.css';
 
@@ -71,7 +71,7 @@ export default function Reservations() {
     try {
       const { data, error } = await supabase
         .from('accommodations')
-        .select('id, name, price_per_night')
+        .select('*')
         .order('name', { ascending: true });
 
       if (error) throw error;

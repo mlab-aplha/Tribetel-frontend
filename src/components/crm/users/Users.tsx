@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Plus, Eye, Edit, Trash2, ToggleLeft, ToggleRight } from 'lucide-react';
-import { supabase, type Profile } from '../lib/supabase';
-import Modal from './Modal';
+import { supabase, type Profile } from '../../../lib/supabase';
+import Modal from '../layout/Modal';
 import styles from './Users.module.css';
 import formStyles from './Form.module.css';
 

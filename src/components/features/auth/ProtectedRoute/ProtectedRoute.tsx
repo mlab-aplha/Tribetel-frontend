@@ -1,60 +1,51 @@
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-import { ProtectedRouteProps } from '../../../types/common';
-import Loader from '../../../common/Loader/Loader';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../../../hooks/useAuth';
+import Loader from '../../../common/Loader/Loader';
+
+interface ProtectedRouteProps {
+    children: React.ReactNode;
+    requireAuth?: boolean;
+    adminOnly?: boolean;
+    customerOnly?: boolean;
+}
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     children,
-    requireAuth = false,
-    requireAdmin = false,
-    redirectTo = '/signin',
-    fallback = <Loader text="Checking authentication..." fullscreen />
+    requireAuth = true,
+    adminOnly = false,
+    customerOnly = false
 }) => {
-    const { isLoading, isAuthenticated, isAdmin } = useAuth();
-    const location = useLocation();
+    const { user, isLoading, isAdmin } = useAuth();
 
     if (isLoading) {
-        return <>{fallback}</>;
+        return <Loader text="Loading..." fullscreen />;
     }
 
-    if (requireAuth && !isAuthenticated) {
-        return (
-            <Navigate
-                to={redirectTo}
-                state={{ from: location }}
-                replace
-            />
-        );
+    if (adminOnly) {
+        if (!user || !isAdmin) {
+            return <Navigate to="/admin/signin" replace />;
+        }
+        return <>{children}</>;
     }
 
-    if (requireAdmin && !isAdmin) {
-        console.warn('Admin access required. Redirecting to home.');
-        return (
-            <Navigate
-                to="/"
-                state={{ from: location }}
-                replace
-            />
-        );
+    if (customerOnly) {
+        if (!user) {
+            return <Navigate to="/login" replace />;
+        }
+        if (isAdmin) {
+            return <Navigate to="/admin/dashboard" replace />;
+        }
+        return <>{children}</>;
     }
-
-    if (!requireAuth && isAuthenticated && (location.pathname === '/signin' || location.pathname === '/signup')) {
-        return (
-            <Navigate
-                to="/"
-                replace
-            />
-        );
+    if (requireAuth && !user) {
+        return <Navigate to="/login" replace />;
     }
-
-    if (!requireAdmin && isAdmin && location.pathname === '/admin/signin') {
-        return (
-            <Navigate
-                to="/admin/dashboard"
-                replace
-            />
-        );
+    if (!requireAuth && user) {
+        if (isAdmin) {
+            return <Navigate to="/admin/dashboard" replace />;
+        }
+        return <Navigate to="/dashboard" replace />;
     }
 
     return <>{children}</>;

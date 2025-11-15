@@ -3,7 +3,7 @@ import HeroSection from '../../components/features/hero/HeroSection/HeroSection'
 import Active_bookings from '../../components/features/active-bookings/active-bookings';
 import Offers from '../../components/features/Offers/Offers';
 import AddReview from '../../components/features/add-review/add-review';
-import HotelLocations from '../../components/features/HotelLocations/HotelLocations';
+import HotelLocations from '../../components/features/hotel-locations/HotelLocations';
 import styles from './CustomerDashboard.module.css';
 import Footer from '../../components/layout/Footer/Footer';
 import Header from '../../components/layout/Header/Header';

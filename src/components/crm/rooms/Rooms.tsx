@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Plus, MapPin, Star, Edit, Trash2 } from 'lucide-react';
-import { supabase, type Accommodation } from '../lib/supabase';
-import Modal from './Modal';
+import { supabase, type Accommodation } from '../../../lib/supabase';
+import Modal from '../layout/Modal';
 import styles from './Rooms.module.css';
 import formStyles from './Form.module.css';
 
