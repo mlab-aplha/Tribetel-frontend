@@ -2,7 +2,7 @@ import HeroSection from '../../components/features/hero/HeroSection/HeroSection'
 import Showcase from '../../components/features/Showcase/Showcase';
 import ServicesSection from '@components/features/service-section/ServiceSection';
 import HotelLocations from '@components/features/hotel-locations/HotelLocations';
-import ConvertSection from '@components/features/convert-section/Convert section';
+import ConvertSection from '@components/features/convert-section/ConvertSection';
 import TestimonialsSection from '../../components/features/TestimonialsSection/TestimonialsSection';
 import styles from './LandingPage.module.css';
 
