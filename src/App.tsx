@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './hooks/useAuth';
 import MainLayout from './components/layout/MainLayout/MainLayout';
@@ -28,7 +27,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/search" element={<MainLayout><SearchResultsPage /></MainLayout>} />
           <Route path="/hotels" element={<MainLayout><HotelListings /></MainLayout>} />
-          
+
           {/* Protected Customer Routes */}
           <Route path="/booking" element={
             <ProtectedRoute>
@@ -45,7 +44,7 @@ function App() {
               <MainLayout><MyBookingsPage /></MainLayout>
             </ProtectedRoute>
           } />
-          
+
           {/* Admin Routes */}
           <Route path="/admin/signin" element={<AdminLayout><AdminSignInForm /></AdminLayout>} />
           <Route path="/admin/dashboard" element={
@@ -53,7 +52,7 @@ function App() {
               <AdminDashboard />
             </ProtectedRoute>
           } />
-          
+
           {/* 404 Page */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
@@ -63,5 +62,3 @@ function App() {
 }
 
 export default App;
-
-

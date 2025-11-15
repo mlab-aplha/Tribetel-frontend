@@ -1,14 +1,11 @@
-// Mock Supabase client for frontend-only build
-export const supabase = {
-  from: () => ({
-    select: () => ({
-      eq: () => ({
-        order: () => Promise.resolve({ data: [], error: null })
-      }),
-      order: () => Promise.resolve({ data: [], error: null })
-    }),
-    insert: () => Promise.resolve({ error: null }),
-    update: () => Promise.resolve({ error: null }),
-    delete: () => Promise.resolve({ error: null })
-  })
-} as any;
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables');
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
