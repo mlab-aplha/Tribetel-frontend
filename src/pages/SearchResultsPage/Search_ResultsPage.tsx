@@ -1,8 +1,101 @@
 import React, { useState } from 'react';
 import styles from "./Search_ResultsPage.module.css";
-import type { HotelSummary } from "../../../src/components/types/common";
-import SearchBar from "../../components/common/Searchbar/SearchBar";
 
+// Define the HotelSummary interface locally
+interface HotelSummary {
+    id: string;
+    name: string;
+    location: string;
+    rating: number;
+    reviews: number;
+    description: string;
+    pricePerNight: number;
+    image: string;
+    distanceKm?: number;
+    tags?: string[];
+    amenities: string[];
+}
+
+// Define SearchBar props interface
+interface SearchBarProps {
+  onSearch: (searchParams: any) => void;
+  fetchDestinations: () => Promise<any[]>;
+  calculatePrice: (params: any) => Promise<any>;
+  enablePriceEstimation?: boolean;
+  onPriceEstimate?: (estimate: any) => void;
+  disabled?: boolean;
+}
+
+// Create SearchBar component directly in this file
+const SearchBar: React.FC<SearchBarProps> = ({
+  onSearch,
+  fetchDestinations,
+  calculatePrice,
+  enablePriceEstimation = false,
+  onPriceEstimate,
+  disabled = false
+}) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [destinations, setDestinations] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSearch = () => {
+    if (searchQuery.trim() && !disabled) {
+      onSearch({
+        query: searchQuery,
+        destinations: destinations
+      });
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  React.useEffect(() => {
+    const loadDestinations = async () => {
+      if (searchQuery.trim()) {
+        setIsLoading(true);
+        try {
+          const results = await fetchDestinations();
+          setDestinations(results);
+        } catch (error) {
+          console.error('Failed to fetch destinations:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setDestinations([]);
+      }
+    };
+
+    loadDestinations();
+  }, [searchQuery, fetchDestinations]);
+
+  return (
+    <div className={styles.searchBar}>
+      <input
+        type="text"
+        placeholder="Search destinations..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        onKeyPress={handleKeyPress}
+        disabled={disabled}
+        className={styles.searchInput}
+      />
+      <button 
+        onClick={handleSearch} 
+        disabled={disabled || !searchQuery.trim()}
+        className={styles.searchButton}
+        type="button"
+      >
+        {isLoading ? 'Searching...' : 'Search'}
+      </button>
+    </div>
+  );
+};
 
 const sampleHotels: HotelSummary[] = [
     {
@@ -60,7 +153,6 @@ const SearchResultsPage: React.FC = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-
         }, 1000);
     };
 
@@ -288,5 +380,3 @@ const SearchResultsPage: React.FC = () => {
 };
 
 export default SearchResultsPage;
-
-
