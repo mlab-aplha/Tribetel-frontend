@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputProps } from '@types/common';
+import { InputProps } from '@components/types/common';
 import styles from './Input.module.css';
 
 const Input: React.FC<InputProps> = ({
@@ -96,4 +96,6 @@ const Input: React.FC<InputProps> = ({
 };
 
 export default Input;
+
+
 

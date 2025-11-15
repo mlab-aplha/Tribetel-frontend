@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonProps } from '@types/common';
+import { ButtonProps } from '@components/types/common';
 import styles from './Button.module.css';
 
 const Button: React.FC<ButtonProps> = ({
@@ -36,4 +36,5 @@ const Button: React.FC<ButtonProps> = ({
 };
 
 export default Button;
+
 

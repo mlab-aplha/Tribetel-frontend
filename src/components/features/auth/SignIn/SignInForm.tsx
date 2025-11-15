@@ -1,143 +1,75 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import "./SignInForm.css";
+﻿import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from '@components/common/Button/Button';
+import Input from '@components/common/Input/Input';
+import Loader from '@components/common/Loader/Loader';
 import { useAuth } from '@hooks/useAuth';
+import './SignInForm.css';
+
+interface SignInFormData {
+  email: string;
+  password: string;
+}
 
 const SignInForm: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
-  const [isClicked, setIsClicked] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [formData, setFormData] = useState<SignInFormData>({
+    email: '',
+    password: '',
+  });
+  const [error, setError] = useState<string>('');
+  const { login, isLoading } = useAuth();
   const navigate = useNavigate();
 
-  const { login, isLoading } = useAuth();
-
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validatePassword = (password: string) => {
-    return password.length >= 6;
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
-    if (!email || !password) {
-      setError("Please fill in both fields.");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      setError("Password must be at least 6 characters long.");
-      return;
-    }
-
-    setIsClicked(true);
+    setError('');
 
     try {
-      await login(email, password);
+      await login(formData.email, formData.password);
       navigate('/');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
-    } finally {
-      setIsClicked(false);
+      setError('Failed to sign in. Please check your credentials.');
     }
   };
 
-  const toggleVisibility = () => {
-    setShowPassword(!showPassword);
+  const handleChange = (field: keyof SignInFormData) => (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
+  if (isLoading) {
+    return <Loader text="Signing in..." />;
+  }
+
   return (
-    <form className="signin-form" onSubmit={handleSubmit}>
-      <div className="form-header">
-        <button
-          type="button"
-          className="admin-btn"
-          onClick={() => navigate("/admin/signin")}
-        >
-          Admin Login
-        </button>
-      </div>
+    <form onSubmit={handleSubmit} className="signin-form">
+      <h2>Sign In</h2>
+      
+      {error && <div className="error-message">{error}</div>}
 
-      <h2 className="signin-title">Sign In</h2>
-
-      <label htmlFor="email">E-mail</label>
-      <input
+      <Input
+        label="Email"
         type="email"
-        id="email"
-        placeholder="Username@gmail.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className={error.includes("email") ? "input-error" : ""}
+        value={formData.email}
+        onChange={handleChange('email')}
         required
       />
 
-      <label htmlFor="password">Password</label>
-      <div className="password-field">
-        <input
-          type={showPassword ? "text" : "password"}
-          id="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={error.includes("Password") ? "input-error" : ""}
-          required
-        />
-        <button
-          type="button"
-          className="toggle-password"
-          onClick={toggleVisibility}
-        >
-          {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-        </button>
-      </div>
+      <Input
+        label="Password"
+        type="password"
+        value={formData.password}
+        onChange={handleChange('password')}
+        required
+      />
 
-      <div className="form-options">
-        <label className="remember-me">
-          <input
-            type="checkbox"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-          />
-          Remember me
-        </label>
-
-        <a href="#" className="forgot-password">
-          Forgot password?
-        </a>
-      </div>
-
-      {error && <p className="error-text">{error}</p>}
-
-      <button
-        type="submit"
-        className={`signin-btn ${isClicked ? "clicked" : ""}`}
-        disabled={!email || !password || isLoading}
-      >
-        {isLoading ? 'Signing in...' : 'Sign in'}
-      </button>
-
-      <p className="register-text">
-        Don't have an account?{" "}
-        <span onClick={() => navigate("/signup")} className="signup-link">
-          Sign up
-        </span>
-      </p>
+      <Button type="submit" variant="primary" fullWidth>
+        Sign In
+      </Button>
     </form>
   );
 };
 
 export default SignInForm;
-

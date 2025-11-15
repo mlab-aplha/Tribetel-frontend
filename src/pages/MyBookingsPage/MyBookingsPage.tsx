@@ -1,238 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './MyBookingsPage.module.css';
-import BookingCard from '../../components/features/booking/BookingCard/BookingCard';
-import LoadingSpinner from '../../components/common/Loader/Loader';
-import ErrorMessage from '../../components/common/ErrorMessage/ErrorMessage';
-import { bookingService } from '../../services/bookingService';
+import React from 'react';
+import MainLayout from '../../components/layout/MainLayout/MainLayout';
 import { useAuth } from '../../hooks/useAuth';
+import Loader from '../../components/common/Loader/Loader';
+import { Navigate } from 'react-router-dom';
 
-interface BookingConfirmationData {
-    id: string;
-    bookingNumber: string;
-    fullName: string;
-    roomTitle: string;
-    checkIn: string;
-    checkOut: string;
-    status: 'confirmed' | 'cancelled' | 'pending';
-    roomId?: string;
-    nights?: number;
-    guests?: number;
-    total?: number;
-    paymentStatus?: 'pending' | 'paid' | 'failed' | 'refunded';
-    email?: string;
-    confirmedAt?: string;
-    specialRequests?: string;
-    customerPhone?: string;
-}
+const MyBookingsPage: React.FC = () => {
+    const { user, isLoading } = useAuth();
 
-const BookingsPage: React.FC = () => {
-    const [bookings, setBookings] = useState<BookingConfirmationData[]>([]);
-    const [filteredBookings, setFilteredBookings] = useState<BookingConfirmationData[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [activeFilter] = useState<'all' | 'upcoming' | 'past' | 'cancelled'>('all');
-    const [searchTerm] = useState('');
-
-    const { user, isAuthenticated } = useAuth();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/signin');
-            return;
-        }
-        fetchBookings();
-    }, [isAuthenticated, navigate]);
-
-    const fetchBookings = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            const userEmail = user?.email || 'demo@tritel.co.za';
-            const response = await bookingService.getBookingsByEmail(userEmail);
-
-            if (response.success) {
-                const transformedBookings: BookingConfirmationData[] = response.data.map((booking: any) => ({
-                    id: booking.id,
-                    bookingNumber: booking.bookingNumber,
-                    fullName: booking.fullName,
-                    roomTitle: booking.roomTitle,
-                    checkIn: booking.checkIn,
-                    checkOut: booking.checkOut,
-                    status: booking.status,
-                    roomId: booking.roomId,
-                    nights: booking.nights,
-                    guests: booking.guests,
-                    total: booking.total,
-                    paymentStatus: booking.paymentStatus,
-                    email: booking.email,
-                    confirmedAt: booking.confirmedAt,
-                    specialRequests: booking.specialRequests,
-                    customerPhone: booking.customerPhone
-                }));
-
-                setBookings(transformedBookings);
-                setFilteredBookings(transformedBookings);
-            } else {
-                throw new Error(response.message || 'Failed to fetch bookings');
-            }
-        } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to load bookings';
-            setError(errorMessage);
-            console.error('Error fetching bookings:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const filterBookings = (filter: string, search: string) => {
-        let filtered = [...bookings];
-
-        if (filter !== 'all') {
-            const today = new Date();
-            filtered = filtered.filter(booking => {
-                const checkOutDate = new Date(booking.checkOut);
-
-                switch (filter) {
-                    case 'upcoming':
-                        return checkOutDate >= today && booking.status !== 'cancelled';
-                    case 'past':
-                        return checkOutDate < today && booking.status !== 'cancelled';
-                    case 'cancelled':
-                        return booking.status === 'cancelled';
-                    default:
-                        return true;
-                }
-            });
-        }
-
-        if (search) {
-            const searchLower = search.toLowerCase();
-            filtered = filtered.filter(booking =>
-                booking.roomTitle.toLowerCase().includes(searchLower) ||
-                booking.bookingNumber.toLowerCase().includes(searchLower) ||
-                booking.fullName.toLowerCase().includes(searchLower)
-            );
-        }
-
-        setFilteredBookings(filtered);
-    };
-
-    const handleBookingAction = async (bookingId: string, action: 'cancel' | 'modify') => {
-        try {
-            if (action === 'cancel') {
-                const confirmCancel = window.confirm('Are you sure you want to cancel this booking?');
-                if (!confirmCancel) return;
-
-                const response = await bookingService.cancelBooking(bookingId);
-                if (response.success) {
-                    setBookings(prev => prev.map(booking =>
-                        booking.id === bookingId
-                            ? { ...booking, status: 'cancelled' as const }
-                            : booking
-                    ));
-                    filterBookings(activeFilter, searchTerm);
-                } else {
-                    throw new Error(response.message);
-                }
-            } else if (action === 'modify') {
-                navigate(`/booking/${bookingId}/modify`);
-            }
-        } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : `Failed to ${action} booking`;
-            setError(errorMessage);
-        }
-    };
-
-    const handleRetry = () => {
-        fetchBookings();
-    };
-
-    const handleNewBooking = () => {
-        navigate('/rooms');
-    };
-
-    if (loading) {
-        return (
-            <div className="bookings-loading">
-                <LoadingSpinner size="large" />
-                <p>Loading your bookings...</p>
-            </div>
-        );
+    if (isLoading) {
+        return <Loader text="Loading..." fullscreen />;
     }
 
-    if (error && bookings.length === 0) {
-        return (
-            <div className="bookings-error">
-                <ErrorMessage
-                    message={error}
-                    variant="error"
-                    size="large"
-                />
-                <div className="error-actions">
-                    <button className="retry-btn" onClick={handleRetry}>
-                        Try Again
-                    </button>
-                    <button className="primary-btn" onClick={handleNewBooking}>
-                        Book a Room
-                    </button>
-                </div>
-            </div>
-        );
+    if (!user) {
+        return <Navigate to="/login" replace />;
     }
 
     return (
-        <div className="bookings-page">
-            <div className="bookings-container">
-                {/* Header */}
-                <header className="bookings-header">
-                    <div className="header-content">
-                        <h1>My Bookings</h1>
-                        <p>Manage your upcoming stays and view booking history</p>
-                    </div>
-                    <button className="new-booking-btn" onClick={handleNewBooking}>
-                        + New Booking
-                    </button>
-                </header>
-
-                {/* Error Banner */}
-                {error && (
-                    <div className="bookings-error-banner">
-                        <ErrorMessage
-                            message={error}
-                            onDismiss={() => setError(null)}
-                            dismissible
-                        />
-                    </div>
-                )}
-
-                {/* Bookings List */}
-                <main className="bookings-main">
-                    {filteredBookings.length === 0 ? (
-                        <div className="empty-state">
-                            <p>No bookings found</p>
-                            <button className="primary-btn" onClick={handleNewBooking}>
-                                Book Your First Stay
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="bookings-grid">
-                            {filteredBookings.map(booking => (
-                                <BookingCard
-                                    key={booking.id}
-                                    booking={booking}
-                                    onAction={handleBookingAction}
-                                    showActions={activeFilter === 'upcoming'}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </main>
+        <MainLayout>
+            <div style={{ padding: '2rem' }}>
+                <h1>My Bookings</h1>
+                <p>Your booking history will appear here.</p>
+                <div style={{ 
+                    padding: '2rem', 
+                    textAlign: 'center', 
+                    backgroundColor: '#f5f5f5',
+                    borderRadius: '8px',
+                    marginTop: '2rem'
+                }}>
+                    <p>Backend integration commented out for frontend deployment</p>
+                    <p>Real booking data will be available when backend is connected</p>
+                </div>
             </div>
-        </div>
+        </MainLayout>
     );
 };
 
-export default BookingsPage;
-
+export default MyBookingsPage;

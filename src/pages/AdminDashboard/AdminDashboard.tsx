@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../../components/crm/layout/Sidebar';
-import Header from '../../components/crm/layout/Header';
-import Dashboard from '../../components/crm/dashboard/Dashboard';
-import Reservations from '../../components/crm/reservations/Reservations';
-import Rooms from '../../components/crm/rooms/Rooms';
-import Users from '../../components/crm/users/Users';
-import { useAuth } from '../../hooks/useAuth';
-import Loader from '../../components/common/Loader/Loader';
-import { User } from '../../components/types/admin';
+import Sidebar from '@components/crm/layout/Sidebar';
+import Header from '@components/crm/layout/Header';
+import Dashboard from '@components/crm/dashboard/Dashboard';
+import Reservations from '@components/crm/reservations/Reservations';
+import Rooms from '@components/crm/rooms/Rooms';
+import Users from '@components/crm/users/Users';
+import { useAuth } from '@hooks/useAuth';
+import Loader from '@components/common/Loader/Loader';
 import styles from './AdminDashboard.module.css';
 
 const AdminDashboard: React.FC = () => {
@@ -20,12 +19,10 @@ const AdminDashboard: React.FC = () => {
     React.useEffect(() => {
         const isAdminAuthenticated = localStorage.getItem('adminAuthenticated');
         const isUserAdmin = user?.role === 'admin' || user?.role === 'manager' || user?.role === 'staff';
-        const isUserGuest = user?.role === 'guest';
 
         // Redirect if:
-        // 1. User is a guest (should never access admin dashboard)
-        // 2. User is not an admin AND not authenticated as admin
-        if (isUserGuest || (!isAdminAuthenticated && !isUserAdmin)) {
+        // 1. User is not an admin AND not authenticated as admin
+        if (!isAdminAuthenticated && !isUserAdmin) {
             navigate('/admin/signin');
         }
     }, [navigate, user]);
@@ -95,4 +92,3 @@ const AdminDashboard: React.FC = () => {
 };
 
 export default AdminDashboard;
-

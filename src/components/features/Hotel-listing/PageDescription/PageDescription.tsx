@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './PageDescription.module.css';
-import { PageDescriptionProps } from '@types/common';
+import { PageDescriptionProps } from '@components/types/common';
 
 export const PageDescription: React.FC<PageDescriptionProps> = ({
     title,
@@ -57,4 +57,5 @@ export const PageDescription: React.FC<PageDescriptionProps> = ({
 };
 
 export default PageDescription;
+
 

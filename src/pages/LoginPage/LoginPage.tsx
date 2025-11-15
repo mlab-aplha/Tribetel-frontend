@@ -23,7 +23,7 @@ const LoginPage: React.FC = () => {
                 <Route
                     path="/signin"
                     element={
-                        <ProtectedRoute requireAuth={false}>
+                        <ProtectedRoute>
                             <SignInLayout>
                                 <SignInForm />
                             </SignInLayout>
@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
                 <Route
                     path="/admin/signin"
                     element={
-                        <ProtectedRoute requireAuth={false}>
+                        <ProtectedRoute>
                             <AdminLayout>
                                 <AdminSignInForm
                                     onSubmit={handleAdminSignIn}
@@ -78,4 +78,6 @@ const handleAdminError = (error: string) => {
 };
 
 export default LoginPage;
+
+
 

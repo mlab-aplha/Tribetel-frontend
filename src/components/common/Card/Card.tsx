@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardProps } from '@types/common';
+import { CardProps } from '@components/types/common';
 import styles from './Card.module.css';
 
 const Card: React.FC<CardProps> = ({ children, className = '' }) => {
@@ -11,4 +11,5 @@ const Card: React.FC<CardProps> = ({ children, className = '' }) => {
 };
 
 export default Card;
+
 

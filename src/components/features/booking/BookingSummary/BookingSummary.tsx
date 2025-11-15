@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './BookingSummary.module.css';
-import { RoomSummary, PriceBreakdown } from '@types/common';
+import { RoomSummary, PriceBreakdown } from '@components/types/common';
 
 interface BookingSummaryData {
   fullName: string;
@@ -185,4 +185,5 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
 };
 
 export default BookingSummary;
+
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModalProps } from '@types/common';
+import { ModalProps } from '@components/types/common';
 import styles from './Modal.module.css';
 
 const Modal: React.FC<ModalProps> = ({
@@ -23,4 +23,5 @@ const Modal: React.FC<ModalProps> = ({
 };
 
 export default Modal;
+
 

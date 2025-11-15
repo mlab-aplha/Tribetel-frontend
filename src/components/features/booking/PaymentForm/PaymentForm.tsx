@@ -2,7 +2,7 @@ import React, { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Payment.module.css';
 import BookingConfirmation from '../BookingConfirmation/BookingConfirmation';
-import { PaymentData, PaymentRequest, PaymentResponse } from '@types/common';
+import { PaymentData, PaymentRequest, PaymentResponse } from '@components/types/common';
 import { processPayment } from '../../../../services/paymentService';
 import LoadingSpinner from '@components/common/Loader/Loader';
 
@@ -358,4 +358,5 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 };
 
 export default PaymentForm;
+
 

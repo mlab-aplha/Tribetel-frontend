@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoaderProps } from '@types/common';
+import { LoaderProps } from '@components/types/common';
 import styles from './Loader.module.css';
 
 const Loader: React.FC<LoaderProps> = ({
@@ -78,4 +78,5 @@ const Loader: React.FC<LoaderProps> = ({
 };
 
 export default Loader;
+
 

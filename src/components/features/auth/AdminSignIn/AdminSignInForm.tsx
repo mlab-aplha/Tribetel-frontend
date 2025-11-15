@@ -5,7 +5,7 @@ import "./AdminSignInForm.css";
 import Button from '@components/common/Button/Button';
 import Input from '@components/common/Input/Input';
 import Loader from '@components/common/Loader/Loader';
-import { AdminSignInFormProps, AdminSignInFormData } from '@types/common';
+import { AdminSignInFormProps, AdminSignInFormData } from '@components/types/common';
 
 const AdminSignInForm: React.FC<AdminSignInFormProps> = ({
   onSubmit = async (data: AdminSignInFormData) => {
@@ -213,4 +213,5 @@ const AdminSignInForm: React.FC<AdminSignInFormProps> = ({
 };
 
 export default AdminSignInForm;
+
 
