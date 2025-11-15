@@ -6,7 +6,7 @@ import ServicesSection from '@components/features/service-section/ServiceSection
 import ConvertSection from '@components/features/convert-section/ConvertSection';
 import Testimonials from '@components/features/TestimonialsSection/TestimonialsSection';
 import HotelLocations from '@components/features/hotel-locations/HotelLocations';
-import styles from './HomePage.module.css';
+import styles from './LandingPage.module.css';
 
 const HomePage: React.FC = () => {
   const handleRoomClick = (room: any) => {
