@@ -1,0 +1,245 @@
+/* components/common/DatePicker/DatePicker.module.css */
+.container {
+  position: relative;
+  width: 100%;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid #B9B5AF;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 40px;
+}
+
+.input:hover {
+  border-color: #470F51;
+}
+
+.inputFocused {
+  border-color: #470F51;
+  box-shadow: 0 0 0 2px rgba(71, 15, 81, 0.1);
+}
+
+.value {
+  color: #1E1E1E;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.placeholder {
+  color: #8E8E8E;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.calendarIcon {
+  color: #470F51;
+  display: flex;
+  align-items: center;
+}
+
+.datePicker {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin-top: 4px;
+  padding: 12px;
+  min-width: 280px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: #F8FAFC;
+  border-radius: 4px;
+  color: #470F51;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navButton:hover {
+  background: #470F51;
+  color: white;
+}
+
+.monthYear {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1E1E1E;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.weekDay {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6B7280;
+  padding: 6px 2px;
+  text-transform: uppercase;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.available {
+  background: white;
+  color: #1E1E1E;
+}
+
+.available:hover {
+  background: #470F51;
+  color: white;
+}
+
+.selected {
+  background: #470F51;
+  color: white;
+  font-weight: 600;
+}
+
+.disabled {
+  background: #F3F4F6;
+  color: #D1D5DB;
+  cursor: not-allowed;
+}
+
+.empty {
+  background: transparent;
+  cursor: default;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.todayButton {
+  padding: 6px 12px;
+  border: 1px solid #470F51;
+  background: transparent;
+  color: #470F51;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.todayButton:hover {
+  background: #470F51;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .datePicker {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85vw;
+    max-width: 300px;
+    margin-top: 0;
+  }
+
+  .calendarGrid {
+    gap: 1px;
+  }
+
+  .day {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .weekDay {
+    font-size: 10px;
+    padding: 4px 1px;
+  }
+}
+
+@media (max-width: 480px) {
+  .input {
+    padding: 6px 10px;
+    min-height: 36px;
+  }
+
+  .value,
+  .placeholder {
+    font-size: 13px;
+  }
+
+  .datePicker {
+    padding: 10px;
+  }
+
+  .monthYear {
+    font-size: 13px;
+  }
+
+  .weekDay {
+    font-size: 9px;
+    padding: 4px 1px;
+  }
+
+  .day {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+
+  .todayButton {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+}
