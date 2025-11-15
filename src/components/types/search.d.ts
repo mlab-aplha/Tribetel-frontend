@@ -170,3 +170,4 @@ export interface SearchResultsProps {
     sortOptions?: SortOption[];
     onSortChange?: (sortBy: string) => void;
 }
+

@@ -78,3 +78,4 @@ const handleAdminError = (error: string) => {
 };
 
 export default LoginPage;
+

@@ -97,3 +97,4 @@ const getSampleHotels = (): Hotel[] => [
         amenities: ["Luxury Suites", "Fine Dining", "Conference Room", "Spa"]
     },
 ];
+

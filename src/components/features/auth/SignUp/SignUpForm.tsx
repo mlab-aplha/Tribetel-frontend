@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import "./SignUpForm.css";
-import { useAuth } from '../../../../hooks/useAuth';
-import Loader from '../../../common/Loader/Loader';
+import { useAuth } from '@hooks/useAuth';
+import Loader from '@components/common/Loader/Loader';
 
 interface SignUpFormData {
   name: string;
@@ -398,3 +398,4 @@ const SignUpForm: React.FC = () => {
 };
 
 export default SignUpForm;
+

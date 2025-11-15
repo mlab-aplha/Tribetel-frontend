@@ -1,5 +1,5 @@
 import React from 'react';
-import { RoomCardProps } from '../../types/common';
+import { RoomCardProps } from '@types/common';
 import styles from './RoomCard.module.css';
 
 const RoomCard: React.FC<RoomCardProps> = ({
@@ -40,3 +40,4 @@ const RoomCard: React.FC<RoomCardProps> = ({
 };
 
 export default RoomCard;
+

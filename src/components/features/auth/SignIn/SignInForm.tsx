@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./SignInForm.css";
-import { useAuth } from '../../../../hooks/useAuth';
+import { useAuth } from '@hooks/useAuth';
 
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -140,3 +140,4 @@ const SignInForm: React.FC = () => {
 };
 
 export default SignInForm;
+

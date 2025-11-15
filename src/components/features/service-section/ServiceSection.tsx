@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './ServiceSection.module.css';
 
 // Import images
-import service1 from '../../../assets/service1.png';
-import service2 from '../../../assets/service2.png';
-import service3 from '../../../assets/service3.png';
+import service1 from '@/assets/service1.png';
+import service2 from '@/assets/service2.png';
+import service3 from '@/assets/service3.png';
 
 interface Service {
     id: number;
@@ -77,3 +77,4 @@ const ServicesSection: React.FC = () => {
 };
 
 export default ServicesSection;
+

@@ -93,3 +93,4 @@ export interface HotelSummary {
     amenities: string[];
     tags?: string[];
 }
+

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Search, SlidersHorizontal, Eye, Edit, Trash2 } from 'lucide-react';
-import { supabase, type Reservation } from '../../../lib/supabase';
+import { supabase, type Reservation } from '@lib/supabase';
 import styles from './Dashboard.module.css';
 
 export default function Dashboard() {
@@ -148,3 +148,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

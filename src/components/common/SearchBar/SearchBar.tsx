@@ -4,7 +4,7 @@ import styles from './SearchBar.module.css';
 import Button from '../Button/Button';
 import Loader from '../Loader/Loader';
 import { useSearchBar } from '../../../hooks/useSearch';
-import { SearchBarProps } from '../../types/common';
+import { SearchBarProps } from '@types/common';
 
 export const SearchBar: React.FC<SearchBarProps> = ({
     destinations = [],
@@ -240,3 +240,4 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 };
 
 export default SearchBar;
+

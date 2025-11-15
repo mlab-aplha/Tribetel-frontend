@@ -61,3 +61,4 @@ export interface AdminUser {
 }
 
 export type User = Profile;
+

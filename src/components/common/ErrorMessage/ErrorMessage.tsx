@@ -1,5 +1,5 @@
 import React from 'react';
-import { ErrorMessageProps } from '../../types/common';
+import { ErrorMessageProps } from '@types/common';
 import styles from './ErrorMessage.module.css';
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({
@@ -72,3 +72,4 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
 };
 
 export default ErrorMessage;
+

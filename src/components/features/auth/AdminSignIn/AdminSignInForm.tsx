@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./AdminSignInForm.css";
-import Button from '../../../common/Button/Button';
-import Input from '../../../common/Input/Input';
-import Loader from '../../../common/Loader/Loader';
-import { AdminSignInFormProps, AdminSignInFormData } from '../../../types/common';
+import Button from '@components/common/Button/Button';
+import Input from '@components/common/Input/Input';
+import Loader from '@components/common/Loader/Loader';
+import { AdminSignInFormProps, AdminSignInFormData } from '@types/common';
 
 const AdminSignInForm: React.FC<AdminSignInFormProps> = ({
   onSubmit = async (data: AdminSignInFormData) => {
@@ -213,3 +213,4 @@ const AdminSignInForm: React.FC<AdminSignInFormProps> = ({
 };
 
 export default AdminSignInForm;
+

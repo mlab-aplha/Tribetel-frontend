@@ -126,7 +126,7 @@ export default function Users() {
       email: '',
       full_name: '',
       phone: '',
-      role: 'guest',
+      role: 'staff',
       address: '',
       city: '',
       country: '',

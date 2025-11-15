@@ -78,3 +78,4 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ onSearch, disabled = false 
 };
 
 export default SearchFilter;
+

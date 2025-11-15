@@ -105,3 +105,4 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({ booking }) =>
 };
 
 export default BookingConfirmation;
+

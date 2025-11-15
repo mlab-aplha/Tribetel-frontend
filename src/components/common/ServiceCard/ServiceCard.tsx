@@ -1,5 +1,5 @@
 import React from 'react';
-import { ServiceCardProps } from '../../types/common';
+import { ServiceCardProps } from '@types/common';
 import styles from './ServiceCard.module.css';
 import Button from '../Button/Button';
 
@@ -46,3 +46,4 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 };
 
 export default ServiceCard;
+

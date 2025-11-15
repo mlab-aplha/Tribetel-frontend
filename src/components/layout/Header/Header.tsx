@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styles from './Header.module.css';
-import logo from '../../../assets/logo-.svg';
+import logo from '@/assets/logo-.svg';
 
 const Header: React.FC = () => {
     const navigate = useNavigate();
@@ -241,3 +241,4 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+

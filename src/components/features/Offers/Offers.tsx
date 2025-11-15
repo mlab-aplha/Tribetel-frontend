@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './Offers.module.css';
 
 // Import images from src/assets
-import service1 from '../../../assets/8.png';
-import service2 from '../../../assets/54.png';
-import service3 from '../../../assets/5.png';
+import service1 from '@/assets/8.png';
+import service2 from '@/assets/54.png';
+import service3 from '@/assets/5.png';
 
 interface Offer {
     id: number;
@@ -100,3 +100,4 @@ const Offers: React.FC<OffersProps> = ({
 };
 
 export default Offers;
+

@@ -157,3 +157,4 @@ export const hotelService = {
         return this.getHotels(params);
     }
 };
+

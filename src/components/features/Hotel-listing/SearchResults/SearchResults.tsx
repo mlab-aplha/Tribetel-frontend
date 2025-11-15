@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SearchResults.module.css';
-import { SearchResultsProps, Hotel } from '../../../types/common';
+import { SearchResultsProps, Hotel } from '@types/common';
 import { hotelService } from '../../../../services/hotelService';
-import LoadingSpinner from '../../../common/Loader/Loader';
+import LoadingSpinner from '@components/common/Loader/Loader';
 
 export const SearchResults: React.FC<SearchResultsProps> = ({
     results,
@@ -265,3 +265,4 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
 };
 
 export default SearchResults;
+

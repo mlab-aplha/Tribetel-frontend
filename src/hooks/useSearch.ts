@@ -328,3 +328,4 @@ export const useSearchBar = (props: UseSearchBarProps): UseSearchBarReturn => {
         handleSearch
     };
 };
+

@@ -9,3 +9,4 @@ export interface CacheStore {
     searchResults: CacheItem<HotelSearchResponse>;
     user: CacheItem<User>;
 }
+

@@ -67,3 +67,4 @@ export interface RoomSummary {
     maxGuests: number;
     features?: string[];
 }
+

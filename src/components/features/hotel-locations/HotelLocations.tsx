@@ -1,4 +1,4 @@
-import Button from '../../common/Button/Button';
+import Button from '@components/common/Button/Button';
 import styles from './HotelLocations.module.css';
 
 const HotelLocations = () => {
@@ -59,3 +59,4 @@ const HotelLocations = () => {
 };
 
 export default HotelLocations;
+

@@ -1,5 +1,5 @@
-import Button from '../../common/Button/Button';
-import Card from '../../common/Card/Card';
+import Button from '@components/common/Button/Button';
+import Card from '@components/common/Card/Card';
 import styles from './ConvertSection.module.css';
 
 const ConvertSection = () => {
@@ -46,3 +46,4 @@ const ConvertSection = () => {
 };
 
 export default ConvertSection;
+

@@ -57,3 +57,4 @@ export interface HotelAvailability {
     amenities?: string[];
     available?: boolean;
 }
+

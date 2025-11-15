@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './Showcase.module.css';
 
-import showcase1 from '../../../assets/showcase1.png';
-import showcase2 from '../../../assets/showcase2.png';
-import showcase3 from '../../../assets/showcase3.png';
+import showcase1 from '@/assets/showcase1.png';
+import showcase2 from '@/assets/showcase2.png';
+import showcase3 from '@/assets/showcase3.png';
 
 interface Room {
     id: number;
@@ -87,3 +87,4 @@ const Showcase: React.FC<ShowcaseProps> = ({
 };
 
 export default Showcase;
+

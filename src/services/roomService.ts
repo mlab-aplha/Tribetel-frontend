@@ -328,3 +328,4 @@ export const getFeaturedRooms = roomService.getFeaturedRooms;
 export const checkAvailability = roomService.checkAvailability;
 export const getSimilarRooms = roomService.getSimilarRooms;
 export const getRoomTypes = roomService.getRoomTypes;
+

@@ -159,3 +159,4 @@ export const config = {
         return localStorage.getItem('authToken');
     }
 };
+

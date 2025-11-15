@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './DateRangePicker.module.css';
-import { DateRange, DateValidation } from '../../../types/common';
+import { DateRange, DateValidation } from '@types/common';
 
 interface DateRangePickerProps {
   checkIn: string;
@@ -223,3 +223,4 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 };
 
 export default DateRangePicker;
+

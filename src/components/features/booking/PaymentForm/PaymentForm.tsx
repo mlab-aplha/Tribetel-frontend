@@ -2,9 +2,9 @@ import React, { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Payment.module.css';
 import BookingConfirmation from '../BookingConfirmation/BookingConfirmation';
-import { PaymentData, PaymentRequest, PaymentResponse } from '../../../types/common';
+import { PaymentData, PaymentRequest, PaymentResponse } from '@types/common';
 import { processPayment } from '../../../../services/paymentService';
-import LoadingSpinner from '../../../common/Loader/Loader';
+import LoadingSpinner from '@components/common/Loader/Loader';
 
 interface Booking {
   id: string;
@@ -358,3 +358,4 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 };
 
 export default PaymentForm;
+

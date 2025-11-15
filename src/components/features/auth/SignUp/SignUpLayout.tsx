@@ -21,3 +21,4 @@ const SignUpLayout: React.FC<SignUpLayoutProps> = ({ children }) => {
 
 export default SignUpLayout;
 
+

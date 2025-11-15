@@ -210,3 +210,4 @@ export const HotelListings: React.FC<HotelListingsProps> = ({
 };
 
 export default HotelListings;
+

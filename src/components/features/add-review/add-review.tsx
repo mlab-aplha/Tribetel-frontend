@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styles from './Add-Review.module.css';
-import Button from '../../common/Button/Button';
-import Input from '../../common/Input/Input';
-import Loader from '../../common/Loader/Loader';
-import ErrorMessage from '../../common/ErrorMessage/ErrorMessage';
-import { ReviewFormData, AddReviewProps } from '../../types/common';
+import Button from '@components/common/Button/Button';
+import Input from '@components/common/Input/Input';
+import Loader from '@components/common/Loader/Loader';
+import ErrorMessage from '@components/common/ErrorMessage/ErrorMessage';
+import { ReviewFormData, AddReviewProps } from '@types/common';
 
 const AddReview: React.FC<AddReviewProps> = ({
     onSubmit = async (data: ReviewFormData) => {
@@ -210,3 +210,4 @@ const AddReview: React.FC<AddReviewProps> = ({
 };
 
 export default AddReview;
+

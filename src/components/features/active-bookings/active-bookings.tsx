@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Active-bookings.module.css';
-import Button from '../../common/Button/Button';
-import Card from '../../common/Card/Card';
-import Modal from '../../common/Modal/Modal';
-import Loader from '../../common/Loader/Loader';
-import ErrorMessage from '../../common/ErrorMessage/ErrorMessage';
-import bookingImage from '../../../assets/1231.png';
+import Button from '@components/common/Button/Button';
+import Card from '@components/common/Card/Card';
+import Modal from '@components/common/Modal/Modal';
+import Loader from '@components/common/Loader/Loader';
+import ErrorMessage from '@components/common/ErrorMessage/ErrorMessage';
+import bookingImage from '@/assets/1231.png';
 
 interface Booking {
     id: string;
@@ -269,3 +269,4 @@ const Active_bookings: React.FC<ActiveBookingsProps> = (props) => {
 };
 
 export default Active_bookings;
+

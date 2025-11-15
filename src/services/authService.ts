@@ -260,3 +260,4 @@ export const authService = {
 };
 
 export const { login, register, logout, getCurrentUser, resetPassword, validateToken, isAuthenticated } = authService;
+

@@ -443,3 +443,4 @@ export const getUserBookings = bookingService.getUserBookings;
 export const cancelBooking = bookingService.cancelBooking;
 export const updateBooking = bookingService.updateBooking;
 export const checkAvailability = bookingService.checkAvailability;
+
