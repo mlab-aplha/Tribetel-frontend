@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from "./Search_ResultsPage.module.css";
 import type { HotelSummary } from "../../../src/components/types/common";
 import SearchBar from "../../components/common/Searchbar/SearchBar";
+
 const sampleHotels: HotelSummary[] = [
     {
         id: "1",
@@ -33,12 +34,6 @@ const sampleHotels: HotelSummary[] = [
     },
 ];
 
-const sampleDestinations = [
-    { id: "lanseria", name: "Lanseria", type: 'region' as const, country: "South Africa" },
-    { id: "johannesburg", name: "Johannesburg", type: 'city' as const, country: "South Africa" },
-    { id: "capetown", name: "Cape Town", type: 'city' as const, country: "South Africa" },
-];
-
 const SearchResultsPage: React.FC = () => {
     const [query] = useState("");
     const [sortBy, setSortBy] = useState<"recommended" | "distance" | "price">(
@@ -58,45 +53,7 @@ const SearchResultsPage: React.FC = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-
         }, 1000);
-    };
-
-    const fetchDestinations = async () => {
-        return new Promise<any[]>((resolve) => {
-            setTimeout(() => {
-                resolve(sampleDestinations);
-            }, 500);
-        });
-    };
-
-    const calculatePrice = async (params: {
-        destinationId: string;
-        checkIn: string;
-        checkOut: string;
-        guests: number;
-        rooms?: number;
-    }) => {
-        // Simulate price calculation
-        return new Promise<any>((resolve) => {
-            setTimeout(() => {
-                const nights = Math.ceil(
-                    (new Date(params.checkOut).getTime() - new Date(params.checkIn).getTime()) /
-                    (1000 * 3600 * 24)
-                );
-                resolve({
-                    min: 500 * nights,
-                    max: 1500 * nights,
-                    currency: 'ZAR',
-                    nights: nights,
-                    isEstimated: true
-                });
-            }, 800);
-        });
-    };
-
-    const handlePriceEstimate = (estimate: any) => {
-        console.log('Price estimate:', estimate);
     };
 
     const handleAmenityChange = (amenity: keyof typeof amenitiesFilter) => {
@@ -139,10 +96,6 @@ const SearchResultsPage: React.FC = () => {
                     <div className={styles.searchWrap}>
                         <SearchBar
                             onSearch={handleSearch}
-                            fetchDestinations={fetchDestinations}
-                            calculatePrice={calculatePrice}
-                            enablePriceEstimation={true}
-                            onPriceEstimate={handlePriceEstimate}
                             disabled={loading}
                         />
                     </div>
@@ -286,4 +239,3 @@ const SearchResultsPage: React.FC = () => {
 };
 
 export default SearchResultsPage;
-
