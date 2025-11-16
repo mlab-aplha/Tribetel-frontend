@@ -13,10 +13,18 @@ const mockUser = {
   name: "Wendy"
 };
 
+interface SearchParams {
+  destination: string;
+  checkIn: Date | null;
+  checkOut: Date | null;
+}
+
 const HeroSection: React.FC = () => {
-  const [destination, setDestination] = useState('');
-  const [checkInDate, setCheckInDate] = useState<Date | null>(null);
-  const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
+  const [searchParams, setSearchParams] = useState<SearchParams>({
+    destination: '',
+    checkIn: null,
+    checkOut: null
+  });
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const heroImages = [
@@ -37,31 +45,67 @@ const HeroSection: React.FC = () => {
 
   const handleExploreClick = () => {
     console.log('Explore button clicked');
+    // Scroll to search section or navigate to listings
   };
 
   const handleCheckAvailability = () => {
-    if (!destination || !checkInDate || !checkOutDate) {
+    const { destination, checkIn, checkOut } = searchParams;
+
+    if (!destination || !checkIn || !checkOut) {
       alert('Please fill in all fields');
+      return;
+    }
+
+    // Validate dates
+    if (checkOut <= checkIn) {
+      alert('Check-out date must be after check-in date');
       return;
     }
 
     console.log('Search parameters:', {
       destination,
-      checkIn: checkInDate,
-      checkOut: checkOutDate
+      checkIn: checkIn.toISOString(),
+      checkOut: checkOut.toISOString()
     });
+
+    // Here you would typically navigate to search results or make an API call
+    // navigate(`/search?destination=${encodeURIComponent(destination)}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}`);
   };
 
-  const getMinCheckOutDate = () => {
-    if (!checkInDate) return new Date();
-    const minDate = new Date(checkInDate);
+  const handleInputChange = (field: keyof SearchParams, value: string | Date | null) => {
+    setSearchParams(prev => ({
+      ...prev,
+      [field]: value
+    }));
+
+    // Reset checkOut if checkIn changes and is after current checkOut
+    if (field === 'checkIn' && value instanceof Date && searchParams.checkOut && value >= searchParams.checkOut) {
+      setSearchParams(prev => ({
+        ...prev,
+        checkOut: null
+      }));
+    }
+  };
+
+  const getMinCheckOutDate = (): Date | undefined => {
+    if (!searchParams.checkIn) return undefined;
+    const minDate = new Date(searchParams.checkIn);
     minDate.setDate(minDate.getDate() + 1);
     return minDate;
+  };
+
+  const getMaxCheckInDate = (): Date | undefined => {
+    if (!searchParams.checkOut) return undefined;
+    const maxDate = new Date(searchParams.checkOut);
+    maxDate.setDate(maxDate.getDate() - 1);
+    return maxDate;
   };
 
   const handleIndicatorClick = (index: number) => {
     setCurrentSlide(index);
   };
+
+  const isSearchDisabled = !searchParams.destination || !searchParams.checkIn || !searchParams.checkOut;
 
   return (
     <div className={styles.heroSection}>
@@ -121,9 +165,9 @@ const HeroSection: React.FC = () => {
               <label className={styles.fieldLabel}>Destination</label>
               <input
                 type="text"
-                placeholder="City, Region"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
+                placeholder="Where are you going?"
+                value={searchParams.destination}
+                onChange={(e) => handleInputChange('destination', e.target.value)}
                 className={styles.searchInput}
               />
             </div>
@@ -137,11 +181,13 @@ const HeroSection: React.FC = () => {
             <div className={styles.fieldContent}>
               <label className={styles.fieldLabel}>Check-in Date</label>
               <DatePicker
-                value={checkInDate}
-                onChange={setCheckInDate}
-                placeholder="Select date"
+                value={searchParams.checkIn}
+                onChange={(date) => handleInputChange('checkIn', date)}
+                minDate={new Date()}
+                maxDate={getMaxCheckInDate()}
+                placeholder="Select check-in"
                 className={styles.datePickerInput}
-                format="MM/DD/YYYY"
+                format="MMM DD, YYYY"
               />
             </div>
           </div>
@@ -151,12 +197,12 @@ const HeroSection: React.FC = () => {
             <div className={styles.fieldContent}>
               <label className={styles.fieldLabel}>Check-out Date</label>
               <DatePicker
-                value={checkOutDate}
-                onChange={setCheckOutDate}
+                value={searchParams.checkOut}
+                onChange={(date) => handleInputChange('checkOut', date)}
                 minDate={getMinCheckOutDate()}
-                placeholder="Select date"
+                placeholder="Select check-out"
                 className={styles.datePickerInput}
-                format="MM/DD/YYYY"
+                format="MMM DD, YYYY"
               />
             </div>
           </div>
@@ -167,6 +213,7 @@ const HeroSection: React.FC = () => {
             size="large"
             className={styles.availabilityButton}
             onClick={handleCheckAvailability}
+            disabled={isSearchDisabled}
           >
             {mockUser.isLoggedIn ? 'Find My Room' : 'Check Availability'}
           </Button>
@@ -175,11 +222,12 @@ const HeroSection: React.FC = () => {
 
       <div className={styles.carouselIndicators}>
         {heroImages.map((_, index) => (
-          <div
+          <button
             key={index}
             className={`${styles.indicator} ${index === currentSlide ? styles.active : ''}`}
             onClick={() => handleIndicatorClick(index)}
-          ></div>
+            aria-label={`Go to slide ${index + 1}`}
+          ></button>
         ))}
       </div>
     </div>

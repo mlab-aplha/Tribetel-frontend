@@ -1,8 +1,8 @@
 .heroSection {
   position: relative;
   width: 100%;
-  height: 80vh;
-  min-height: 600px;
+  height: 85vh;
+  min-height: 700px;
   background: white;
   overflow: hidden;
   margin-top: 70px;
@@ -15,38 +15,6 @@
   width: 100%;
   height: 100%;
   z-index: 0;
-}
-
-/* Enhanced welcome message styles */
-.welcomeHighlight {
-  color: #FDC959;
-  display: block;
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.tagline {
-  font-size: 1.1rem;
-  font-weight: 400;
-  opacity: 0.9;
-  margin-bottom: 0.5rem;
-  color: white;
-}
-
-/* Enhanced subtitle for welcome message */
-.contentWrapper:not(.userWelcome) .subtitle {
-  font-size: 1rem;
-  line-height: 1.4;
-  opacity: 0.95;
-}
-
-/* Different styling for user welcome vs general welcome */
-.userWelcome .mainTitle {
-  font-size: 1.8rem;
-}
-
-.userWelcome .subtitle {
-  font-size: 0.9rem;
 }
 
 .slide {
@@ -68,17 +36,22 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+  filter: brightness(0.9);
 }
 
-/* Gradient Overlay */
+/* Enhanced Gradient Overlay */
 .gradientOverlay {
   position: absolute;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
-  background: linear-gradient(90deg, rgba(71, 15, 81, 0.30) 75%, rgba(160, 34, 183, 0) 100%);
-  backdrop-filter: blur(2px);
+  background: linear-gradient(
+    90deg, 
+    rgba(71, 15, 81, 0.6) 0%, 
+    rgba(71, 15, 81, 0.4) 50%, 
+    rgba(71, 15, 81, 0.1) 100%
+  );
   z-index: 1;
 }
 
@@ -89,89 +62,133 @@
   height: 100%;
   display: flex;
   align-items: center;
-  padding-left: 50px;
-  padding-top: 60px;
+  padding-left: 80px;
+  padding-top: 80px;
 }
 
 .contentWrapper {
-  max-width: 500px;
-  margin-top: -60px;
+  max-width: 600px;
+  margin-top: -80px;
 }
 
 .mainTitle {
-  color: #FDC959;
-  font-size: 2.2rem;
+  color: #FFFFFF;
+  font-size: 3.5rem;
   font-family: 'Michroma', sans-serif;
   font-weight: 400;
-  line-height: 1.2;
-  margin-bottom: 20px;
+  line-height: 1.1;
+  margin-bottom: 24px;
   word-wrap: break-word;
 }
 
-.subtitle {
-  color: white;
-  font-size: 1rem;
+.welcomeHighlight {
+  color: #FDC959;
+  display: inline-block;
+  font-size: inherit;
+  margin-left: 8px;
+}
+
+.tagline {
+  font-size: 1.4rem;
+  font-weight: 300;
+  opacity: 0.95;
+  margin-top: 8px;
+  color: #FDC959;
   font-family: 'Instrument Sans', sans-serif;
-  font-weight: 500;
-  line-height: 1.4;
-  margin-bottom: 40px;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1.2rem;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  margin-bottom: 48px;
   word-wrap: break-word;
   max-width: 500px;
 }
 
-.exploreButton {
-  width: 200px;
-  height: 50px;
-  background: #470F51;
+/* Enhanced welcome message styles */
+.userWelcome .mainTitle {
+  font-size: 2.8rem;
+  line-height: 1.2;
+}
+
+.userWelcome .welcomeHighlight {
   color: #FDC959;
+  display: block;
+  font-size: 3.2rem;
+  margin-bottom: 8px;
+}
+
+.userWelcome .tagline {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.userWelcome .subtitle {
   font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.exploreButton {
+  width: 220px;
+  height: 60px;
+  background: linear-gradient(135deg, #470F51, #5a1466);
+  color: #FDC959;
+  font-size: 1.2rem;
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-radius: 4px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(71, 15, 81, 0.3);
 }
 
 .exploreButton:hover {
-  background: #5a1466;
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #5a1466, #6b1878);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(71, 15, 81, 0.4);
 }
 
 /* Search Card */
 .searchCard {
   position: absolute;
   width: 90%;
-  max-width: 900px;
+  max-width: 1000px;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 40px;
+  bottom: 60px;
   z-index: 3;
 }
 
 .searchCardContent {
-  display: flex;
-  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 0;
   background: white;
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   padding: 0;
-  height: 80px;
+  height: 100px;
   align-items: center;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .searchField {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  background: white;
-  border-right: 1px solid #B9B5AF;
+  padding: 0 28px;
+  background: transparent;
+  border-right: 1px solid rgba(185, 181, 175, 0.3);
   position: relative;
   height: 100%;
-  min-height: 80px;
+  min-height: 100px;
 }
 
 .searchField:last-of-type {
@@ -182,16 +199,16 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 6px;
+  gap: 8px;
 }
 
 .fieldLabel {
   color: #470F51;
-  font-size: 12px;
+  font-size: 13px;
   font-family: 'Instrument Sans', sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
 .searchInput {
@@ -199,7 +216,7 @@
   outline: none;
   font-size: 16px;
   font-family: 'Instrument Sans', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   color: #1E1E1E;
   background: transparent;
   width: 100%;
@@ -208,21 +225,23 @@
 
 .searchInput::placeholder {
   color: #8E8E8E;
+  font-weight: 400;
 }
 
 .fieldIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
+  margin-left: 12px;
 }
 
 .locationIcon {
-  width: 18px;
-  height: 9px;
-  border: 3px solid #1E1E1E;
+  width: 20px;
+  height: 10px;
+  border: 3px solid #470F51;
   border-radius: 2px;
   position: relative;
 }
@@ -230,88 +249,188 @@
 .locationIcon::after {
   content: '';
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #1E1E1E;
+  width: 5px;
+  height: 5px;
+  background: #470F51;
   border-radius: 50%;
-  bottom: -9px;
+  bottom: -12px;
   left: 50%;
   transform: translateX(-50%);
 }
 
+/* Date Picker Integration */
+.datePickerInput {
+  margin-top: 2px;
+}
+
+.datePickerInput :global(.input) {
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+  min-height: auto !important;
+}
+
+.datePickerInput :global(.input:hover) {
+  background: transparent !important;
+  border: none !important;
+}
+
+.datePickerInput :global(.value),
+.datePickerInput :global(.placeholder) {
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  font-family: 'Instrument Sans', sans-serif !important;
+}
+
+.datePickerInput :global(.placeholder) {
+  color: #8E8E8E !important;
+}
+
 .availabilityButton {
-  width: 200px;
-  height: 80px;
-  background: #1E1E1E;
+  width: 220px;
+  height: 100px;
+  background: linear-gradient(135deg, #1E1E1E, #333);
   color: #FDC959;
   font-size: 1.1rem;
   font-family: 'Instrument Sans', sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.availabilityButton:hover {
-  background: #333;
+.availabilityButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #333, #444);
   transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
+.availabilityButton:disabled {
+  background: #CCCCCC;
+  color: #666666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Carousel Indicators */
 .carouselIndicators {
   position: absolute;
-  right: 30px;
-  bottom: 120px;
+  right: 40px;
+  bottom: 180px;
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 12px;
   align-items: center;
   z-index: 2;
 }
 
 .indicator {
-  width: 12px;
-  height: 12px;
-  background: rgba(44, 44, 44, 0.50);
+  width: 14px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.6);
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .indicator.active {
-  background: white;
-  transform: scale(1.2);
+  background: #FDC959;
+  border-color: #FFFFFF;
+  transform: scale(1.3);
 }
 
 .indicator:hover {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(253, 201, 89, 0.8);
+  border-color: #FFFFFF;
 }
 
 /* Responsive Design */
 @media (max-width: 1200px) {
   .heroSection {
     margin-top: 70px;
-    height: 70vh;
-    min-height: 500px;
+    height: 75vh;
+    min-height: 600px;
   }
 
   .searchCard {
     width: 95%;
+    bottom: 40px;
+  }
+
+  .searchCardContent {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+    gap: 0;
+  }
+
+  .searchField:nth-child(1) {
+    grid-column: 1 / -1;
+    border-right: none;
+    border-bottom: 1px solid rgba(185, 181, 175, 0.3);
+    min-height: 90px;
+  }
+
+  .searchField:nth-child(2) {
+    border-right: 1px solid rgba(185, 181, 175, 0.3);
+    min-height: 90px;
+  }
+
+  .searchField:nth-child(3) {
+    border-right: none;
+    min-height: 90px;
+  }
+
+  .availabilityButton {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 70px;
+  }
+
+  .contentSection {
+    padding-left: 5%;
+    padding-top: 60px;
+  }
+
+  .mainTitle {
+    font-size: 2.8rem;
+  }
+
+  .userWelcome .mainTitle {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    min-height: 550px;
+    margin-top: 60px;
+    height: 65vh;
+  }
+
+  .searchCard {
+    width: 90%;
     bottom: 30px;
   }
 
   .searchCardContent {
-    height: auto;
-    flex-wrap: wrap;
-    gap: 0;
-    padding: 0;
+    grid-template-columns: 1fr;
   }
 
   .searchField {
     border-right: none;
-    border-bottom: 1px solid #B9B5AF;
-    min-height: 70px;
-    flex: 1 1 100%;
-    padding: 0 16px;
+    border-bottom: 1px solid rgba(185, 181, 175, 0.3);
+    min-height: 80px;
+    padding: 0 20px;
   }
 
   .searchField:last-of-type {
@@ -319,65 +438,13 @@
   }
 
   .availabilityButton {
-    flex: 1 1 100%;
     height: 60px;
-    width: 100%;
-  }
-
-  .contentSection {
-    padding-left: 5%;
-    padding-top: 50px;
-  }
-
-  .mainTitle {
-    font-size: 1.8rem;
-    line-height: 1.2;
-  }
-
-  .subtitle {
-    font-size: 0.9rem;
-    line-height: 1.3;
-    margin-bottom: 30px;
-  }
-}
-
-@media (max-width: 768px) {
-  .heroSection {
-    min-height: 500px;
-    margin-top: 60px;
-    height: 60vh;
-  }
-
-  .searchCard {
-    width: 90%;
-    bottom: 20px;
-  }
-
-  .searchCardContent {
-    flex-direction: column;
-  }
-
-  .searchField {
-    flex: 1 1 100%;
-    border-right: none;
-    border-bottom: 1px solid #B9B5AF;
-    min-height: 60px;
-    padding: 0 12px;
-  }
-
-  .searchField:last-of-type {
-    border-bottom: 1px solid #B9B5AF;
-  }
-
-  .availabilityButton {
-    width: 100%;
-    height: 50px;
     font-size: 1rem;
   }
 
   .contentSection {
     padding: 0 5%;
-    padding-top: 80px;
+    padding-top: 100px;
     text-align: center;
   }
 
@@ -387,55 +454,68 @@
   }
 
   .mainTitle {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
     line-height: 1.2;
-    margin-bottom: 16px;
   }
 
-  .welcomeHighlight {
+  .userWelcome .mainTitle {
     font-size: 1.8rem;
   }
 
+  .welcomeHighlight {
+    font-size: 2.4rem;
+  }
+
+  .userWelcome .welcomeHighlight {
+    font-size: 2rem;
+  }
+
   .subtitle {
-    font-size: 0.85rem;
-    line-height: 1.3;
-    margin-bottom: 30px;
+    font-size: 1rem;
+    margin-bottom: 40px;
   }
 
   .exploreButton {
-    width: 160px;
-    height: 45px;
-    font-size: 1rem;
+    width: 180px;
+    height: 50px;
+    font-size: 1.1rem;
   }
 
   .searchInput {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .fieldLabel {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .gradientOverlay {
-    background: linear-gradient(90deg, rgba(71, 15, 81, 0.40) 50%, rgba(160, 34, 183, 0) 100%);
+    background: linear-gradient(
+      90deg, 
+      rgba(71, 15, 81, 0.7) 0%, 
+      rgba(71, 15, 81, 0.5) 70%, 
+      rgba(71, 15, 81, 0.2) 100%
+    );
   }
 
   .carouselIndicators {
     right: 20px;
-    bottom: 80px;
+    bottom: 120px;
+    flex-direction: row;
+    gap: 10px;
   }
 }
 
 @media (max-width: 480px) {
   .heroSection {
-    min-height: 450px;
+    min-height: 500px;
     margin-top: 60px;
-    height: 55vh;
+    height: 60vh;
   }
 
   .searchCard {
     width: 85%;
-    bottom: 15px;
+    bottom: 20px;
   }
 
   .searchCardContent {
@@ -443,150 +523,79 @@
   }
 
   .searchField {
-    min-height: 55px;
-    padding: 0 10px;
+    min-height: 70px;
+    padding: 0 16px;
   }
 
   .fieldLabel {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .searchInput {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .availabilityButton {
-    height: 45px;
-    font-size: 0.9rem;
+    height: 55px;
+    font-size: 0.95rem;
   }
 
   .mainTitle {
-    font-size: 1.3rem;
-    line-height: 1.2;
+    font-size: 1.8rem;
   }
 
-  .welcomeHighlight {
+  .userWelcome .mainTitle {
     font-size: 1.5rem;
   }
 
-  .subtitle {
-    font-size: 0.8rem;
-    line-height: 1.2;
+  .welcomeHighlight {
+    font-size: 2rem;
   }
 
-  .exploreButton {
-    width: 140px;
-    height: 40px;
+  .userWelcome .welcomeHighlight {
+    font-size: 1.7rem;
+  }
+
+  .subtitle {
     font-size: 0.9rem;
   }
 
+  .exploreButton {
+    width: 160px;
+    height: 48px;
+    font-size: 1rem;
+  }
+
   .contentSection {
-    padding-top: 60px;
+    padding-top: 80px;
   }
 
   .carouselIndicators {
-    bottom: 60px;
+    bottom: 80px;
   }
   
   .indicator {
-    width: 8px;
-    height: 8px;
-  }
-}
-/* Add to existing HeroSection.module.css */
-
-.datePickerInput {
-  margin-top: 4px;
-}
-
-.welcomeHighlight {
-  color: #FDC959;
-  display: block;
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-}
-
-.tagline {
-  font-size: 1.3rem;
-  font-weight: 400;
-  opacity: 0.9;
-  margin-bottom: 0.5rem;
-  color: white;
-}
-
-.contentWrapper:not(.userWelcome) .subtitle {
-  font-size: 1.2rem;
-  line-height: 1.5;
-  opacity: 0.95;
-}
-
-.userWelcome .mainTitle {
-  font-size: 2.2rem;
-  line-height: 1.2;
-}
-
-.userWelcome .subtitle {
-  font-size: 1.1rem;
-}
-
-.searchCardContent {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
-  gap: 0;
-  padding: 0;
-  height: 98px;
-  align-items: center;
-}
-
-.searchField {
-  border-right: 1px solid #B9B5AF;
-  min-height: 98px;
-  padding: 0 26px;
-}
-
-.searchField:last-of-type {
-  border-right: none;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1200px) {
-  .searchCardContent {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-  }
-
-  .searchField:nth-child(1) {
-    grid-column: 1 / -1;
-    border-right: none;
-    border-bottom: 1px solid #B9B5AF;
-  }
-
-  .searchField:nth-child(2),
-  .searchField:nth-child(3) {
-    border-right: 1px solid #B9B5AF;
-  }
-
-  .searchField:nth-child(3) {
-    border-right: none;
-  }
-
-  .availabilityButton {
-    grid-column: 1 / -1;
-    width: 100%;
+    width: 10px;
+    height: 10px;
   }
 }
 
-@media (max-width: 768px) {
-  .searchCardContent {
-    grid-template-columns: 1fr;
+/* Animation for smooth transitions */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-  .searchField {
-    border-right: none;
-    border-bottom: 1px solid #B9B5AF;
-  }
+.contentWrapper {
+  animation: fadeInUp 0.8s ease-out;
+}
 
-  .searchField:last-of-type {
-    border-bottom: none;
-  }
+.searchCard {
+  animation: fadeInUp 1s ease-out 0.3s both;
 }
