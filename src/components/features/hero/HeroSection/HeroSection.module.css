@@ -4,7 +4,7 @@
   height: 85vh;
   min-height: 700px;
   background: white;
-  overflow: visible; 
+  overflow: visible;
   margin-top: 70px;
 }
 
@@ -39,6 +39,7 @@
   filter: brightness(0.9);
 }
 
+/* Enhanced Gradient Overlay */
 .gradientOverlay {
   position: absolute;
   width: 100%;
@@ -160,7 +161,7 @@
   left: 50%;
   transform: translateX(-50%);
   bottom: 60px;
-  z-index: 100; /* Increased z-index */
+  z-index: 100;
 }
 
 .searchCardContent {
@@ -169,7 +170,7 @@
   gap: 0;
   background: white;
   border-radius: 16px;
-  overflow: visible; 
+  overflow: visible;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   padding: 0;
   height: 100px;
@@ -198,7 +199,7 @@
 /* Date Field Specific Styles */
 .dateField {
   position: relative;
-  z-index: 101; /* Ensure date fields are above other elements */
+  z-index: 101;
 }
 
 .dateField .fieldContent {
@@ -277,10 +278,9 @@
 .datePickerInput {
   margin-top: 2px;
   position: relative;
-  z-index: 102; /* High z-index for date picker */
+  z-index: 102;
 }
 
-/* Override DatePicker styles to ensure visibility */
 .datePickerInput :global(.container) {
   position: relative;
   width: 100%;
@@ -313,30 +313,56 @@
   color: #8E8E8E !important;
 }
 
-/* Ensure the date picker popup is visible */
 .datePickerInput :global(.datePicker) {
-  position: absolute !important;
-  top: 100% !important;
-  left: 0 !important;
-  z-index: 10000 !important; 
-  margin-top: 8px !important;
-  transform: translateX(-20px) !important;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 10000 !important;
+  margin-top: 0 !important;
   min-width: 320px !important;
+  max-width: 90vw !important;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  animation: datePickerSlideIn 0.3s ease-out !important;
+}
+
+@keyframes datePickerSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%) !important;
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) !important;
+  }
 }
 
 .datePickerInput.active :global(.datePicker) {
   display: block !important;
 }
 
+/* Overlay to close date pickers */
 .datePickerOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: transparent;
-  z-index: 9999; 
-  cursor: default;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 9999;
+  cursor: pointer;
+  animation: overlayFadeIn 0.3s ease-out;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .availabilityButton {
@@ -464,9 +490,10 @@
     font-size: 1.1rem;
   }
 
+  /* Adjust date picker size on tablet */
   .datePickerInput :global(.datePicker) {
-    transform: translateX(-10px) !important;
-    min-width: 280px !important;
+    min-width: 300px !important;
+    max-width: 85vw !important;
   }
 }
 
@@ -567,11 +594,10 @@
     gap: 10px;
   }
 
+  /* Slightly smaller date picker on mobile */
   .datePickerInput :global(.datePicker) {
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    min-width: 90vw !important;
-    max-width: 350px !important;
+    min-width: 280px !important;
+    max-width: 92vw !important;
   }
 }
 
@@ -648,6 +674,12 @@
   .indicator {
     width: 10px;
     height: 10px;
+  }
+
+  .datePickerInput :global(.datePicker) {
+    min-width: 260px !important;
+    max-width: 94vw !important;
+    padding: 16px !important;
   }
 }
 

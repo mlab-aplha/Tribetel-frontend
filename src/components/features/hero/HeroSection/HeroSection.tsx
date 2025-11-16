@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from '@components/common/Button/Button';
 import Card from '@components/common/Card/Card';
 import DatePicker from '@components/common/DatePicker/DatePicker';
@@ -27,6 +27,9 @@ const HeroSection: React.FC = () => {
   });
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeDatePicker, setActiveDatePicker] = useState<'checkIn' | 'checkOut' | null>(null);
+
+  const checkInRef = useRef<HTMLDivElement>(null);
+  const checkOutRef = useRef<HTMLDivElement>(null);
 
   const heroImages = [
     heroImage,
@@ -180,7 +183,10 @@ const HeroSection: React.FC = () => {
           </div>
 
           {/* Check-in Date Field */}
-          <div className={`${styles.searchField} ${styles.dateField}`}>
+          <div
+            className={`${styles.searchField} ${styles.dateField}`}
+            ref={checkInRef}
+          >
             <div className={styles.fieldContent}>
               <label className={styles.fieldLabel}>Check-in Date</label>
               <div
@@ -204,7 +210,10 @@ const HeroSection: React.FC = () => {
           </div>
 
           {/* Check-out Date Field */}
-          <div className={`${styles.searchField} ${styles.dateField}`}>
+          <div
+            className={`${styles.searchField} ${styles.dateField}`}
+            ref={checkOutRef}
+          >
             <div className={styles.fieldContent}>
               <label className={styles.fieldLabel}>Check-out Date</label>
               <div
