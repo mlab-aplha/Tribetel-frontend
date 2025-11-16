@@ -6,10 +6,13 @@
 
 .mainContent {
   flex: 1;
-  margin-top: 90px; 
+  margin-top: 90px;
   min-height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: column;
 }
 
+/* Ensure proper spacing and sizing */
 @media (max-width: 1024px) {
   .mainContent {
     margin-top: 80px;
@@ -30,10 +33,27 @@
     min-height: calc(100vh - 60px);
   }
 }
-.layout {
-    min-height: 100vh;
+
+/* Alternative layout class */
+.layout-main {
+  min-height: 100vh;
+  padding-top: 90px;
 }
 
-.layout-main {
-    min-height: 100vh;
+@media (max-width: 1024px) {
+  .layout-main {
+    padding-top: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-main {
+    padding-top: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout-main {
+    padding-top: 60px;
+  }
 }

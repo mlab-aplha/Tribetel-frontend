@@ -1,33 +1,34 @@
 .footer {
   width: 100%;
-  min-height: 468px;
+  min-height: 400px;
   background: #F4942F;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: auto;
 }
 
 .footerContent {
   width: 100%;
   max-width: 1396px;
-  padding: 32px 24px 80px 24px;
+  padding: 48px 24px 60px 24px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 60px;
+  gap: 40px;
   border-top: 1px solid #D9D9D9;
   box-sizing: border-box;
 }
 
 .logoSection {
   flex: 0 0 auto;
-  width: 300px;
+  width: 280px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 32px;
+  gap: 24px;
 }
 
 .logoContainer {
@@ -39,9 +40,14 @@
 }
 
 .logoImage {
-  width: 180px;
+  width: 160px;
   height: auto;
   object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+
+.logoImage:hover {
+  opacity: 0.8;
 }
 
 .logoFallback {
@@ -80,7 +86,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
@@ -88,8 +94,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: #470F51;
   transition: all 0.3s ease;
@@ -102,7 +108,8 @@
 
 .socialLink:hover {
   background: #1E1E1E;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   color: #FDC959;
 }
 
@@ -112,12 +119,17 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.socialLink:hover .socialIcon {
+  transform: scale(1.1);
 }
 
 .footerSection {
   flex: 1;
-  min-width: 200px;
-  max-width: 220px;
+  min-width: 180px;
+  max-width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -130,7 +142,7 @@
   padding-bottom: 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .sectionTitle {
@@ -138,7 +150,7 @@
   font-size: 18px;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
-  line-height: 24px;
+  line-height: 1.3;
   margin: 0;
 }
 
@@ -161,18 +173,11 @@
   font-size: 16px;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
-  line-height: 22.40px;
+  line-height: 1.4;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  padding: 2px 0;
-}
-.logoImage:hover {
-  opacity: 0.9;
-}
-
-.socialLink:hover .socialIcon {
-  transform: scale(1.1);
+  padding: 4px 0;
 }
 
 .linkText:hover {
@@ -184,6 +189,7 @@
   color: #FFFFFF;
 }
 
+/* Enhanced focus states */
 .socialLink:focus,
 .linkText:focus {
   outline: 2px solid #FFFFFF;
@@ -191,81 +197,61 @@
   border-radius: 2px;
 }
 
+/* Enhanced Responsive Design */
 @media (min-width: 1441px) {
   .footerContent {
-    padding: 32px 32px 160px 32px;
-    gap: 80px;
+    padding: 56px 32px 80px 32px;
+    gap: 60px;
   }
 }
 
 @media (max-width: 1440px) {
   .footerContent {
-    padding: 32px 32px 100px 32px;
-    gap: 60px;
+    padding: 48px 32px 70px 32px;
+    gap: 50px;
   }
 }
 
 @media (max-width: 1200px) {
   .footerContent {
-    padding: 32px 28px 80px 28px;
-    gap: 50px;
-    justify-content: space-between;
-  }
-  
-  .logoSection {
-    width: 250px;
-  }
-  
-  .footerSection {
-    min-width: 180px;
-    max-width: 200px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .footerContent {
-    padding: 28px 24px 70px 24px;
+    padding: 40px 28px 60px 28px;
     gap: 40px;
     justify-content: space-between;
   }
   
   .logoSection {
-    width: 220px;
+    width: 240px;
   }
   
   .footerSection {
     min-width: 160px;
     max-width: 180px;
-    flex: 0 1 calc(33.333% - 40px);
-  }
-  
-  .logoSection {
-    flex: 0 1 100%;
-    max-width: 300px;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 20px;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
+  .footer {
+    min-height: 350px;
+  }
+  
   .footerContent {
-    padding: 24px 20px 60px 20px;
+    padding: 36px 24px 50px 24px;
     gap: 35px;
-    justify-content: center;
   }
   
   .logoSection {
     width: 100%;
-    max-width: 280px;
+    max-width: 300px;
     align-items: center;
     text-align: center;
+    margin-bottom: 10px;
   }
   
   .footerSection {
-    flex: 0 1 calc(50% - 35px);
-    min-width: 140px;
-    max-width: 160px;
+    flex: 0 1 calc(33.333% - 35px);
+    min-width: 150px;
+    max-width: 170px;
+    align-items: center;
   }
   
   .socialMedia {
@@ -273,28 +259,52 @@
   }
 }
 
+@media (max-width: 900px) {
+  .footerContent {
+    padding: 32px 20px 45px 20px;
+    gap: 30px;
+    justify-content: center;
+  }
+  
+  .logoSection {
+    width: 100%;
+    max-width: 260px;
+  }
+  
+  .footerSection {
+    flex: 0 1 calc(50% - 30px);
+    min-width: 140px;
+    max-width: 160px;
+    align-items: center;
+  }
+}
+
 @media (max-width: 768px) {
+  .footer {
+    min-height: 300px;
+  }
+  
   .footerContent {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 24px 20px 50px 20px;
-    gap: 40px;
+    padding: 28px 20px 40px 20px;
+    gap: 35px;
   }
   
   .logoSection,
   .footerSection {
     width: 100%;
-    max-width: 300px;
+    max-width: 280px;
     align-items: center;
   }
   
   .logoSection {
-    gap: 24px;
+    gap: 20px;
   }
   
   .footerSection {
-    gap: 16px;
+    gap: 14px;
   }
   
   .sectionHeader {
@@ -317,43 +327,45 @@
 
 @media (max-width: 600px) {
   .footerContent {
-    padding: 20px 16px 40px 16px;
-    gap: 32px;
+    padding: 24px 16px 35px 16px;
+    gap: 28px;
   }
   
   .logoSection {
-    gap: 20px;
+    gap: 18px;
   }
   
   .socialMedia {
-    gap: 16px;
+    gap: 14px;
   }
   
   .socialLink {
-    width: 36px;
-    height: 36px;
-    font-size: 14px;
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
   }
   
   .logoImage {
-    width: 150px;
+    width: 140px;
   }
   
   .sectionTitle {
-    font-size: 16px;
-    line-height: 22px;
+    font-size: 17px;
   }
   
   .linkText {
     font-size: 15px;
-    line-height: 21px;
   }
 }
 
 @media (max-width: 480px) {
+  .footer {
+    min-height: 280px;
+  }
+  
   .footerContent {
-    padding: 16px 12px 32px 12px;
-    gap: 28px;
+    padding: 20px 12px 30px 12px;
+    gap: 24px;
   }
   
   .logoSection {
@@ -361,7 +373,7 @@
   }
   
   .footerSection {
-    gap: 14px;
+    gap: 12px;
   }
   
   .sectionHeader {
@@ -373,13 +385,11 @@
   }
   
   .sectionTitle {
-    font-size: 15px;
-    line-height: 20px;
+    font-size: 16px;
   }
   
   .linkText {
     font-size: 14px;
-    line-height: 20px;
   }
   
   .socialMedia {
@@ -387,45 +397,14 @@
   }
   
   .logoImage {
-    width: 130px;
+    width: 120px;
   }
 }
 
 @media (max-width: 360px) {
   .footerContent {
-    padding: 12px 8px 24px 8px;
-    gap: 24px;
-  }
-  
-  .logoSection,
-  .footerSection {
-    max-width: 280px;
-  }
-  
-  .sectionTitle {
-    font-size: 14px;
-    line-height: 18px;
-  }
-  
-  .linkText {
-    font-size: 13px;
-    line-height: 18px;
-  }
-  
-  .logoImage {
-    width: 120px;
-  }
-  
-  .socialLink {
-    width: 32px;
-    height: 32px;
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 320px) {
-  .footerContent {
-    padding: 10px 6px 20px 6px;
+    padding: 16px 8px 25px 8px;
+    gap: 20px;
   }
   
   .logoSection,
@@ -433,15 +412,31 @@
     max-width: 260px;
   }
   
-  .socialMedia {
-    gap: 10px;
+  .sectionTitle {
+    font-size: 15px;
+  }
+  
+  .linkText {
+    font-size: 13px;
+  }
+  
+  .logoImage {
+    width: 110px;
+  }
+  
+  .socialLink {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
   }
 }
 
+/* Enhanced utility classes for consistency */
 @media print {
   .footer {
     background: #FFFFFF !important;
     border-top: 2px solid #000000;
+    min-height: 200px;
   }
   
   .socialLink {
@@ -457,7 +452,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .socialLink,
-  .linkText {
+  .linkText,
+  .logoImage {
     transition: none;
   }
   
