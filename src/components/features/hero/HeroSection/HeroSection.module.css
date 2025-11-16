@@ -269,6 +269,7 @@
   transform: translateX(-50%);
 }
 
+/* Date Picker Integration - REMOVED CONFLICTING OVERRIDES */
 .datePickerContainer {
   position: relative;
   width: 100%;
@@ -281,39 +282,8 @@
   z-index: 102;
 }
 
-.datePickerInput :global(.container) {
-  position: relative;
-  width: 100%;
-}
-
-.datePickerInput :global(.input) {
-  border: none !important;
-  padding: 0 !important;
-  background: transparent !important;
-  min-height: auto !important;
-  cursor: pointer;
-  width: 100%;
-}
-
-.datePickerInput :global(.input:hover) {
-  background: transparent !important;
-  border: none !important;
-}
-
-.datePickerInput :global(.value),
-.datePickerInput :global(.placeholder) {
-  font-size: 16px !important;
-  font-weight: 500 !important;
-  font-family: 'Instrument Sans', sans-serif !important;
-  width: 100%;
-  text-align: left;
-}
-
-.datePickerInput :global(.placeholder) {
-  color: #8E8E8E !important;
-}
-
-.datePickerInput :global(.datePicker) {
+/* REMOVE these conflicting overrides - let DatePicker handle its own positioning */
+/* .datePickerInput :global(.datePicker) {
   position: fixed !important;
   top: 50% !important;
   left: 50% !important;
@@ -325,18 +295,7 @@
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   animation: datePickerSlideIn 0.3s ease-out !important;
-}
-
-@keyframes datePickerSlideIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -45%) !important;
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) !important;
-  }
-}
+} */
 
 .datePickerInput.active :global(.datePicker) {
   display: block !important;
@@ -489,12 +448,6 @@
   .subtitle {
     font-size: 1.1rem;
   }
-
-  /* Adjust date picker size on tablet */
-  .datePickerInput :global(.datePicker) {
-    min-width: 300px !important;
-    max-width: 85vw !important;
-  }
 }
 
 @media (max-width: 768px) {
@@ -593,12 +546,6 @@
     flex-direction: row;
     gap: 10px;
   }
-
-  /* Slightly smaller date picker on mobile */
-  .datePickerInput :global(.datePicker) {
-    min-width: 280px !important;
-    max-width: 92vw !important;
-  }
 }
 
 @media (max-width: 480px) {
@@ -674,12 +621,6 @@
   .indicator {
     width: 10px;
     height: 10px;
-  }
-
-  .datePickerInput :global(.datePicker) {
-    min-width: 260px !important;
-    max-width: 94vw !important;
-    padding: 16px !important;
   }
 }
 

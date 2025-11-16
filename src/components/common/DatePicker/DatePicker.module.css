@@ -77,20 +77,33 @@
   color: #FDC959;
 }
 
+/* ENHANCED Date Picker Positioning */
 .datePicker {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
+  position: fixed !important; /* Changed from absolute to fixed */
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
   background: white;
   border: 1px solid #E5E7EB;
   border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(71, 15, 81, 0.1);
-  z-index: 1000;
-  margin-top: 8px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  margin-top: 0 !important;
   padding: 20px;
   min-width: 320px;
-  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 90vw;
+  animation: datePickerSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes datePickerSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 
 @keyframes slideDown {
@@ -358,16 +371,11 @@
   box-shadow: 0 4px 15px rgba(71, 15, 81, 0.3);
 }
 
-/* Responsive Design */
+/* Enhanced Responsive Design */
 @media (max-width: 768px) {
   .datePicker {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 90vw;
     max-width: 350px;
-    margin-top: 0;
     padding: 16px;
   }
 
@@ -403,6 +411,8 @@
 
   .datePicker {
     padding: 12px;
+    max-width: 92vw;
+    min-width: 280px;
   }
 
   .monthYear {
