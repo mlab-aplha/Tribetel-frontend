@@ -1,7 +1,6 @@
-// components/ServicesSection/ServicesSection.tsx
 import React from 'react';
 import Button from '@components/common/Button/Button';
-import styles from './ServicesSection.module.css';
+import styles from './ServiceSection.module.css';
 
 import service1 from '@/assets/service1.png';
 import service2 from '@/assets/service2.png';
@@ -93,7 +92,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                             <div className={styles.serviceInfo}>
                                 <h3 className={styles.serviceTitle}>{service.title}</h3>
                                 <p className={styles.serviceDescription}>{service.description}</p>
-                                
+
                                 {service.features && (
                                     <div className={styles.featuresList}>
                                         {service.features.map((feature, index) => (
@@ -104,7 +103,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                                         ))}
                                     </div>
                                 )}
-                                
+
                                 <Button
                                     variant="secondary"
                                     size="small"

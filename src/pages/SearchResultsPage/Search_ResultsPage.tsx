@@ -1,90 +1,7 @@
 import React, { useState } from 'react';
 import styles from "./Search_ResultsPage.module.css";
-
-// Define the HotelSummary interface locally
-interface HotelSummary {
-    id: string;
-    name: string;
-    location: string;
-    rating: number;
-    reviews: number;
-    description: string;
-    pricePerNight: number;
-    image: string;
-    distanceKm?: number;
-    tags?: string[];
-    amenities: string[];
-}
-
-// Define simplified SearchBar props interface
-interface SearchBarProps {
-  onSearch: (searchParams: any) => void;
-  fetchDestinations: () => Promise<any[]>;
-  disabled?: boolean;
-}
-
-// Create simplified SearchBar component
-const SearchBar: React.FC<SearchBarProps> = ({
-  onSearch,
-  fetchDestinations,
-  disabled = false
-}) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSearch = () => {
-    if (searchQuery.trim() && !disabled) {
-      onSearch({
-        query: searchQuery
-      });
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  React.useEffect(() => {
-    const loadDestinations = async () => {
-      if (searchQuery.trim()) {
-        setIsLoading(true);
-        try {
-          await fetchDestinations();
-        } catch (error) {
-          console.error('Failed to fetch destinations:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    loadDestinations();
-  }, [searchQuery, fetchDestinations]);
-
-  return (
-    <div className={styles.searchBar}>
-      <input
-        type="text"
-        placeholder="Search destinations..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        onKeyPress={handleKeyPress}
-        disabled={disabled}
-        className={styles.searchInput}
-      />
-      <button 
-        onClick={handleSearch} 
-        disabled={disabled || !searchQuery.trim()}
-        className={styles.searchButton}
-        type="button"
-      >
-        {isLoading ? 'Searching...' : 'Search'}
-      </button>
-    </div>
-  );
-};
+import type { HotelSummary } from "../../../src/components/types/common";
+import SearchBar from "../../components/common/Searchbar/SearchBar";
 
 const sampleHotels: HotelSummary[] = [
     {
@@ -142,6 +59,7 @@ const SearchResultsPage: React.FC = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
+
         }, 1000);
     };
 
@@ -151,6 +69,35 @@ const SearchResultsPage: React.FC = () => {
                 resolve(sampleDestinations);
             }, 500);
         });
+    };
+
+    const calculatePrice = async (params: {
+        destinationId: string;
+        checkIn: string;
+        checkOut: string;
+        guests: number;
+        rooms?: number;
+    }) => {
+        // Simulate price calculation
+        return new Promise<any>((resolve) => {
+            setTimeout(() => {
+                const nights = Math.ceil(
+                    (new Date(params.checkOut).getTime() - new Date(params.checkIn).getTime()) /
+                    (1000 * 3600 * 24)
+                );
+                resolve({
+                    min: 500 * nights,
+                    max: 1500 * nights,
+                    currency: 'ZAR',
+                    nights: nights,
+                    isEstimated: true
+                });
+            }, 800);
+        });
+    };
+
+    const handlePriceEstimate = (estimate: any) => {
+        console.log('Price estimate:', estimate);
     };
 
     const handleAmenityChange = (amenity: keyof typeof amenitiesFilter) => {
@@ -194,6 +141,9 @@ const SearchResultsPage: React.FC = () => {
                         <SearchBar
                             onSearch={handleSearch}
                             fetchDestinations={fetchDestinations}
+                            calculatePrice={calculatePrice}
+                            enablePriceEstimation={true}
+                            onPriceEstimate={handlePriceEstimate}
                             disabled={loading}
                         />
                     </div>
@@ -337,3 +287,4 @@ const SearchResultsPage: React.FC = () => {
 };
 
 export default SearchResultsPage;
+
