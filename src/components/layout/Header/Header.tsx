@@ -88,7 +88,7 @@ const Header: React.FC = () => {
                                 alt="Tribtel Logo"
                                 className={styles.logoImage}
                             />
-                            <div className={styles.logoText}>Tribtel</div>
+
                         </div>
                     </Link>
                 </div>

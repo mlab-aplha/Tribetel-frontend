@@ -1,8 +1,65 @@
 import React, { useState } from 'react';
 import styles from "./Search_ResultsPage.module.css";
 import type { HotelSummary } from "../../../src/components/types/common";
-import SearchBar from "@/components/common/Searchbar/SearchBar";
 
+const SearchBar = ({ onSearch, disabled }: any) => {
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (onSearch && searchQuery.trim()) {
+            onSearch({
+                destination: searchQuery,
+                checkIn: "2025-12-15",
+                checkOut: "2025-12-18",
+                guests: 2
+            });
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit} style={{
+            display: 'flex',
+            gap: '10px',
+            padding: '15px',
+            border: '1px solid #470F51',
+            borderRadius: '8px',
+            background: 'white',
+            margin: '10px 0'
+        }}>
+            <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search destinations..."
+                disabled={disabled}
+                style={{
+                    flex: 1,
+                    padding: '10px',
+                    border: '1px solid #B9B5AF',
+                    borderRadius: '4px',
+                    fontSize: '16px'
+                }}
+            />
+            <button
+                type="submit"
+                disabled={disabled}
+                style={{
+                    padding: '10px 20px',
+                    background: '#470F51',
+                    color: '#FDC959',
+                    border: 'none',
+                    borderRadius: '4px',
+                    fontSize: '16px',
+                    cursor: disabled ? 'not-allowed' : 'pointer',
+                    opacity: disabled ? 0.6 : 1
+                }}
+            >
+                {disabled ? 'Searching...' : 'Search'}
+            </button>
+        </form>
+    );
+};
 const sampleHotels: HotelSummary[] = [
     {
         id: "1",
