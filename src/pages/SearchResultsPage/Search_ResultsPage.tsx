@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from "./Search_ResultsPage.module.css";
 import type { HotelSummary } from "../../../src/components/types/common";
-import SearchBar from "../../components/common/Searchbar/SearchBar";
+import SearchBar from "@/components/common/Searchbar/SearchBar";
 
 const sampleHotels: HotelSummary[] = [
     {
