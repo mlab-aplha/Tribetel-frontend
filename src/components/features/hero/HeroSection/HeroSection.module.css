@@ -4,7 +4,7 @@
   height: 85vh;
   min-height: 700px;
   background: white;
-  overflow: hidden;
+  overflow: visible; 
   margin-top: 70px;
 }
 
@@ -39,7 +39,6 @@
   filter: brightness(0.9);
 }
 
-/* Enhanced Gradient Overlay */
 .gradientOverlay {
   position: absolute;
   width: 100%;
@@ -161,7 +160,7 @@
   left: 50%;
   transform: translateX(-50%);
   bottom: 60px;
-  z-index: 3;
+  z-index: 100; /* Increased z-index */
 }
 
 .searchCardContent {
@@ -170,13 +169,14 @@
   gap: 0;
   background: white;
   border-radius: 16px;
-  overflow: hidden;
+  overflow: visible; 
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   padding: 0;
   height: 100px;
   align-items: center;
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
+  position: relative;
 }
 
 .searchField {
@@ -193,6 +193,16 @@
 
 .searchField:last-of-type {
   border-right: none;
+}
+
+/* Date Field Specific Styles */
+.dateField {
+  position: relative;
+  z-index: 101; /* Ensure date fields are above other elements */
+}
+
+.dateField .fieldContent {
+  cursor: pointer;
 }
 
 .fieldContent {
@@ -258,9 +268,22 @@
   transform: translateX(-50%);
 }
 
-/* Date Picker Integration */
+.datePickerContainer {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
 .datePickerInput {
   margin-top: 2px;
+  position: relative;
+  z-index: 102; /* High z-index for date picker */
+}
+
+/* Override DatePicker styles to ensure visibility */
+.datePickerInput :global(.container) {
+  position: relative;
+  width: 100%;
 }
 
 .datePickerInput :global(.input) {
@@ -268,6 +291,8 @@
   padding: 0 !important;
   background: transparent !important;
   min-height: auto !important;
+  cursor: pointer;
+  width: 100%;
 }
 
 .datePickerInput :global(.input:hover) {
@@ -280,10 +305,38 @@
   font-size: 16px !important;
   font-weight: 500 !important;
   font-family: 'Instrument Sans', sans-serif !important;
+  width: 100%;
+  text-align: left;
 }
 
 .datePickerInput :global(.placeholder) {
   color: #8E8E8E !important;
+}
+
+/* Ensure the date picker popup is visible */
+.datePickerInput :global(.datePicker) {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  z-index: 10000 !important; 
+  margin-top: 8px !important;
+  transform: translateX(-20px) !important;
+  min-width: 320px !important;
+}
+
+.datePickerInput.active :global(.datePicker) {
+  display: block !important;
+}
+
+.datePickerOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  z-index: 9999; 
+  cursor: default;
 }
 
 .availabilityButton {
@@ -300,6 +353,8 @@
   border-radius: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  position: relative;
+  z-index: 100;
 }
 
 .availabilityButton:hover:not(:disabled) {
@@ -408,6 +463,11 @@
   .subtitle {
     font-size: 1.1rem;
   }
+
+  .datePickerInput :global(.datePicker) {
+    transform: translateX(-10px) !important;
+    min-width: 280px !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -415,6 +475,7 @@
     min-height: 550px;
     margin-top: 60px;
     height: 65vh;
+    overflow: visible;
   }
 
   .searchCard {
@@ -424,6 +485,7 @@
 
   .searchCardContent {
     grid-template-columns: 1fr;
+    overflow: visible;
   }
 
   .searchField {
@@ -504,6 +566,13 @@
     flex-direction: row;
     gap: 10px;
   }
+
+  .datePickerInput :global(.datePicker) {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    min-width: 90vw !important;
+    max-width: 350px !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -511,6 +580,7 @@
     min-height: 500px;
     margin-top: 60px;
     height: 60vh;
+    overflow: visible;
   }
 
   .searchCard {
@@ -520,6 +590,7 @@
 
   .searchCardContent {
     padding: 0;
+    overflow: visible;
   }
 
   .searchField {
@@ -580,7 +651,6 @@
   }
 }
 
-/* Animation for smooth transitions */
 @keyframes fadeInUp {
   from {
     opacity: 0;

@@ -26,6 +26,7 @@ const HeroSection: React.FC = () => {
     checkOut: null
   });
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [activeDatePicker, setActiveDatePicker] = useState<'checkIn' | 'checkOut' | null>(null);
 
   const heroImages = [
     heroImage,
@@ -45,7 +46,6 @@ const HeroSection: React.FC = () => {
 
   const handleExploreClick = () => {
     console.log('Explore button clicked');
-    // Scroll to search section or navigate to listings
   };
 
   const handleCheckAvailability = () => {
@@ -56,7 +56,6 @@ const HeroSection: React.FC = () => {
       return;
     }
 
-    // Validate dates
     if (checkOut <= checkIn) {
       alert('Check-out date must be after check-in date');
       return;
@@ -67,9 +66,6 @@ const HeroSection: React.FC = () => {
       checkIn: checkIn.toISOString(),
       checkOut: checkOut.toISOString()
     });
-
-    // Here you would typically navigate to search results or make an API call
-    // navigate(`/search?destination=${encodeURIComponent(destination)}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}`);
   };
 
   const handleInputChange = (field: keyof SearchParams, value: string | Date | null) => {
@@ -78,13 +74,20 @@ const HeroSection: React.FC = () => {
       [field]: value
     }));
 
-    // Reset checkOut if checkIn changes and is after current checkOut
     if (field === 'checkIn' && value instanceof Date && searchParams.checkOut && value >= searchParams.checkOut) {
       setSearchParams(prev => ({
         ...prev,
         checkOut: null
       }));
     }
+  };
+
+  const handleDatePickerToggle = (type: 'checkIn' | 'checkOut') => {
+    setActiveDatePicker(activeDatePicker === type ? null : type);
+  };
+
+  const handleDatePickerClose = () => {
+    setActiveDatePicker(null);
   };
 
   const getMinCheckOutDate = (): Date | undefined => {
@@ -177,33 +180,49 @@ const HeroSection: React.FC = () => {
           </div>
 
           {/* Check-in Date Field */}
-          <div className={styles.searchField}>
+          <div className={`${styles.searchField} ${styles.dateField}`}>
             <div className={styles.fieldContent}>
               <label className={styles.fieldLabel}>Check-in Date</label>
-              <DatePicker
-                value={searchParams.checkIn}
-                onChange={(date) => handleInputChange('checkIn', date)}
-                minDate={new Date()}
-                maxDate={getMaxCheckInDate()}
-                placeholder="Select check-in"
-                className={styles.datePickerInput}
-                format="MMM DD, YYYY"
-              />
+              <div
+                className={styles.datePickerContainer}
+                onClick={() => handleDatePickerToggle('checkIn')}
+              >
+                <DatePicker
+                  value={searchParams.checkIn}
+                  onChange={(date) => {
+                    handleInputChange('checkIn', date);
+                    handleDatePickerClose();
+                  }}
+                  minDate={new Date()}
+                  maxDate={getMaxCheckInDate()}
+                  placeholder="Select check-in"
+                  className={`${styles.datePickerInput} ${activeDatePicker === 'checkIn' ? styles.active : ''}`}
+                  format="MMM DD, YYYY"
+                />
+              </div>
             </div>
           </div>
 
           {/* Check-out Date Field */}
-          <div className={styles.searchField}>
+          <div className={`${styles.searchField} ${styles.dateField}`}>
             <div className={styles.fieldContent}>
               <label className={styles.fieldLabel}>Check-out Date</label>
-              <DatePicker
-                value={searchParams.checkOut}
-                onChange={(date) => handleInputChange('checkOut', date)}
-                minDate={getMinCheckOutDate()}
-                placeholder="Select check-out"
-                className={styles.datePickerInput}
-                format="MMM DD, YYYY"
-              />
+              <div
+                className={styles.datePickerContainer}
+                onClick={() => handleDatePickerToggle('checkOut')}
+              >
+                <DatePicker
+                  value={searchParams.checkOut}
+                  onChange={(date) => {
+                    handleInputChange('checkOut', date);
+                    handleDatePickerClose();
+                  }}
+                  minDate={getMinCheckOutDate()}
+                  placeholder="Select check-out"
+                  className={`${styles.datePickerInput} ${activeDatePicker === 'checkOut' ? styles.active : ''}`}
+                  format="MMM DD, YYYY"
+                />
+              </div>
             </div>
           </div>
 
@@ -230,6 +249,13 @@ const HeroSection: React.FC = () => {
           ></button>
         ))}
       </div>
+
+      {activeDatePicker && (
+        <div
+          className={styles.datePickerOverlay}
+          onClick={handleDatePickerClose}
+        />
+      )}
     </div>
   );
 };
