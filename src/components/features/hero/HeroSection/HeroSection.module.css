@@ -196,16 +196,6 @@
   border-right: none;
 }
 
-/* Date Field Specific Styles */
-.dateField {
-  position: relative;
-  z-index: 101;
-}
-
-.dateField .fieldContent {
-  cursor: pointer;
-}
-
 .fieldContent {
   display: flex;
   flex-direction: column;
@@ -269,59 +259,269 @@
   transform: translateX(-50%);
 }
 
-/* Date Picker Integration - REMOVED CONFLICTING OVERRIDES */
+/* INTEGRATED DATEPICKER STYLES */
 .datePickerContainer {
   position: relative;
   width: 100%;
-  cursor: pointer;
+  font-family: 'Instrument Sans', sans-serif;
 }
 
 .datePickerInput {
-  margin-top: 2px;
-  position: relative;
-  z-index: 102;
-}
-
-/* REMOVE these conflicting overrides - let DatePicker handle its own positioning */
-/* .datePickerInput :global(.datePicker) {
-  position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  z-index: 10000 !important;
-  margin-top: 0 !important;
-  min-width: 320px !important;
-  max-width: 90vw !important;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  animation: datePickerSlideIn 0.3s ease-out !important;
-} */
-
-.datePickerInput.active :global(.datePicker) {
-  display: block !important;
-}
-
-/* Overlay to close date pickers */
-.datePickerOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
-  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border: none;
+  background: transparent;
   cursor: pointer;
-  animation: overlayFadeIn 0.3s ease-out;
+  transition: all 0.3s ease;
+  min-height: auto;
+  position: relative;
+  width: 100%;
 }
 
-@keyframes overlayFadeIn {
+.datePickerInput:hover {
+  opacity: 0.8;
+}
+
+.datePickerInputFocused {
+  opacity: 1;
+}
+
+.datePickerHasValue .datePickerValue {
+  color: #470F51;
+  font-weight: 600;
+}
+
+.datePickerValue {
+  color: #1E1E1E;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.datePickerPlaceholder {
+  color: #8E8E8E;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.datePickerIcon {
+  color: #470F51;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.datePickerInputFocused .datePickerIcon {
+  transform: scale(1.1);
+  color: #FDC959;
+}
+
+/* Date Picker Popup - CENTERED AND RESPONSIVE */
+.datePickerPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  padding: 20px;
+  min-width: 320px;
+  max-width: 90vw;
+  animation: datePickerSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes datePickerSlideIn {
   from {
     opacity: 0;
+    transform: translate(-50%, -45%);
   }
   to {
     opacity: 1;
+    transform: translate(-50%, -50%);
   }
+}
+
+.datePickerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.datePickerNavButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: #F8FAFC;
+  border-radius: 10px;
+  color: #470F51;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.datePickerNavButton:hover {
+  background: #470F51;
+  color: white;
+  transform: scale(1.05);
+}
+
+.datePickerMonthYear {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.datePickerViewToggle {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  color: #470F51;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.datePickerViewToggle:hover {
+  background: #F8FAFC;
+  color: #5a1466;
+}
+
+.datePickerYearRange {
+  font-size: 16px;
+  font-weight: 700;
+  color: #470F51;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.datePickerGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.datePickerWeekDay {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6B7280;
+  padding: 8px 4px;
+  text-transform: uppercase;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.datePickerDay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+  font-family: 'Instrument Sans', sans-serif;
+  background: white;
+  color: #1E1E1E;
+}
+
+.datePickerDay:hover {
+  background: #F8FAFC;
+  transform: scale(1.1);
+}
+
+.datePickerSelected {
+  background: linear-gradient(135deg, #470F51, #5a1466);
+  color: white;
+  font-weight: 700;
+  transform: scale(1.05);
+}
+
+.datePickerToday {
+  border: 2px solid #FDC959;
+}
+
+.datePickerDisabled {
+  background: #F3F4F6;
+  color: #D1D5DB;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.datePickerEmpty {
+  background: transparent;
+  cursor: default;
+}
+
+.datePickerMonthsGrid,
+.datePickerYearsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.datePickerMonth,
+.datePickerYear {
+  padding: 16px 8px;
+  border: none;
+  border-radius: 12px;
+  background: white;
+  color: #1E1E1E;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.datePickerMonth:hover,
+.datePickerYear:hover {
+  background: #F8FAFC;
+  transform: translateY(-2px);
+}
+
+.datePickerFooter {
+  display: flex;
+  justify-content: center;
+  padding-top: 16px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.datePickerTodayButton {
+  padding: 10px 20px;
+  border: 2px solid #470F51;
+  background: transparent;
+  color: #470F51;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.datePickerTodayButton:hover {
+  background: #470F51;
+  color: white;
+  transform: translateY(-2px);
 }
 
 .availabilityButton {
@@ -448,6 +648,11 @@
   .subtitle {
     font-size: 1.1rem;
   }
+
+  .datePickerPopup {
+    min-width: 300px;
+    max-width: 85vw;
+  }
 }
 
 @media (max-width: 768px) {
@@ -531,13 +736,16 @@
     font-size: 12px;
   }
 
-  .gradientOverlay {
-    background: linear-gradient(
-      90deg, 
-      rgba(71, 15, 81, 0.7) 0%, 
-      rgba(71, 15, 81, 0.5) 70%, 
-      rgba(71, 15, 81, 0.2) 100%
-    );
+  .datePickerPopup {
+    min-width: 280px;
+    max-width: 92vw;
+    padding: 16px;
+  }
+
+  .datePickerDay {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
   }
 
   .carouselIndicators {
@@ -608,6 +816,18 @@
     width: 160px;
     height: 48px;
     font-size: 1rem;
+  }
+
+  .datePickerPopup {
+    min-width: 260px;
+    max-width: 94vw;
+    padding: 12px;
+  }
+
+  .datePickerDay {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
   }
 
   .contentSection {

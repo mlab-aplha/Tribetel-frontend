@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Button from '@components/common/Button/Button';
 import Card from '@components/common/Card/Card';
-import DatePicker from '@components/common/DatePicker/DatePicker';
 import styles from './HeroSection.module.css';
 import heroImage from '@/assets/hero-image.png';
 import service1 from '@/assets/service1.png';
@@ -19,6 +18,313 @@ interface SearchParams {
   checkOut: Date | null;
 }
 
+interface DatePickerProps {
+  value: Date | null;
+  onChange: (date: Date) => void;
+  minDate?: Date;
+  maxDate?: Date;
+  placeholder?: string;
+  className?: string;
+}
+
+const DatePicker: React.FC<DatePickerProps> = ({
+  value,
+  onChange,
+  minDate = new Date(),
+  maxDate,
+  placeholder = 'Select date',
+  className = ''
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [view, setView] = useState<'days' | 'months' | 'years'>('days');
+  const datePickerRef = useRef<HTMLDivElement>(null);
+
+  // Close datepicker when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (datePickerRef.current && !datePickerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+        setView('days');
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const formatDate = (date: Date | null): string => {
+    if (!date) return '';
+    const month = date.toLocaleDateString('en-US', { month: 'short' });
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month} ${day}, ${year}`;
+  };
+
+  const isDateDisabled = (date: Date): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (date < today) return true;
+    if (minDate && date < minDate) return true;
+    if (maxDate && date > maxDate) return true;
+    return false;
+  };
+
+  const getDaysInMonth = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  };
+
+  const getFirstDayOfMonth = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  };
+
+  const generateCalendarDays = () => {
+    const daysInMonth = getDaysInMonth(currentMonth);
+    const firstDay = getFirstDayOfMonth(currentMonth);
+    const days: (Date | null)[] = [];
+
+    for (let i = 0; i < firstDay; i++) {
+      days.push(null);
+    }
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i));
+    }
+
+    return days;
+  };
+
+  const handleDateSelect = (date: Date) => {
+    if (!isDateDisabled(date)) {
+      onChange(date);
+      setIsOpen(false);
+      setView('days');
+    }
+  };
+
+  const navigateMonth = (direction: 'prev' | 'next') => {
+    setCurrentMonth(prev => {
+      const newMonth = new Date(prev);
+      if (direction === 'prev') {
+        newMonth.setMonth(prev.getMonth() - 1);
+      } else {
+        newMonth.setMonth(prev.getMonth() + 1);
+      }
+      return newMonth;
+    });
+  };
+
+  const goToToday = () => {
+    const today = new Date();
+    if (!isDateDisabled(today)) {
+      onChange(today);
+      setIsOpen(false);
+    }
+    setCurrentMonth(new Date());
+    setView('days');
+  };
+
+  const selectMonth = (month: number) => {
+    const newDate = new Date(currentMonth);
+    newDate.setMonth(month);
+    setCurrentMonth(newDate);
+    setView('days');
+  };
+
+  const selectYear = (year: number) => {
+    const newDate = new Date(currentMonth);
+    newDate.setFullYear(year);
+    setCurrentMonth(newDate);
+    setView('months');
+  };
+
+  const calendarDays = generateCalendarDays();
+  const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  const months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 21 }, (_, i) => currentYear - 10 + i);
+
+  return (
+    <div className={`${styles.datePickerContainer} ${className}`} ref={datePickerRef}>
+      <div
+        className={`${styles.datePickerInput} ${isOpen ? styles.datePickerInputFocused : ''} ${value ? styles.datePickerHasValue : ''}`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span className={value ? styles.datePickerValue : styles.datePickerPlaceholder}>
+          {value ? formatDate(value) : placeholder}
+        </span>
+        <div className={styles.datePickerIcon}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M8 2V5M16 2V5M3.5 9.09H20.5M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M15.6947 13.7H15.7037M15.6947 16.7H15.7037M11.9955 13.7H12.0045M11.9955 16.7H12.0045M8.29431 13.7H8.30329M8.29431 16.7H8.30329"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+      </div>
+
+      {isOpen && (
+        <div className={styles.datePickerPopup}>
+          {/* Header with navigation */}
+          <div className={styles.datePickerHeader}>
+            <button
+              type="button"
+              className={styles.datePickerNavButton}
+              onClick={() => view === 'days' ? navigateMonth('prev') : setView('days')}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M15 19L8 12L15 5"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+
+            <div className={styles.datePickerMonthYear}>
+              {view === 'days' && (
+                <button
+                  type="button"
+                  className={styles.datePickerViewToggle}
+                  onClick={() => setView('months')}
+                >
+                  {currentMonth.toLocaleDateString('en-US', { month: 'long' })}
+                </button>
+              )}
+              {view === 'months' && (
+                <button
+                  type="button"
+                  className={styles.datePickerViewToggle}
+                  onClick={() => setView('years')}
+                >
+                  {currentMonth.getFullYear()}
+                </button>
+              )}
+              {view === 'years' && (
+                <span className={styles.datePickerYearRange}>
+                  {years[0]} - {years[years.length - 1]}
+                </span>
+              )}
+            </div>
+
+            <button
+              type="button"
+              className={styles.datePickerNavButton}
+              onClick={() => view === 'days' ? navigateMonth('next') : setView('days')}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M9 5L16 12L9 19"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Calendar Grid */}
+          {view === 'days' && (
+            <>
+              <div className={styles.datePickerGrid}>
+                {weekDays.map(day => (
+                  <div key={day} className={styles.datePickerWeekDay}>
+                    {day}
+                  </div>
+                ))}
+
+                {calendarDays.map((date, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    className={`${styles.datePickerDay} ${date ? (
+                      value && date.toDateString() === value.toDateString()
+                        ? styles.datePickerSelected
+                        : isDateDisabled(date)
+                          ? styles.datePickerDisabled
+                          : styles.datePickerAvailable
+                    ) : styles.datePickerEmpty
+                      } ${date && date.getDate() === new Date().getDate() &&
+                        date.getMonth() === new Date().getMonth() &&
+                        date.getFullYear() === new Date().getFullYear() ? styles.datePickerToday : ''}`}
+                    onClick={() => date && handleDateSelect(date)}
+                    disabled={!date || isDateDisabled(date)}
+                  >
+                    {date ? date.getDate() : ''}
+                  </button>
+                ))}
+              </div>
+
+              <div className={styles.datePickerFooter}>
+                <button
+                  type="button"
+                  className={styles.datePickerTodayButton}
+                  onClick={goToToday}
+                >
+                  Today
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* Months View */}
+          {view === 'months' && (
+            <div className={styles.datePickerMonthsGrid}>
+              {months.map((month, index) => (
+                <button
+                  key={month}
+                  type="button"
+                  className={`${styles.datePickerMonth} ${currentMonth.getMonth() === index ? styles.datePickerSelected : ''
+                    }`}
+                  onClick={() => selectMonth(index)}
+                >
+                  {month}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Years View */}
+          {view === 'years' && (
+            <div className={styles.datePickerYearsGrid}>
+              {years.map(year => (
+                <button
+                  key={year}
+                  type="button"
+                  className={`${styles.datePickerYear} ${currentMonth.getFullYear() === year ? styles.datePickerSelected : ''
+                    }`}
+                  onClick={() => selectYear(year)}
+                >
+                  {year}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Main HeroSection Component
 const HeroSection: React.FC = () => {
   const [searchParams, setSearchParams] = useState<SearchParams>({
     destination: '',
@@ -26,10 +332,6 @@ const HeroSection: React.FC = () => {
     checkOut: null
   });
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeDatePicker, setActiveDatePicker] = useState<'checkIn' | 'checkOut' | null>(null);
-
-  const checkInRef = useRef<HTMLDivElement>(null);
-  const checkOutRef = useRef<HTMLDivElement>(null);
 
   const heroImages = [
     heroImage,
@@ -83,14 +385,6 @@ const HeroSection: React.FC = () => {
         checkOut: null
       }));
     }
-  };
-
-  const handleDatePickerToggle = (type: 'checkIn' | 'checkOut') => {
-    setActiveDatePicker(activeDatePicker === type ? null : type);
-  };
-
-  const handleDatePickerClose = () => {
-    setActiveDatePicker(null);
   };
 
   const getMinCheckOutDate = (): Date | undefined => {
@@ -183,55 +477,29 @@ const HeroSection: React.FC = () => {
           </div>
 
           {/* Check-in Date Field */}
-          <div
-            className={`${styles.searchField} ${styles.dateField}`}
-            ref={checkInRef}
-          >
+          <div className={styles.searchField}>
             <div className={styles.fieldContent}>
               <label className={styles.fieldLabel}>Check-in Date</label>
-              <div
-                className={styles.datePickerContainer}
-                onClick={() => handleDatePickerToggle('checkIn')}
-              >
-                <DatePicker
-                  value={searchParams.checkIn}
-                  onChange={(date) => {
-                    handleInputChange('checkIn', date);
-                    handleDatePickerClose();
-                  }}
-                  minDate={new Date()}
-                  maxDate={getMaxCheckInDate()}
-                  placeholder="Select check-in"
-                  className={`${styles.datePickerInput} ${activeDatePicker === 'checkIn' ? styles.active : ''}`}
-                  format="MMM DD, YYYY"
-                />
-              </div>
+              <DatePicker
+                value={searchParams.checkIn}
+                onChange={(date) => handleInputChange('checkIn', date)}
+                minDate={new Date()}
+                maxDate={getMaxCheckInDate()}
+                placeholder="Select check-in"
+              />
             </div>
           </div>
 
           {/* Check-out Date Field */}
-          <div
-            className={`${styles.searchField} ${styles.dateField}`}
-            ref={checkOutRef}
-          >
+          <div className={styles.searchField}>
             <div className={styles.fieldContent}>
               <label className={styles.fieldLabel}>Check-out Date</label>
-              <div
-                className={styles.datePickerContainer}
-                onClick={() => handleDatePickerToggle('checkOut')}
-              >
-                <DatePicker
-                  value={searchParams.checkOut}
-                  onChange={(date) => {
-                    handleInputChange('checkOut', date);
-                    handleDatePickerClose();
-                  }}
-                  minDate={getMinCheckOutDate()}
-                  placeholder="Select check-out"
-                  className={`${styles.datePickerInput} ${activeDatePicker === 'checkOut' ? styles.active : ''}`}
-                  format="MMM DD, YYYY"
-                />
-              </div>
+              <DatePicker
+                value={searchParams.checkOut}
+                onChange={(date) => handleInputChange('checkOut', date)}
+                minDate={getMinCheckOutDate()}
+                placeholder="Select check-out"
+              />
             </div>
           </div>
 
@@ -258,13 +526,6 @@ const HeroSection: React.FC = () => {
           ></button>
         ))}
       </div>
-
-      {activeDatePicker && (
-        <div
-          className={styles.datePickerOverlay}
-          onClick={handleDatePickerClose}
-        />
-      )}
     </div>
   );
 };
