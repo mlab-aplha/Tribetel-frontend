@@ -1,4 +1,3 @@
-// components/HeroSection/HeroSection.tsx
 import React, { useState, useEffect } from 'react';
 import Button from '@components/common/Button/Button';
 import Card from '@components/common/Card/Card';

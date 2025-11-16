@@ -30,7 +30,7 @@ const Showcase: React.FC<ShowcaseProps> = ({
     title = "Our best places - on offer",
     subtitle = "Handpicked luxury accommodations for your perfect stay",
     rooms = [],
-    backgroundColor = "#FDC959", 
+    backgroundColor = "#FDC959",
     onRoomClick,
     onViewAll
 }) => {
@@ -94,7 +94,7 @@ const Showcase: React.FC<ShowcaseProps> = ({
                                 />
                                 {room.rating && (
                                     <div className={styles.ratingBadge}>
-                                        ⭐ {room.rating}
+                                        {room.rating}
                                     </div>
                                 )}
                                 <div className={styles.roomOverlay} />
@@ -102,7 +102,7 @@ const Showcase: React.FC<ShowcaseProps> = ({
                             <div className={styles.roomInfo}>
                                 <h3 className={styles.roomTitle}>{room.title}</h3>
                                 <p className={styles.roomDescription}>{room.description}</p>
-                                
+
                                 {room.features && (
                                     <div className={styles.roomFeatures}>
                                         {room.features.slice(0, 2).map((feature, index) => (
@@ -112,7 +112,7 @@ const Showcase: React.FC<ShowcaseProps> = ({
                                         ))}
                                     </div>
                                 )}
-                                
+
                                 <div className={styles.roomFooter}>
                                     <div className={styles.roomPrice}>
                                         <span className={styles.priceAmount}>R{room.price}</span>
