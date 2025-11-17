@@ -1,237 +1,182 @@
-import { PaymentRequest, PaymentResponse, ApiResponse } from '../components/types/common';
+import { PaymentRequest, PaymentResponse, ApiResponse } from '../components/types/booking';
+import { apiClient } from './api';
+
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true';
+
+const mockProcessPayment = async (paymentRequest: PaymentRequest): Promise<{ success: boolean; data: PaymentResponse; message: string }> => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    return {
+        success: true,
+        data: {
+            id: `payment-${Date.now()}`,
+            bookingId: paymentRequest.bookingId,
+            amount: paymentRequest.amount,
+            currency: paymentRequest.currency,
+            status: 'succeeded',
+            paymentMethod: paymentRequest.paymentMethod,
+            transactionId: `txn-${Date.now()}`,
+            paidAt: new Date().toISOString(),
+            receiptUrl: '#' // Add receiptUrl
+        },
+        message: 'Payment processed successfully'
+    };
+};
+
+const mockService = {
+    async processPayment(paymentData: PaymentRequest): Promise<ApiResponse<PaymentResponse>> {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        const response = await mockProcessPayment(paymentData);
+
+        if (response.success) {
+            return {
+                success: true,
+                message: response.message,
+                data: response.data
+            };
+        } else {
+            return {
+                success: false,
+                message: response.message,
+                data: {
+                    id: `payment-${Date.now()}`,
+                    status: 'failed',
+                    amount: paymentData.amount,
+                    currency: paymentData.currency,
+                    paymentMethod: paymentData.paymentMethod,
+                    transactionId: `txn-${Date.now()}`,
+                    bookingId: paymentData.bookingId,
+                    paidAt: new Date().toISOString(),
+                    receiptUrl: '' // Add receiptUrl
+                }
+            };
+        }
+    },
+
+    async verifyPayment(sessionId: string): Promise<ApiResponse<PaymentResponse>> {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        return {
+            success: true,
+            message: 'Payment verified successfully',
+            data: {
+                id: `payment-${Date.now()}`,
+                status: 'succeeded',
+                amount: 1000,
+                currency: 'ZAR',
+                paymentMethod: 'card',
+                transactionId: sessionId,
+                bookingId: `booking-${Date.now()}`,
+                paidAt: new Date().toISOString(),
+                receiptUrl: '#' // Add receiptUrl
+            }
+        };
+    },
+
+    async refundPayment(bookingId: string): Promise<ApiResponse<PaymentResponse>> {
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        return {
+            success: true,
+            message: 'Refund processed successfully',
+            data: {
+                id: `refund-${Date.now()}`,
+                status: 'refunded',
+                amount: 1000,
+                currency: 'ZAR',
+                paymentMethod: 'refund',
+                transactionId: `refund-${Date.now()}`,
+                bookingId: bookingId,
+                paidAt: new Date().toISOString(),
+                receiptUrl: '#' // Add receiptUrl
+            }
+        };
+    }
+};
+
+const apiService = {
+    async processPayment(paymentData: PaymentRequest): Promise<ApiResponse<PaymentResponse>> {
+        // Use Stripe checkout session creation
+        const response = await apiClient.post<ApiResponse<{ url: string }>>('/functions/v1/create-checkout', {
+            bookingId: paymentData.bookingId
+        });
+
+        if (response.success) {
+            // Redirect to Stripe checkout
+            window.location.href = response.data.url;
+
+            // Return a pending response
+            return {
+                success: true,
+                message: 'Redirecting to payment...',
+                data: {
+                    id: `payment-${Date.now()}`,
+                    status: 'pending',
+                    amount: paymentData.amount,
+                    currency: paymentData.currency,
+                    paymentMethod: paymentData.paymentMethod,
+                    transactionId: `txn-${Date.now()}`,
+                    bookingId: paymentData.bookingId,
+                    paidAt: new Date().toISOString(),
+                    receiptUrl: '' // Add receiptUrl
+                }
+            };
+        } else {
+            throw new Error('Failed to create checkout session');
+        }
+    },
+
+    async verifyPayment(sessionId: string): Promise<ApiResponse<PaymentResponse>> {
+        return await apiClient.post<ApiResponse<PaymentResponse>>('/functions/v1/verify-payment', {
+            sessionId: sessionId
+        });
+    },
+
+    async refundPayment(bookingId: string): Promise<ApiResponse<PaymentResponse>> {
+        // For refunds, we'll use mock for now as the API might not have this endpoint
+        return await mockService.refundPayment(bookingId);
+    }
+};
 
 export const paymentService = {
-    async processPayment(paymentRequest: PaymentRequest): Promise<ApiResponse<PaymentResponse>> {
+    async processPayment(paymentData: PaymentRequest): Promise<ApiResponse<PaymentResponse>> {
         try {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-
-            const paymentResponse: PaymentResponse = {
-                id: `pay_${Math.random().toString(36).substr(2, 9)}`,
-                status: 'succeeded',
-                amount: paymentRequest.amount,
-                currency: paymentRequest.currency,
-                paymentMethod: paymentRequest.paymentMethod,
-                transactionId: `txn_${Math.random().toString(36).substr(2, 9)}`,
-                bookingId: paymentRequest.bookingId,
-                paidAt: new Date().toISOString()
-            };
-
-            return {
-                success: true,
-                message: 'Payment processed successfully',
-                data: paymentResponse
-            };
-        } catch (error) {
-            console.error('Payment processing error:', error);
-            return {
-                success: false,
-                message: 'Failed to process payment',
-                data: {
-                    id: '',
-                    status: 'failed',
-                    amount: 0,
-                    currency: 'ZAR',
-                    paymentMethod: '',
-                    transactionId: '',
-                    bookingId: '',
-                    paidAt: ''
-                }
-            };
-        }
-    },
-
-    async getPaymentStatus(paymentId: string): Promise<ApiResponse<PaymentResponse>> {
-        try {
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            const paymentResponse: PaymentResponse = {
-                id: paymentId,
-                status: 'succeeded',
-                amount: 1200,
-                currency: 'ZAR',
-                paymentMethod: 'credit_card',
-                transactionId: `txn_${Math.random().toString(36).substr(2, 9)}`,
-                bookingId: 'booking_123',
-                paidAt: new Date().toISOString()
-            };
-
-            return {
-                success: true,
-                message: 'Payment status fetched successfully',
-                data: paymentResponse
-            };
-        } catch (error) {
-            console.error('Error fetching payment status:', error);
-            return {
-                success: false,
-                message: 'Failed to fetch payment status',
-                data: {
-                    id: paymentId,
-                    status: 'failed',
-                    amount: 0,
-                    currency: 'ZAR',
-                    paymentMethod: '',
-                    transactionId: '',
-                    bookingId: '',
-                    paidAt: ''
-                }
-            };
-        }
-    },
-
-    async refundPayment(paymentId: string, amount?: number): Promise<ApiResponse<PaymentResponse>> {
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            const refundResponse: PaymentResponse = {
-                id: paymentId,
-                status: 'succeeded', // Changed from 'refunded' to valid status
-                amount: amount || 1200,
-                currency: 'ZAR',
-                paymentMethod: 'credit_card',
-                transactionId: `ref_${Math.random().toString(36).substr(2, 9)}`,
-                bookingId: 'booking_123',
-                paidAt: new Date().toISOString()
-            };
-
-            return {
-                success: true,
-                message: 'Refund processed successfully',
-                data: refundResponse
-            };
-        } catch (error) {
-            console.error('Error processing refund:', error);
-            return {
-                success: false,
-                message: 'Failed to process refund',
-                data: {
-                    id: paymentId,
-                    status: 'failed',
-                    amount: 0,
-                    currency: 'ZAR',
-                    paymentMethod: '',
-                    transactionId: '',
-                    bookingId: '',
-                    paidAt: ''
-                }
-            };
-        }
-    },
-
-    async validatePaymentMethod(paymentMethod: any): Promise<ApiResponse<{ valid: boolean; message?: string }>> {
-        try {
-            await new Promise(resolve => setTimeout(resolve, 300));
-
-            if (!paymentMethod.cardNumber || !paymentMethod.expiryDate || !paymentMethod.cvv) {
-                return {
-                    success: false,
-                    message: 'Invalid payment method details',
-                    data: { valid: false, message: 'Missing required payment details' }
-                };
+            if (USE_MOCK_DATA) {
+                return await mockService.processPayment(paymentData);
             }
-            const cardNumber = paymentMethod.cardNumber.replace(/\s/g, '');
-            if (cardNumber.length !== 16 || isNaN(Number(cardNumber))) {
-                return {
-                    success: false,
-                    message: 'Invalid card number',
-                    data: { valid: false, message: 'Card number must be 16 digits' }
-                };
+            return await apiService.processPayment(paymentData);
+        } catch (error) {
+            console.error('Error in processPayment:', error);
+            return await mockService.processPayment(paymentData);
+        }
+    },
+
+    async verifyPayment(sessionId: string): Promise<ApiResponse<PaymentResponse>> {
+        try {
+            if (USE_MOCK_DATA) {
+                return await mockService.verifyPayment(sessionId);
             }
-
-            return {
-                success: true,
-                message: 'Payment method validated successfully',
-                data: { valid: true }
-            };
+            return await apiService.verifyPayment(sessionId);
         } catch (error) {
-            console.error('Error validating payment method:', error);
-            return {
-                success: false,
-                message: 'Failed to validate payment method',
-                data: { valid: false, message: 'Validation failed' }
-            };
+            console.error('Error in verifyPayment:', error);
+            return await mockService.verifyPayment(sessionId);
         }
     },
 
-    async getPaymentMethods(userId?: string): Promise<ApiResponse<any[]>> {
+    async refundPayment(bookingId: string): Promise<ApiResponse<PaymentResponse>> {
         try {
-            await new Promise(resolve => setTimeout(resolve, 400));
-            console.log('Fetching payment methods for user:', userId);
-            const paymentMethods = [
-                {
-                    id: 'pm_1',
-                    type: 'credit_card',
-                    last4: '4242',
-                    brand: 'visa',
-                    expiryDate: '12/25',
-                    isDefault: true
-                },
-                {
-                    id: 'pm_2',
-                    type: 'credit_card',
-                    last4: '8888',
-                    brand: 'mastercard',
-                    expiryDate: '08/26',
-                    isDefault: false
-                }
-            ];
-
-            return {
-                success: true,
-                message: 'Payment methods fetched successfully',
-                data: paymentMethods
-            };
+            if (USE_MOCK_DATA) {
+                return await mockService.refundPayment(bookingId);
+            }
+            return await apiService.refundPayment(bookingId);
         } catch (error) {
-            console.error('Error fetching payment methods:', error);
-            return {
-                success: false,
-                message: 'Failed to fetch payment methods',
-                data: []
-            };
-        }
-    },
-
-    async processRefund(paymentId: string, amount?: number): Promise<ApiResponse<{ refundId: string; status: string; amount: number; message: string }>> {
-        try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            // Use the paymentId parameter to avoid the warning
-            console.log(`Processing refund for payment: ${paymentId}`);
-
-            const refundResponse = {
-                refundId: `ref_${Math.random().toString(36).substr(2, 9)}`,
-                status: 'processed',
-                amount: amount || 1200,
-                message: 'Refund processed successfully'
-            };
-
-            return {
-                success: true,
-                message: 'Refund processed successfully',
-                data: refundResponse
-            };
-        } catch (error) {
-            console.error('Error processing refund:', error);
-            return {
-                success: false,
-                message: 'Failed to process refund',
-                data: {
-                    refundId: '',
-                    status: 'failed',
-                    amount: 0,
-                    message: 'Refund processing failed'
-                }
-            };
+            console.error('Error in refundPayment:', error);
+            return await mockService.refundPayment(bookingId);
         }
     }
 };
 
-export const {
-    processPayment,
-    getPaymentStatus,
-    refundPayment,
-    validatePaymentMethod,
-    getPaymentMethods,
-    processRefund
-} = paymentService;
-
+export const processPayment = paymentService.processPayment;
+export const verifyPayment = paymentService.verifyPayment;
+export const refundPayment = paymentService.refundPayment;

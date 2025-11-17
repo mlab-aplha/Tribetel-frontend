@@ -13,8 +13,8 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, fullName: string) => Promise<void>;
   signOut: () => Promise<void>;
-  login: (email: string, password: string) => Promise<void>; // alias for signIn
-  signup: (email: string, password: string, fullName: string) => Promise<void>; // alias for signUp
+  login: (email: string, password: string) => Promise<void>;
+  signup: (email: string, password: string, fullName: string) => Promise<void>;
   isAdmin: boolean;
 }
 
@@ -36,9 +36,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Mock authentication for frontend
   useEffect(() => {
-    // Simulate loading user data
+
     const timer = setTimeout(() => {
       setUser({
         id: '1',
@@ -84,11 +83,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setUser(null);
   };
 
-  // Aliases for components that use different method names
   const login = signIn;
   const signup = signUp;
-  
-  // Check if user is admin
+
   const isAdmin = user?.role === 'admin';
 
   const value = {

@@ -1,234 +1,215 @@
-.bookings-page {
-    min-height: 100vh;
-    background: #f8f9fa;
-    padding: 2rem 0;
-}
-
-.bookings-container {
+.container {
+    padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
 }
 
-/* Loading State */
-.bookings-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
+.header {
     text-align: center;
+    margin-bottom: 3rem;
 }
 
-.bookings-loading p {
-    margin-top: 1rem;
-    color: #666;
-    font-size: 1.1rem;
-}
-
-/* Error State */
-.bookings-error {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    text-align: center;
-    padding: 0 2rem;
-}
-
-.error-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.retry-btn, .primary-btn {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.retry-btn {
-    background: #6c757d;
-    color: white;
-}
-
-.retry-btn:hover {
-    background: #5a6268;
-}
-
-.primary-btn {
-    background: #441d68;
-    color: white;
-}
-
-.primary-btn:hover {
-    background: #3a1757;
-}
-
-/* Header */
-.bookings-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.header-content h1 {
+.title {
     font-size: 2.5rem;
-    color: #333;
+    color: #470F51;
     margin: 0 0 0.5rem 0;
+    font-weight: 700;
 }
 
-.header-content p {
-    color: #666;
-    margin: 0;
+.subtitle {
     font-size: 1.1rem;
+    color: #6b7280;
+    margin: 0;
 }
 
-.new-booking-btn {
-    background: #441d68;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    white-space: nowrap;
-}
-
-.new-booking-btn:hover {
-    background: #3a1757;
-}
-
-/* Error Banner */
-.bookings-error-banner {
-    margin-bottom: 1.5rem;
-}
-
-/* Main Content */
-.bookings-main {
-    min-height: 400px;
-}
-
-.bookings-grid {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-}
-
-/* Footer Stats */
-.bookings-footer {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid #e9ecef;
-}
-
-.stats {
+.loadingContainer {
     display: flex;
     justify-content: center;
-    gap: 3rem;
+    align-items: center;
+    min-height: 300px;
+}
+
+/* Filter Tabs */
+.filterTabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 1rem;
     flex-wrap: wrap;
 }
 
-.stat {
+.filterTab {
+    background: none;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #6b7280;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filterTab:hover {
+    background: #f8fafc;
+    color: #470F51;
+}
+
+.filterTab.active {
+    background: #470F51;
+    color: #FDC959;
+}
+
+.count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    min-width: 24px;
     text-align: center;
 }
 
-.stat-number {
-    display: block;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #441d68;
-    margin-bottom: 0.25rem;
+/* Bookings List */
+.bookingsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
 }
 
-.stat-label {
+/* Empty State */
+.emptyState {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 2px dashed #e5e7eb;
+}
+
+.emptyIcon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.emptyState h3 {
+    color: #470F51;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+.emptyState p {
+    color: #6b7280;
+    margin: 0 0 1.5rem 0;
+    font-size: 1rem;
+}
+
+.showAllBtn {
+    background: #470F51;
+    color: #FDC959;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.showAllBtn:hover {
+    background: #3a0d42;
+}
+
+.statsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.statCard {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 1px solid #e5e7eb;
+}
+
+.statCard h4 {
+    margin: 0 0 0.5rem 0;
+    color: #6b7280;
     font-size: 0.9rem;
-    color: #666;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
+.statNumber {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #470F51;
+}
+
+/* Backend Notice */
+.backendNotice {
+    background: #fff8e1;
+    border: 1px solid #FDC959;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.backendNotice p {
+    margin: 0.5rem 0;
+    color: #92400e;
+    font-size: 0.9rem;
+}
+
+.backendNotice p:first-child {
+    font-weight: 500;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-    .bookings-page {
-        padding: 1rem 0;
+    .container {
+        padding: 1rem;
     }
 
-    .bookings-container {
-        padding: 0 0.5rem;
-    }
-
-    .bookings-header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .header-content h1 {
+    .title {
         font-size: 2rem;
     }
 
-    .bookings-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
+    .filterTabs {
+        gap: 0.5rem;
     }
 
-    .stats {
-        gap: 2rem;
+    .filterTab {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
     }
 
-    .stat-number {
+    .statsContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .statCard {
+        padding: 1rem;
+    }
+
+    .statNumber {
         font-size: 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
-    .header-content h1 {
-        font-size: 1.75rem;
-    }
-
-    .error-actions {
+    .filterTabs {
         flex-direction: column;
-        width: 100%;
-        max-width: 200px;
     }
 
-    .retry-btn, .primary-btn {
-        width: 100%;
+    .statsContainer {
+        grid-template-columns: 1fr;
     }
-
-    .stats {
-        gap: 1.5rem;
-    }
-
-    .stat {
-        flex: 1;
-        min-width: 80px;
-    }
-}
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
-    text-align: center;
-    padding: 2rem;
-}
-
-.empty-state p {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 1.5rem;
 }

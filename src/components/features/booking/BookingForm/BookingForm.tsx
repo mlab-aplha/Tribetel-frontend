@@ -4,61 +4,15 @@ import styles from './BookingForm.module.css';
 import DateRangePicker from '../DateRangePicker/DateRangePicker';
 import BookingSummary from '../BookingSummary/BookingSummary';
 import BookingConfirmationComponent from '../BookingConfirmation/BookingConfirmation';
-import { BookingRequest, BookingResponse } from '../../../../components/types/common';
-import { bookingService } from '../../../../services/bookingService';
-
-interface BookingConfirmationType {
-  id: string;
-  roomId: string;
-  bookingNumber: string;
-  fullName: string;
-  roomTitle: string;
-  checkIn: string;
-  checkOut: string;
-  nights: number;
-  guests: number;
-  total: number;
-  status: 'pending' | 'confirmed' | 'cancelled';
-  paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
-  email: string;
-  confirmedAt: string;
-  specialRequests: string;
-  customerPhone: string;
-}
-
-interface Room {
-  id: string;
-  title: string;
-  type?: string;
-  image: string;
-  pricePerNight: number;
-  maxGuests?: number;
-  features?: string[];
-}
-
-interface FormData {
-  fullName: string;
-  email: string;
-  phone: string;
-  region: string;
-  guests: number;
-  specialRequests: string;
-  checkIn: string;
-  checkOut: string;
-  paymentMethod?: string;
-}
-
-interface DateChange {
-  checkIn: string;
-  checkOut: string;
-}
-
-interface BookingFormProps {
-  room: Room;
-  onBookingSuccess: (booking: BookingResponse) => void;
-  onBookingError: (error: string) => void;
-  isDisabled?: boolean;
-}
+import {
+  BookingRequest,
+  BookingResponse,
+  BookingFormData as FormData,
+  DateRange,
+  BookingFormProps,
+  BookingConfirmationData,
+  FormErrors
+} from '../../../types/booking';
 
 const defaultForm: FormData = {
   fullName: '',
@@ -71,6 +25,39 @@ const defaultForm: FormData = {
   checkOut: '',
 };
 
+const mockBookingService = {
+  createBooking: async (bookingRequest: BookingRequest, roomTitle: string): Promise<{ success: boolean; data: BookingResponse; message: string }> => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const now = new Date().toISOString();
+
+    return {
+      success: true,
+      data: {
+        id: `booking-${Date.now()}`,
+        roomId: bookingRequest.roomId,
+        roomTitle: roomTitle,
+        checkIn: bookingRequest.checkIn,
+        checkOut: bookingRequest.checkOut,
+        nights: bookingRequest.nights,
+        guests: bookingRequest.guests,
+        totalAmount: bookingRequest.totalPrice,
+        status: 'confirmed',
+        paymentStatus: 'pending',
+        customerName: bookingRequest.customerName,
+        customerEmail: bookingRequest.customerEmail,
+        customerPhone: bookingRequest.customerPhone || '',
+        specialRequests: bookingRequest.specialRequests || '',
+        bookingNumber: `BK-${Date.now()}`,
+        confirmedAt: now,
+        createdAt: now,
+        updatedAt: now
+      },
+      message: 'Booking created successfully'
+    };
+  }
+};
+
 const BookingForm: React.FC<BookingFormProps> = ({
   room,
   onBookingSuccess,
@@ -80,9 +67,10 @@ const BookingForm: React.FC<BookingFormProps> = ({
   const navigate = useNavigate();
   const [form, setForm] = useState<FormData>(defaultForm);
   const [showSummary, setShowSummary] = useState<boolean>(false);
-  const [submittedBooking, setSubmittedBooking] = useState<BookingConfirmationType | null>(null);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submittedBooking, setSubmittedBooking] = useState<BookingConfirmationData | null>(null);
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const calculateNights = (checkIn: string, checkOut: string): number => {
     if (!checkIn || !checkOut) return 0;
@@ -91,34 +79,109 @@ const BookingForm: React.FC<BookingFormProps> = ({
     return diff > 0 ? diff : 0;
   };
 
+  const validateField = (name: string, value: any): string => {
+    switch (name) {
+      case 'fullName':
+        if (!value.trim()) return 'Full name is required';
+        if (value.trim().length < 2) return 'Full name must be at least 2 characters';
+        break;
+      case 'email':
+        if (!value.trim()) return 'Email is required';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email address';
+        break;
+      case 'phone':
+        if (!value.trim()) return 'Phone number is required';
+        if (!/^[\+]?[1-9][\d]{0,15}$/.test(value.replace(/\s/g, ''))) return 'Please enter a valid phone number';
+        break;
+      case 'checkIn':
+      case 'checkOut':
+        if (!value) return 'This field is required';
+        break;
+      case 'guests':
+        if (!value || value < 1) return 'At least 1 guest is required';
+        if (value > (room.maxGuests || 4)) return `Maximum ${room.maxGuests || 4} guests allowed`;
+        break;
+    }
+    return '';
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    const newValue = name === 'guests' ? Number(value) : value;
+
     setForm((prev) => ({
       ...prev,
-      [name]: name === 'guests' ? Number(value) : value,
+      [name]: newValue,
+    }));
+
+    if (touched[name]) {
+      const error = validateField(name, newValue);
+      setErrors(prev => ({
+        ...prev,
+        [name]: error
+      }));
+    }
+  };
+
+  const handleBlur = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+
+    const error = validateField(name, value);
+    setErrors(prev => ({
+      ...prev,
+      [name]: error
     }));
   };
 
-  const handleDateChange = ({ checkIn, checkOut }: DateChange) => {
+  const handleDateChange = ({ checkIn, checkOut }: DateRange) => {
     setForm((prev) => ({ ...prev, checkIn, checkOut }));
+
+    if (checkIn && checkOut) {
+      const dateErrors: string[] = [];
+      if (new Date(checkIn) >= new Date(checkOut)) {
+        dateErrors.push('Check-out must be after check-in');
+      }
+
+      const nights = calculateNights(checkIn, checkOut);
+      if (nights < 1) {
+        dateErrors.push('Minimum stay is 1 night');
+      }
+
+      setErrors(prev => ({
+        ...prev,
+        dates: dateErrors.join(', ')
+      }));
+    }
   };
 
-  const validate = (): boolean => {
-    const err: Record<string, string> = {};
-    if (!form.fullName.trim()) err.fullName = 'Full name is required';
-    if (!form.email.trim()) err.email = 'Email is required';
-    if (!form.phone.trim()) err.phone = 'Phone is required';
-    if (!form.checkIn || !form.checkOut)
-      err.dates = 'Please choose check-in and check-out dates';
-    if (form.checkIn && form.checkOut && new Date(form.checkIn) >= new Date(form.checkOut))
-      err.dates = 'Check-out must be after check-in';
-    setErrors(err);
-    return Object.keys(err).length === 0;
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Validate all fields
+    Object.keys(form).forEach(key => {
+      const error = validateField(key, form[key as keyof FormData]);
+      if (error) {
+        newErrors[key] = error;
+      }
+    });
+
+    // Validate dates
+    if (!form.checkIn || !form.checkOut) {
+      newErrors.dates = 'Please select both check-in and check-out dates';
+    } else if (new Date(form.checkIn) >= new Date(form.checkOut)) {
+      newErrors.dates = 'Check-out must be after check-in';
+    }
+
+    setErrors(newErrors);
+    setTouched(Object.keys(form).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
+
+    return Object.keys(newErrors).length === 0;
   };
 
   const onBookNow = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validateForm()) return;
 
     try {
       setIsSubmitting(true);
@@ -137,15 +200,30 @@ const BookingForm: React.FC<BookingFormProps> = ({
         specialRequests: form.specialRequests
       };
 
-      const response = await bookingService.createBooking(bookingRequest);
+      const response = await mockBookingService.createBooking(bookingRequest, room.title);
 
       if (response.success) {
         onBookingSuccess(response.data);
+        navigate('/payment', {
+          state: {
+            booking: {
+              id: response.data.id,
+              roomTitle: room.title,
+              nights: nights,
+              total: nights * room.pricePerNight,
+              checkIn: form.checkIn,
+              checkOut: form.checkOut,
+              guests: form.guests,
+              fullName: form.fullName,
+              email: form.email
+            }
+          }
+        });
       } else {
         throw new Error(response.message);
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Booking failed';
+      const errorMessage = error instanceof Error ? error.message : 'Booking failed. Please try again.';
       onBookingError(errorMessage);
       console.error('Booking failed:', error);
     } finally {
@@ -156,7 +234,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
   const confirmBooking = () => {
     const nights = calculateNights(form.checkIn, form.checkOut);
 
-    const booking: BookingConfirmationType = {
+    const booking: BookingConfirmationData = {
       id: `booking-${Date.now()}`,
       roomId: room.id,
       bookingNumber: `BK-${Date.now()}`,
@@ -194,46 +272,59 @@ const BookingForm: React.FC<BookingFormProps> = ({
     features: room.features || [],
   };
 
+  const isFormValid = Object.keys(errors).length === 0 &&
+    form.fullName &&
+    form.email &&
+    form.phone &&
+    form.checkIn &&
+    form.checkOut;
+
   return (
     <div className={styles.formWrap}>
       <h3 className={styles.heading}>Booking Information</h3>
-      <form onSubmit={onBookNow} className={styles.form}>
+      <form onSubmit={onBookNow} className={styles.form} noValidate>
         <label className={styles.label}>
-          Full Name
+          Full Name *
           <input
             name="fullName"
             value={form.fullName}
             onChange={handleChange}
-            className={styles.input}
+            onBlur={handleBlur}
+            className={`${styles.input} ${errors.fullName ? styles.error : ''}`}
             placeholder="Your full name"
             disabled={isSubmitting || isDisabled}
+            required
           />
           {errors.fullName && <div className={styles.error}>{errors.fullName}</div>}
         </label>
 
         <label className={styles.label}>
-          Email
+          Email *
           <input
             name="email"
             type="email"
             value={form.email}
             onChange={handleChange}
-            className={styles.input}
+            onBlur={handleBlur}
+            className={`${styles.input} ${errors.email ? styles.error : ''}`}
             placeholder="you@example.com"
             disabled={isSubmitting || isDisabled}
+            required
           />
           {errors.email && <div className={styles.error}>{errors.email}</div>}
         </label>
 
         <label className={styles.label}>
-          Phone
+          Phone *
           <input
             name="phone"
             value={form.phone}
             onChange={handleChange}
-            className={styles.input}
+            onBlur={handleBlur}
+            className={`${styles.input} ${errors.phone ? styles.error : ''}`}
             placeholder="+27 76 555 1234"
             disabled={isSubmitting || isDisabled}
+            required
           />
           {errors.phone && <div className={styles.error}>{errors.phone}</div>}
         </label>
@@ -242,6 +333,12 @@ const BookingForm: React.FC<BookingFormProps> = ({
           checkIn={form.checkIn}
           checkOut={form.checkOut}
           onChange={handleDateChange}
+          onValidationChange={(_isValid, errors) => {
+            setErrors(prev => ({
+              ...prev,
+              dates: errors.join(', ')
+            }));
+          }}
         />
         {errors.dates && <div className={styles.error}>{errors.dates}</div>}
 
@@ -251,6 +348,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
             name="region"
             value={form.region}
             onChange={handleChange}
+            onBlur={handleBlur}
             className={styles.select}
             disabled={isSubmitting || isDisabled}
           >
@@ -261,7 +359,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
         </label>
 
         <label className={styles.label}>
-          Guests
+          Guests *
           <input
             name="guests"
             type="number"
@@ -269,9 +367,15 @@ const BookingForm: React.FC<BookingFormProps> = ({
             max={room.maxGuests || 4}
             value={form.guests}
             onChange={handleChange}
-            className={styles.input}
+            onBlur={handleBlur}
+            className={`${styles.input} ${errors.guests ? styles.error : ''}`}
             disabled={isSubmitting || isDisabled}
+            required
           />
+          {errors.guests && <div className={styles.error}>{errors.guests}</div>}
+          <small className={styles.helperText}>
+            Maximum {room.maxGuests || 4} guests allowed
+          </small>
         </label>
 
         <label className={styles.label}>
@@ -280,17 +384,22 @@ const BookingForm: React.FC<BookingFormProps> = ({
             name="specialRequests"
             value={form.specialRequests}
             onChange={handleChange}
+            onBlur={handleBlur}
             className={styles.textarea}
-            placeholder="Any special request (optional)"
+            placeholder="Any special requests or requirements (optional)"
             disabled={isSubmitting || isDisabled}
+            maxLength={500}
           />
+          <small className={styles.helperText}>
+            {form.specialRequests.length}/500 characters
+          </small>
         </label>
 
         <div className={styles.actions}>
           <button
             type="submit"
             className={styles.bookBtn}
-            disabled={isSubmitting || isDisabled}
+            disabled={isSubmitting || isDisabled || !isFormValid}
           >
             {isSubmitting ? 'Booking...' : 'Book Now'}
           </button>
@@ -298,10 +407,11 @@ const BookingForm: React.FC<BookingFormProps> = ({
             type="button"
             className={styles.summaryBtn}
             onClick={() => {
-              if (!validate()) return;
-              setShowSummary(!showSummary);
+              if (validateForm()) {
+                setShowSummary(!showSummary);
+              }
             }}
-            disabled={isSubmitting || isDisabled}
+            disabled={isSubmitting || isDisabled || !isFormValid}
           >
             {showSummary ? 'Hide Summary' : 'Preview Summary'}
           </button>
@@ -314,6 +424,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
           room={roomSummary}
           nights={calculateNights(form.checkIn, form.checkOut)}
           onConfirm={confirmBooking}
+          onEdit={() => setShowSummary(false)}
         />
       )}
     </div>
@@ -321,4 +432,3 @@ const BookingForm: React.FC<BookingFormProps> = ({
 };
 
 export default BookingForm;
-

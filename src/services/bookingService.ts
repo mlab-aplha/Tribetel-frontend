@@ -1,7 +1,7 @@
 import { BookingRequest, BookingResponse, BookingConfirmationData, ApiResponse } from '../components/types/booking';
+import { apiClient } from './api';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://tribetel-frontend.onrender.com/api';
-const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true' || !import.meta.env.VITE_API_URL;
+const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true';
 
 const mockBookings: BookingConfirmationData[] = [
     {
@@ -30,63 +30,6 @@ const datesOverlap = (start1: string, end1: string, start2: string, end2: string
     const d3 = new Date(start2);
     const d4 = new Date(end2);
     return d1 < d4 && d2 > d3;
-};
-
-const apiClient = {
-    async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-        const url = `${API_BASE_URL}${endpoint}`;
-        const config: RequestInit = {
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers,
-            },
-            ...options,
-        };
-
-        // Add authorization header
-        const token = localStorage.getItem('authToken');
-        if (token) {
-            config.headers = {
-                ...config.headers,
-                'Authorization': `Bearer ${token}`
-            };
-        }
-
-        try {
-            const response = await fetch(url, config);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error(`API request failed for ${endpoint}:`, error);
-            throw error;
-        }
-    },
-
-    get<T>(endpoint: string): Promise<T> {
-        return this.request<T>(endpoint, { method: 'GET' });
-    },
-
-    post<T>(endpoint: string, data: any): Promise<T> {
-        return this.request<T>(endpoint, {
-            method: 'POST',
-            body: JSON.stringify(data),
-        });
-    },
-
-    put<T>(endpoint: string, data: any): Promise<T> {
-        return this.request<T>(endpoint, {
-            method: 'PUT',
-            body: JSON.stringify(data),
-        });
-    },
-
-    delete<T>(endpoint: string): Promise<T> {
-        return this.request<T>(endpoint, { method: 'DELETE' });
-    },
 };
 
 const mockService = {
@@ -153,28 +96,39 @@ const mockService = {
         const customerEmail = bookingRequest.customerEmail ||
             `${bookingRequest.customerName.toLowerCase().replace(/\s+/g, '.')}@tritel.co.za`;
 
+        const bookingId = `booking-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+        // Calculate nights and total amount for mock data
+        const checkInDate = new Date(bookingRequest.checkIn);
+        const checkOutDate = new Date(bookingRequest.checkOut);
+        const nights = Math.ceil((checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24));
+        const totalAmount = nights * 1200; // Mock price calculation
+
         const newBooking: BookingResponse = {
-            id: Math.random().toString(36).substr(2, 9),
+            id: bookingId,
             roomId: bookingRequest.roomId,
-            roomTitle: 'Mock Room Title',
+            roomTitle: bookingRequest.roomTitle || `Room ${bookingRequest.roomId}`,
             checkIn: bookingRequest.checkIn,
             checkOut: bookingRequest.checkOut,
             guests: bookingRequest.guests,
-            nights: bookingRequest.nights,
-            totalAmount: bookingRequest.totalPrice,
+            nights: nights,
+            totalAmount: totalAmount,
             status: 'pending',
+            paymentStatus: 'pending',
+            bookingNumber: `BK-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            confirmedAt: new Date().toISOString(),
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
             specialRequests: bookingRequest.specialRequests || '',
             customerName: bookingRequest.customerName,
-            customerEmail: customerEmail,
+            customerEmail: bookingRequest.customerEmail,
             customerPhone: bookingRequest.customerPhone || ''
         };
 
         const confirmation: BookingConfirmationData = {
             id: newBooking.id,
             roomId: newBooking.roomId,
-            bookingNumber: `BK-TR-${new Date().getFullYear()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`,
+            bookingNumber: newBooking.bookingNumber,
             fullName: bookingRequest.customerName,
             roomTitle: newBooking.roomTitle,
             checkIn: newBooking.checkIn,
@@ -185,10 +139,11 @@ const mockService = {
             status: newBooking.status,
             paymentStatus: 'pending',
             email: customerEmail,
-            confirmedAt: new Date().toISOString(),
-            specialRequests: newBooking.specialRequests || '',
+            confirmedAt: newBooking.confirmedAt,
+            specialRequests: newBooking.specialRequests,
             customerPhone: newBooking.customerPhone || ''
         };
+
         mockBookings.push(confirmation);
 
         return {
@@ -313,7 +268,20 @@ const apiService = {
     },
 
     async createBooking(bookingRequest: BookingRequest): Promise<ApiResponse<BookingResponse>> {
-        return await apiClient.post<ApiResponse<BookingResponse>>('/bookings', bookingRequest);
+        // Transform to match backend API format
+        const apiBookingRequest = {
+            room_id: bookingRequest.roomId,
+            check_in_date: bookingRequest.checkIn,
+            check_out_date: bookingRequest.checkOut,
+            number_of_rooms: 1, // Default to 1 room
+            number_of_guests: bookingRequest.guests,
+            special_requests: bookingRequest.specialRequests || '',
+            customer_name: bookingRequest.customerName,
+            customer_email: bookingRequest.customerEmail,
+            customer_phone: bookingRequest.customerPhone || ''
+        };
+
+        return await apiClient.post<ApiResponse<BookingResponse>>('/bookings', apiBookingRequest);
     },
 
     async getUserBookings(userId: string): Promise<ApiResponse<BookingConfirmationData[]>> {
@@ -325,7 +293,12 @@ const apiService = {
     },
 
     async updateBooking(bookingId: string, updates: Partial<BookingRequest>): Promise<ApiResponse<BookingConfirmationData>> {
-        return await apiClient.put<ApiResponse<BookingConfirmationData>>(`/bookings/${bookingId}`, updates);
+        const apiUpdates = {
+            special_requests: updates.specialRequests,
+            customer_name: updates.customerName,
+            customer_phone: updates.customerPhone
+        };
+        return await apiClient.put<ApiResponse<BookingConfirmationData>>(`/bookings/${bookingId}`, apiUpdates);
     },
 
     async checkAvailability(roomId: string, checkIn: string, checkOut: string): Promise<ApiResponse<{ available: boolean; conflictingBookings?: string[] }>> {
@@ -421,21 +394,6 @@ export const bookingService = {
     }
 };
 
-export const bookingConfig = {
-    isUsingMockData: USE_MOCK_DATA,
-    apiBaseUrl: API_BASE_URL,
-
-    useRealAPI() {
-        console.log('Switching to real API mode');
-        localStorage.setItem('use_real_api', 'true');
-    },
-
-    useMockAPI() {
-        console.log('Switching to mock API mode');
-        localStorage.setItem('use_real_api', 'false');
-    }
-};
-
 export const getBookingConfirmation = bookingService.getBookingConfirmation;
 export const getBookingsByEmail = bookingService.getBookingsByEmail;
 export const createBooking = bookingService.createBooking;
@@ -443,4 +401,3 @@ export const getUserBookings = bookingService.getUserBookings;
 export const cancelBooking = bookingService.cancelBooking;
 export const updateBooking = bookingService.updateBooking;
 export const checkAvailability = bookingService.checkAvailability;
-

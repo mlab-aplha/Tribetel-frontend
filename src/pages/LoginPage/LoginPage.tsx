@@ -4,7 +4,6 @@ import SignInLayout from '../../components/features/auth/SignIn/SignInLayout';
 import SignInForm from '../../components/features/auth/SignIn/SignInForm';
 import AdminLayout from '../../components/features/auth/AdminSignIn/AdminLayout';
 import AdminSignInForm from '../../components/features/auth/AdminSignIn/AdminSignInForm';
-import ProtectedRoute from '../../components/features/auth/ProtectedRoute/ProtectedRoute';
 import { useAuth } from '../../hooks/useAuth';
 import Loader from '../../components/common/Loader/Loader';
 import './LoginPage.module.css';
@@ -19,33 +18,29 @@ const LoginPage: React.FC = () => {
     return (
         <div className="login-page">
             <Routes>
-                {/* User Sign In */}
+                {/* User Sign In - No route protection needed */}
                 <Route
                     path="/signin"
                     element={
-                        <ProtectedRoute>
-                            <SignInLayout>
-                                <SignInForm />
-                            </SignInLayout>
-                        </ProtectedRoute>
+                        <SignInLayout>
+                            <SignInForm />
+                        </SignInLayout>
                     }
                 />
 
-                {/* Admin Sign In */}
+                {/* Admin Sign In - No route protection needed */}
                 <Route
                     path="/admin/signin"
                     element={
-                        <ProtectedRoute>
-                            <AdminLayout>
-                                <AdminSignInForm
-                                    onSubmit={handleAdminSignIn}
-                                    onSuccess={handleAdminSuccess}
-                                    onError={handleAdminError}
-                                    allowedDomains={["@tribtel.com"]}
-                                    redirectPath="/admin/dashboard"
-                                />
-                            </AdminLayout>
-                        </ProtectedRoute>
+                        <AdminLayout>
+                            <AdminSignInForm
+                                onSubmit={handleAdminSignIn}
+                                onSuccess={handleAdminSuccess}
+                                onError={handleAdminError}
+                                allowedDomains={["@tribtel.com"]}
+                                redirectPath="/admin/dashboard"
+                            />
+                        </AdminLayout>
                     }
                 />
 
@@ -78,6 +73,3 @@ const handleAdminError = (error: string) => {
 };
 
 export default LoginPage;
-
-
-

@@ -1,4 +1,3 @@
-// pages/HomePage.tsx
 import React from 'react';
 import HeroSection from '@components/features/hero/HeroSection/HeroSection';
 import Showcase from '@components/features/Showcase/Showcase';

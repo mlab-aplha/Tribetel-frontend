@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom'; // Add this import
 import Button from '@components/common/Button/Button';
 import Card from '@components/common/Card/Card';
 import styles from './HeroSection.module.css';
@@ -39,6 +40,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [view, setView] = useState<'days' | 'months' | 'years'>('days');
   const datePickerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLDivElement>(null);
 
   // Close datepicker when clicking outside
   useEffect(() => {
@@ -49,9 +51,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   const formatDate = (date: Date | null): string => {
     if (!date) return '';
@@ -152,6 +159,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   return (
     <div className={`${styles.datePickerContainer} ${className}`} ref={datePickerRef}>
       <div
+        ref={inputRef}
         className={`${styles.datePickerInput} ${isOpen ? styles.datePickerInputFocused : ''} ${value ? styles.datePickerHasValue : ''}`}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -332,6 +340,7 @@ const HeroSection: React.FC = () => {
     checkOut: null
   });
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate(); // Add this hook
 
   const heroImages = [
     heroImage,
@@ -350,7 +359,8 @@ const HeroSection: React.FC = () => {
   }, [heroImages.length]);
 
   const handleExploreClick = () => {
-    console.log('Explore button clicked');
+    // Navigate to hotel listings page
+    navigate('/hotels');
   };
 
   const handleCheckAvailability = () => {
@@ -365,6 +375,14 @@ const HeroSection: React.FC = () => {
       alert('Check-out date must be after check-in date');
       return;
     }
+
+    // Format dates for URL parameters
+    const formatDateForURL = (date: Date) => {
+      return date.toISOString().split('T')[0]; // YYYY-MM-DD format
+    };
+
+    // Navigate to search results page with query parameters
+    navigate(`/search?destination=${encodeURIComponent(destination)}&checkIn=${formatDateForURL(checkIn)}&checkOut=${formatDateForURL(checkOut)}`);
 
     console.log('Search parameters:', {
       destination,

@@ -185,5 +185,3 @@ const BookingSummary: React.FC<BookingSummaryProps> = ({
 };
 
 export default BookingSummary;
-
-

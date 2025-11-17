@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Payment.module.css';
 import BookingConfirmation from '../BookingConfirmation/BookingConfirmation';
 import { PaymentData, PaymentRequest, PaymentResponse } from '@components/types/common';
-import { processPayment } from '../../../../services/paymentService';
 import LoadingSpinner from '@components/common/Loader/Loader';
 
 interface Booking {
@@ -26,6 +25,26 @@ interface PaymentFormProps {
   onPaymentSuccess?: () => void;
   onPaymentError?: (error: string) => void;
 }
+
+const mockProcessPayment = async (paymentRequest: PaymentRequest): Promise<{ success: boolean; data: PaymentResponse; message: string }> => {
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
+  return {
+    success: true,
+    data: {
+      id: `payment-${Date.now()}`,
+      bookingId: paymentRequest.bookingId,
+      amount: paymentRequest.amount,
+      currency: paymentRequest.currency,
+      status: 'succeeded',
+      paymentMethod: paymentRequest.paymentMethod,
+      transactionId: `txn-${Date.now()}`,
+      paidAt: new Date().toISOString(),
+      receiptUrl: '#'
+    },
+    message: 'Payment processed successfully'
+  };
+};
 
 const PaymentForm: React.FC<PaymentFormProps> = ({
   onPaymentSuccess,
@@ -69,7 +88,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
-    // Format card number with spaces
     if (name === 'cardNumber') {
       const formattedValue = value
         .replace(/\s/g, '')
@@ -81,7 +99,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
       setPayment((prev) => ({ ...prev, [name]: value }));
     }
 
-    // Clear error when user starts typing
     if (error) setError('');
   };
 
@@ -124,7 +141,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
     setIsProcessing(true);
 
     try {
-      // Prepare payment request for backend
       const paymentRequest: PaymentRequest = {
         bookingId: booking.id || 'temp-booking-id',
         amount: booking.total,
@@ -145,8 +161,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
         }
       };
 
-      // Process payment through backend API
-      const response = await processPayment(paymentRequest);
+      const response = await mockProcessPayment(paymentRequest);
 
       if (response.success && response.data.status === 'succeeded') {
         setPaymentResponse(response.data);
@@ -210,7 +225,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
       </div>
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        {/* Card Holder Name */}
         <label className={styles.label}>
           Card Holder Name
           <input
@@ -225,7 +239,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           />
         </label>
 
-        {/* Card Number */}
         <label className={styles.label}>
           Card Number
           <input
@@ -241,7 +254,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           />
         </label>
 
-        {/* Bank Selection */}
         <label className={styles.label}>
           Select Bank
           <select
@@ -292,7 +304,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           </label>
         </div>
 
-        {/* Payment Method */}
         <label className={styles.label}>
           Payment Method
           <select
@@ -309,21 +320,18 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           </select>
         </label>
 
-        {/* Security Notice */}
         <div className={styles.securityNotice}>
           <div className={styles.securityText}>
             Your payment information is secure and encrypted. We do not store your card details.
           </div>
         </div>
 
-        {/* Error Display */}
         {error && (
           <div className={styles.errorMessage}>
             {error}
           </div>
         )}
 
-        {/* Loading State */}
         {isProcessing && (
           <div className={styles.loadingState}>
             <LoadingSpinner />
@@ -334,7 +342,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           </div>
         )}
 
-        {/* Action Buttons */}
         <div className={styles.actions}>
           <button
             type="submit"
@@ -358,5 +365,3 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 };
 
 export default PaymentForm;
-
-

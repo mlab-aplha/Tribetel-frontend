@@ -11,8 +11,6 @@ const RegisterPage: React.FC = () => {
     if (isLoading) {
         return <Loader text="Loading..." fullscreen />;
     }
-
-    // If user is already logged in, redirect to dashboard
     if (user) {
         return <Navigate to="/dashboard" replace />;
     }

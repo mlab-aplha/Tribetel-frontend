@@ -1,127 +1,429 @@
 .dashboard {
     min-height: 100vh;
-    background: #f8f9fa;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f5f7fa 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+.dashboard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    background: linear-gradient(135deg, #470F51 0%, #3a0d42 50%, #2d0a33 100%);
+    z-index: 0;
+}
+
+.personalizedHero {
+    position: relative;
+    padding: 120px 24px 80px;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.heroContent {
+    flex: 1;
+    max-width: 600px;
+}
+
+.welcomeTitle {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: white;
+    margin: 0 0 1rem 0;
+    background: linear-gradient(135deg, #ffffff 0%, #FDC959 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+}
+
+.welcomeSubtitle {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 2rem 0;
+    font-weight: 300;
+}
+
+.weatherWidget {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-weight: 500;
+}
+
+.weatherIcon {
+    font-size: 1.2rem;
+}
+
+.heroVisual {
+    position: relative;
+}
+
+.floatingCard {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background: linear-gradient(135deg, #FDC959 0%, #ffd700 100%);
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #470F51;
+    box-shadow: 0 10px 30px rgba(253, 201, 89, 0.3);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.dashboardNav {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    background: white;
+    margin: 0 auto 3rem;
+    max-width: 800px;
+    border-radius: 15px;
+    padding: 0.5rem;
+    box-shadow: 0 8px 32px rgba(71, 15, 81, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.navItem {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.navItem:hover {
+    background: rgba(71, 15, 81, 0.05);
+    color: #470F51;
+    transform: translateY(-2px);
+}
+
+.navActive {
+    background: linear-gradient(135deg, #470F51 0%, #3a0d42 100%);
+    color: #FDC959;
+    box-shadow: 0 4px 15px rgba(71, 15, 81, 0.3);
+}
+
+.navIcon {
+    font-size: 1.5rem;
 }
 
 .mainContent {
-    padding-top: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.overviewTab {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.statCard {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 8px 32px rgba(71, 15, 81, 0.08);
+    border: 1px solid rgba(71, 15, 81, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.statCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(71, 15, 81, 0.15);
+}
+
+.statIcon {
+    font-size: 2.5rem;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #470F51 0%, #3a0d42 100%);
+    border-radius: 50%;
+}
+
+.statInfo h3 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #470F51;
+    margin: 0;
+    line-height: 1;
+}
+
+.statInfo p {
+    color: #6b7280;
+    margin: 0.5rem 0 0 0;
+    font-weight: 500;
+}
+
+.quickActionsSection {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(71, 15, 81, 0.08);
+}
+
+.sectionTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #470F51;
+    margin: 0 0 2rem 0;
+    text-align: center;
+}
+
+.quickActionsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.quickActionCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(71, 15, 81, 0.02);
+    border: 2px solid rgba(71, 15, 81, 0.1);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
     width: 100%;
 }
 
-/* Section Styles - Following Hero/Footer patterns */
-.section {
-    width: 100%;
-    padding: 80px 24px;
+.quickActionCard:hover {
+    background: linear-gradient(135deg, #470F51 0%, #3a0d42 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(71, 15, 81, 0.2);
+}
+
+.quickActionCard:hover .actionContent h4,
+.quickActionCard:hover .actionContent p,
+.quickActionCard:hover .actionArrow {
+    color: white;
+}
+
+.actionIcon {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(71, 15, 81, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.quickActionCard:hover .actionIcon {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.actionContent {
+    flex: 1;
+}
+
+.actionContent h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #470F51;
+    margin: 0 0 0.25rem 0;
+    transition: color 0.3s ease;
+}
+
+.actionContent p {
+    color: #6b7280;
+    margin: 0;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.actionArrow {
+    font-size: 1.5rem;
+    color: #470F51;
+    transition: all 0.3s ease;
+}
+
+.quickActionCard:hover .actionArrow {
+    transform: translateX(5px);
+}
+
+.bookingsPreview {
     background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(71, 15, 81, 0.08);
+}
+
+.bookingsTab,
+.offersTab,
+.reviewsTab {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(71, 15, 81, 0.08);
+    min-height: 400px;
+}
+
+.featuredSection {
+    max-width: 1400px;
+    margin: 0 auto 4rem;
+    padding: 0 24px;
+}
+
+.loadingContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.section:nth-child(even) {
-    background: #f8f9fa;
-}
-
-.sectionContent {
-    width: 100%;
-    max-width: 1396px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 40px;
-    box-sizing: border-box;
-}
-
-/* Large Desktop */
-@media (min-width: 1441px) {
-    .section {
-        padding: 100px 32px;
-    }
-    
-    .sectionContent {
-        gap: 60px;
-    }
-}
-
-@media (max-width: 1440px) {
-    .section {
-        padding: 80px 32px;
-    }
-    
-    .sectionContent {
-        gap: 50px;
-    }
-}
-
-@media (max-width: 1200px) {
-    .section {
-        padding: 70px 28px;
-    }
-    
-    .sectionContent {
-        gap: 40px;
-    }
+    min-height: 60vh;
+    background: transparent;
 }
 
 @media (max-width: 1024px) {
-    .section {
-        padding: 60px 24px;
+    .personalizedHero {
+        flex-direction: column;
+        text-align: center;
+        padding: 100px 24px 60px;
     }
-    
-    .sectionContent {
-        gap: 35px;
-    }
-}
 
-@media (max-width: 900px) {
-    .section {
-        padding: 50px 20px;
+    .welcomeTitle {
+        font-size: 2.8rem;
     }
-    
-    .sectionContent {
-        gap: 30px;
+
+    .heroVisual {
+        margin-top: 2rem;
     }
 }
 
 @media (max-width: 768px) {
-    .section {
-        padding: 40px 20px;
+    .dashboardNav {
+        flex-wrap: wrap;
     }
-    
-    .sectionContent {
-        gap: 25px;
-        align-items: center;
-        text-align: center;
-    }
-}
 
-@media (max-width: 600px) {
-    .section {
-        padding: 32px 16px;
+    .navItem {
+        flex: 1 1 calc(50% - 1rem);
+        min-width: 140px;
     }
-    
-    .sectionContent {
-        gap: 20px;
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .quickActionsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .welcomeTitle {
+        font-size: 2.2rem;
+    }
+
+    .sectionTitle {
+        font-size: 1.6rem;
+    }
+
+    .personalizedHero,
+    .mainContent,
+    .featuredSection {
+        padding-left: 16px;
+        padding-right: 16px;
     }
 }
 
 @media (max-width: 480px) {
-    .section {
-        padding: 24px 12px;
+    .navItem {
+        flex: 1 1 100%;
     }
-    
-    .sectionContent {
-        gap: 16px;
+
+    .statCard {
+        padding: 1.5rem;
+    }
+
+    .statInfo h3 {
+        font-size: 2rem;
+    }
+
+    .quickActionCard {
+        padding: 1rem;
+    }
+
+    .bookingsPreview,
+    .bookingsTab,
+    .offersTab,
+    .reviewsTab {
+        padding: 1.5rem;
     }
 }
 
-@media (max-width: 360px) {
-    .section {
-        padding: 20px 8px;
-    }
-    
-    .sectionContent {
-        gap: 12px;
-    }
+.quickActionCard,
+.statCard,
+.navItem {
+    position: relative;
+    overflow: hidden;
+}
+
+.quickActionCard::before,
+.statCard::before,
+.navItem::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.quickActionCard:hover::before,
+.statCard:hover::before,
+.navItem:hover::before {
+    left: 100%;
 }

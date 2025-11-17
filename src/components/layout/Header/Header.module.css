@@ -20,7 +20,7 @@
   padding: 0 42px;
 }
 
-/* Logo Section - Consistent sizing */
+/* Logo Section */
 .logoSection {
   flex-shrink: 0;
 }
@@ -47,16 +47,7 @@
   object-fit: contain;
 }
 
-.logoText {
-  color: #470F51;
-  font-size: 32px;
-  font-family: 'Michroma', monospace;
-  font-weight: 400;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-/* Right Section - Navigation and Auth Buttons */
+/* Right Section */
 .rightSection {
   display: flex;
   align-items: center;
@@ -96,11 +87,11 @@
   transform: translateY(-1px);
 }
 
-/* Auth Buttons - Consistent sizing */
+/* Auth Buttons */
 .authButtons {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .signInButton {
@@ -149,11 +140,27 @@
   box-shadow: 0 4px 12px rgba(71, 15, 81, 0.3);
 }
 
-.joinButton:active {
-  transform: translateY(0);
+/* Demo Login Button - Remove in production */
+.demoLoginButton {
+  padding: 8px 16px;
+  background: #10b981;
+  color: white;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
-/* Profile Section - Fixed sizing */
+.demoLoginButton:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+/* Profile Section */
 .profileSection {
   position: relative;
 }
@@ -237,8 +244,8 @@
   transition: transform 0.3s ease;
 }
 
-.profileContainer:hover .arrowIcon {
-  transform: rotate(225deg);
+.arrowIcon.arrowUp {
+  transform: rotate(-135deg);
 }
 
 /* Dropdown Menu */
@@ -247,17 +254,18 @@
   top: 100%;
   right: 0;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  min-width: 200px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  min-width: 220px;
   z-index: 1001;
   overflow: hidden;
   margin-top: 8px;
+  border: 1px solid #f1f5f9;
 }
 
 .dropdownItem {
   width: 100%;
-  padding: 12px 16px;
+  padding: 14px 16px;
   background: none;
   border: none;
   text-align: left;
@@ -265,17 +273,43 @@
   font-size: 14px;
   font-family: 'Inter', sans-serif;
   color: #1E1E1E;
-  transition: background-color 0.3s ease;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.dropdownItem:last-child {
-  border-bottom: none;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .dropdownItem:hover {
-  background: #f8f9fa;
+  background: #f8fafc;
   color: #470F51;
+}
+
+.dropdownIcon {
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.dropdownItem:hover .dropdownIcon {
+  color: #470F51;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 4px 0;
+}
+
+.logoutItem {
+  color: #ef4444;
+}
+
+.logoutItem:hover {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.logoutItem .dropdownIcon {
+  color: #ef4444;
 }
 
 /* Mobile Menu Button */
@@ -291,6 +325,7 @@
   height: 32px;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
 }
 
 .mobileMenuButton span {
@@ -305,6 +340,18 @@
   background: #1E1E1E;
 }
 
+.mobileMenuButton.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobileMenuButton.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobileMenuButton.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
 /* Mobile Menu */
 .mobileMenu {
   display: none;
@@ -317,6 +364,8 @@
   padding: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   z-index: 1001;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
 }
 
 .mobileLogo {
@@ -365,7 +414,7 @@
 }
 
 .mobileJoinButton {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 16px 20px;
   background: #470F51;
   color: #FDC959;
@@ -384,6 +433,75 @@
 .mobileJoinButton:hover {
   background: #5a1466;
   transform: translateY(-2px);
+}
+
+/* Demo button for mobile - Remove in production */
+.mobileDemoButton {
+  margin-top: 10px;
+  padding: 16px 20px;
+  background: #10b981;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  font-size: 18px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.mobileDemoButton:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+/* Mobile User Info */
+.mobileUserInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 10px;
+}
+
+.mobileUserAvatar {
+  width: 40px;
+  height: 40px;
+  background: #FDC959;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #470F51;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.mobileUserName {
+  color: #FFFFFF;
+  font-size: 16px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 500;
+}
+
+.mobileDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 10px 0;
+}
+
+.mobileLogout {
+  color: #ef4444;
+}
+
+.mobileLogout:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
 }
 
 /* Enhanced Responsive Design */
@@ -434,10 +552,6 @@
     width: 55px;
     height: 55px;
   }
-  
-  .logoText {
-    font-size: 28px;
-  }
 }
 
 @media (max-width: 900px) {
@@ -471,10 +585,6 @@
     padding: 0 20px;
   }
   
-  .logoText {
-    display: none;
-  }
-  
   .logoImage {
     width: 45px;
     height: 45px;
@@ -500,7 +610,8 @@
     padding: 14px 16px;
   }
   
-  .mobileJoinButton {
+  .mobileJoinButton,
+  .mobileDemoButton {
     font-size: 16px;
     padding: 14px 16px;
   }
@@ -526,7 +637,6 @@
   outline-offset: 2px;
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .navItem,
   .signInButton,
@@ -545,4 +655,59 @@
   .mobileJoinButton:hover {
     transform: none;
   }
+}
+/* Dropdown Menu - Fixed z-index and positioning */
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 8px); /* Add some space from the profile container */
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  min-width: 220px;
+  z-index: 1002; /* Increased z-index */
+  overflow: hidden;
+  border: 1px solid #f1f5f9;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profileSection {
+  position: relative;
+  z-index: 1001; 
+}
+
+
+.header {
+  width: 100%;
+  height: 90px;
+  background: #F4942F;
+  overflow: visible; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 42px;
+  position: relative;
+  overflow: visible; 
 }

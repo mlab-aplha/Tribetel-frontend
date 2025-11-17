@@ -1,82 +1,137 @@
-.card {
-  display: flex;
-  gap: 0px;
+.bookingCard {
   border: 1px solid #e5e7eb;
   border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
   background: #fff;
-  max-width: 1000px;
-  margin: 0 auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Left side (image + description stacked) */
-.left {
-  flex: 1 1 60%;
+.bookingHeader {
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
 }
 
-/* Image takes 50% height */
-.imageWrap {
-  flex: 1 1 50%;
-  overflow: hidden;
-  border-radius: 0px;
+.bookingInfo {
+  flex: 1;
 }
 
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Description takes 50% height */
-.description {
-  flex: 1 1 50%;
-  padding: 16px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 16px;
-}
-
-.title {
-  margin: 0 0 6px 0;
-  font-size: 22px;
+.roomTitle {
+  margin: 0 0 8px 0;
+  font-size: 18px;
   color: #470F51;
+  font-weight: 600;
 }
 
-.location {
-  margin: 0 0 12px 0;
+.bookingNumber {
+  margin: 0;
   color: #6b7280;
   font-size: 14px;
 }
 
-.text {
-  margin: 0 0 12px 0;
-  color: #470F51;
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-.features {
+.bookingDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.detailLabel {
+  font-weight: 500;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.detailValue {
+  color: #470F51;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.bookingActions {
   display: flex;
   gap: 12px;
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
-  list-style: none;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
 }
 
-.features li {
-  background: #f3f4f6;
-  padding: 6px 10px;
+.modifyBtn {
+  background: #470F51;
+  color: #FDC959;
+  border: none;
+  padding: 8px 16px;
   border-radius: 6px;
-  font-size: 13px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
 }
 
-/* Right booking form */
-.right {
-  flex: 0 0 40%;
-  border-left: 1px solid #eef2f6;
-  padding-left: 34px;
-  display: flex;
-  align-items: center;
+.modifyBtn:hover:not(:disabled) {
+  background: #3a0d42;
+}
+
+.modifyBtn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.cancelBtn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.cancelBtn:hover:not(:disabled) {
+  background: #c82333;
+}
+
+.cancelBtn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .bookingHeader {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .detailRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .bookingActions {
+    flex-direction: column;
+  }
+  
+  .modifyBtn,
+  .cancelBtn {
+    width: 100%;
+  }
 }
