@@ -51,7 +51,6 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
 
     const renderPagination = () => {
         const pages = [];
-        // Remove the unused maxVisiblePages variable since it's not being used
         pages.push(1);
         let startPage = Math.max(2, currentPage - 1);
         let endPage = Math.min(totalPages - 1, currentPage + 1);

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Reservations.module.css';
 
-// Mock types for frontend
 interface MockReservation {
   id: string;
   guest_name: string;
@@ -14,7 +13,6 @@ interface MockReservation {
 const Reservations: React.FC = () => {
   const [reservations, setReservations] = useState<MockReservation[]>([]);
 
-  // Mock data
   useEffect(() => {
     setReservations([
       {
@@ -42,7 +40,7 @@ const Reservations: React.FC = () => {
       <div className={styles.placeholder}>
         <p>Backend integration commented out for frontend deployment</p>
       </div>
-      
+
       <div className={styles.table}>
         <table>
           <thead>

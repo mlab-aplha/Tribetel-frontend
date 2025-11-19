@@ -9,7 +9,6 @@ const Dashboard: React.FC = () => {
     occupancyRate: 0
   });
 
-  // Mock data for frontend
   useEffect(() => {
     setStats({
       totalBookings: 124,
@@ -22,23 +21,23 @@ const Dashboard: React.FC = () => {
   return (
     <div className={styles.dashboard}>
       <h1 className={styles.title}>Dashboard Overview</h1>
-      
+
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>
           <h3>Total Bookings</h3>
           <p className={styles.statNumber}>{stats.totalBookings}</p>
         </div>
-        
+
         <div className={styles.statCard}>
           <h3>Available Rooms</h3>
           <p className={styles.statNumber}>{stats.availableRooms}</p>
         </div>
-        
+
         <div className={styles.statCard}>
           <h3>Total Revenue</h3>
-          <p className={styles.statNumber}>${stats.totalRevenue}</p>
+          <p className={styles.statNumber}>R{stats.totalRevenue}</p>
         </div>
-        
+
         <div className={styles.statCard}>
           <h3>Occupancy Rate</h3>
           <p className={styles.statNumber}>{stats.occupancyRate}%</p>

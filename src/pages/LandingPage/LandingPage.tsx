@@ -16,6 +16,7 @@ const HomePage: React.FC = () => {
     console.log('Service selected:', service);
   };
 
+
   return (
     <div className={styles.homePage}>
       <HeroSection />

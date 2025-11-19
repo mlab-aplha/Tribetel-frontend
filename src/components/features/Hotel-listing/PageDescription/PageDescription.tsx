@@ -14,7 +14,6 @@ export const PageDescription: React.FC<PageDescriptionProps> = ({
 }) => {
     return (
         <div className={styles.container} style={{ height }}>
-            {/* Top Section with Background Image */}
             <section
                 className={`${styles.topSection} ${reverseLayout ? styles.reverse : ''}`}
                 style={{
@@ -29,7 +28,6 @@ export const PageDescription: React.FC<PageDescriptionProps> = ({
                 />
             </section>
 
-            {/* Bottom Section with Content */}
             <section
                 className={`${styles.bottomSection} ${reverseLayout ? styles.reverse : ''}`}
                 style={{

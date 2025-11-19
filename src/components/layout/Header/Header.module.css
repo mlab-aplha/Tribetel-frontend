@@ -2,12 +2,13 @@
   width: 100%;
   height: 90px;
   background: #F4942F;
-  overflow: hidden;
+  overflow: visible;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .headerContent {
@@ -15,9 +16,11 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  max-width: 1440px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 42px;
+  padding: 0 40px;
+  position: relative;
+  overflow: visible;
 }
 
 /* Logo Section */
@@ -28,7 +31,7 @@
 .logoLink {
   text-decoration: none;
   color: inherit;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .logoLink:hover {
@@ -38,53 +41,74 @@
 .logoContainer {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .logoImage {
-  width: 67px;
-  height: 67px;
+  width: 140px; 
+  height: auto; 
   object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: all 0.3s ease;
 }
 
 /* Right Section */
 .rightSection {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 32px;
 }
 
 /* Navigation Menu */
 .navMenu {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 8px;
 }
 
 .navItem {
-  padding: 12px 16px;
-  border-radius: 8px;
+  padding: 12px 20px;
+  border-radius: 10px;
   text-decoration: none;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 18px;
-  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-family: 'Instrument Sans', sans-serif;
   font-weight: 500;
   line-height: 1.2;
-  color: #F3F3F3;
+  color: hsl(69, 100%, 86%);
   transition: all 0.3s ease;
   white-space: nowrap;
+  position: relative;
 }
 
 .navItem.active {
-  background: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
+  background: rgba(201, 201, 174, 0.1);
+  color: #1a1a1a;
 }
 
 .navItem:hover {
-  background: rgba(71, 15, 81, 0.1);
-  transform: translateY(-1px);
+  background: rgba(26, 26, 26, 0.15);
+  transform: translateY(-2px);
+  color: #1a1a1a;
+}
+
+.navItem::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #1a1a1a;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navItem:hover::after,
+.navItem.active::after {
+  width: 20px;
 }
 
 /* Auth Buttons */
@@ -96,31 +120,32 @@
 
 .signInButton {
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: 10px;
   background: none;
-  border: none;
+  border: 2px solid rgba(26, 26, 26, 0.2);
   cursor: pointer;
-  font-size: 18px;
-  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-family: 'Instrument Sans', sans-serif;
   font-weight: 500;
   line-height: 1.2;
-  color: #1E1E1E;
+  color: #1a1a1a;
   transition: all 0.3s ease;
   white-space: nowrap;
 }
 
 .signInButton:hover {
-  background: rgba(71, 15, 81, 0.1);
-  transform: translateY(-1px);
+  background: rgba(26, 26, 26, 0.1);
+  border-color: rgba(26, 26, 26, 0.3);
+  transform: translateY(-2px);
 }
 
 .joinButton {
-  padding: 12px 24px;
-  background: #470F51;
-  color: #FDC959;
-  font-size: 18px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  padding: 12px 28px;
+  background: #1a1a1a;
+  color: #F4942F;
+  font-size: 16px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 600;
   line-height: 1.2;
   border: none;
   cursor: pointer;
@@ -129,34 +154,36 @@
   justify-content: center;
   text-align: center;
   transition: all 0.3s ease;
-  border-radius: 8px;
+  border-radius: 10px;
   white-space: nowrap;
   min-width: 100px;
 }
 
 .joinButton:hover {
-  background: #5a1466;
+  background: #000000;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(71, 15, 81, 0.3);
+  box-shadow: 0 6px 20px rgba(26, 26, 26, 0.3);
 }
 
 /* Demo Login Button - Remove in production */
 .demoLoginButton {
-  padding: 8px 16px;
-  background: #10b981;
-  color: white;
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
+  padding: 10px 16px;
+  background: #1a1a1a;
+  color: #F4942F;
+  font-size: 12px;
+  font-family: 'Instrument Sans', sans-serif;
   font-weight: 500;
   border: none;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: all 0.3s ease;
   white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .demoLoginButton:hover {
-  background: #059669;
+  background: #000000;
   transform: translateY(-1px);
 }
 
@@ -166,30 +193,31 @@
 }
 
 .profileContainer {
-  padding: 12px 20px;
-  background: #470F51;
+  padding: 10px 16px;
+  background: rgba(26, 26, 26, 0.1);
   display: flex;
   align-items: center;
   gap: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
-  border-radius: 8px;
-  min-width: 180px;
+  border-radius: 12px;
+  min-width: 160px;
+  backdrop-filter: blur(10px);
 }
 
 .profileContainer:hover {
-  background: #5a1466;
-  transform: translateY(-1px);
+  background: rgba(26, 26, 26, 0.15);
+  transform: translateY(-2px);
 }
 
 .profileAvatar {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   position: relative;
   overflow: hidden;
   border-radius: 50%;
-  background: #470F51;
+  background: #1a1a1a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -199,7 +227,7 @@
 .avatarCircle {
   width: 100%;
   height: 100%;
-  background: #470F51;
+  background: #1a1a1a;
   border-radius: 50%;
   position: absolute;
 }
@@ -207,20 +235,20 @@
 .avatarInitial {
   width: 100%;
   height: 100%;
-  background: #FDC959;
+  background: #F4942F;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #470F51;
-  font-size: 18px;
+  color: #1a1a1a;
+  font-size: 16px;
   font-weight: 600;
   font-family: 'Instrument Sans', sans-serif;
   border-radius: 50%;
 }
 
 .profileName {
-  color: white;
-  font-size: 16px;
+  color: #1a1a1a;
+  font-size: 14px;
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 500;
   line-height: 1.2;
@@ -238,8 +266,8 @@
 .arrowIcon {
   width: 8px;
   height: 8px;
-  border-right: 2px solid white;
-  border-bottom: 2px solid white;
+  border-right: 2px solid #1a1a1a;
+  border-bottom: 2px solid #1a1a1a;
   transform: rotate(45deg);
   transition: transform 0.3s ease;
 }
@@ -251,16 +279,27 @@
 /* Dropdown Menu */
 .dropdownMenu {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px);
   right: 0;
   background: white;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   min-width: 220px;
-  z-index: 1001;
+  z-index: 1002;
   overflow: hidden;
-  margin-top: 8px;
   border: 1px solid #f1f5f9;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dropdownItem {
@@ -271,9 +310,9 @@
   text-align: left;
   cursor: pointer;
   font-size: 14px;
-  font-family: 'Inter', sans-serif;
-  color: #1E1E1E;
-  transition: background-color 0.2s ease;
+  font-family: 'Instrument Sans', sans-serif;
+  color: #1a1a1a;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -281,7 +320,7 @@
 
 .dropdownItem:hover {
   background: #f8fafc;
-  color: #470F51;
+  color: #1a1a1a;
 }
 
 .dropdownIcon {
@@ -290,7 +329,7 @@
 }
 
 .dropdownItem:hover .dropdownIcon {
-  color: #470F51;
+  color: #1a1a1a;
 }
 
 .dropdownDivider {
@@ -326,18 +365,24 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  border-radius: 6px;
+  background: rgba(26, 26, 26, 0.1);
 }
 
 .mobileMenuButton span {
-  width: 24px;
+  width: 20px;
   height: 2px;
-  background: #470F51;
+  background: #1a1a1a;
   transition: all 0.3s ease;
   border-radius: 2px;
 }
 
+.mobileMenuButton:hover {
+  background: rgba(26, 26, 26, 0.15);
+}
+
 .mobileMenuButton:hover span {
-  background: #1E1E1E;
+  background: #1a1a1a;
 }
 
 .mobileMenuButton.active span:nth-child(1) {
@@ -366,6 +411,7 @@
   z-index: 1001;
   max-height: calc(100vh - 90px);
   overflow-y: auto;
+  backdrop-filter: blur(10px);
 }
 
 .mobileLogo {
@@ -374,17 +420,18 @@
   gap: 12px;
   padding: 0 0 20px 0;
   margin-bottom: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.2);
 }
 
 .mobileLogoImage {
   width: 40px;
   height: 40px;
   object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
 .mobileLogo span {
-  color: #470F51;
+  color: #1a1a1a;
   font-size: 24px;
   font-family: 'Michroma', sans-serif;
   font-weight: 400;
@@ -395,35 +442,37 @@
   background: none;
   border: none;
   text-decoration: none;
-  color: #FFFFFF;
-  font-size: 18px;
-  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  font-size: 16px;
+  font-family: 'Instrument Sans', sans-serif;
   font-weight: 500;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.1);
   transition: all 0.3s ease;
   text-align: left;
   cursor: pointer;
   width: 100%;
+  border-radius: 8px;
+  margin-bottom: 4px;
 }
 
 .mobileNavLink:hover,
 .mobileNavLink.active {
-  background: rgba(255, 255, 255, 0.1);
-  color: #FDC959;
+  background: rgba(26, 26, 26, 0.1);
+  color: #1a1a1a;
   transform: translateX(8px);
 }
 
 .mobileJoinButton {
   margin-top: 10px;
   padding: 16px 20px;
-  background: #470F51;
-  color: #FDC959;
+  background: #1a1a1a;
+  color: #F4942F;
   text-decoration: none;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 10px;
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
@@ -431,7 +480,7 @@
 }
 
 .mobileJoinButton:hover {
-  background: #5a1466;
+  background: #000000;
   transform: translateY(-2px);
 }
 
@@ -439,22 +488,25 @@
 .mobileDemoButton {
   margin-top: 10px;
   padding: 16px 20px;
-  background: #10b981;
-  color: white;
+  background: #1a1a1a;
+  color: #F4942F;
   text-decoration: none;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 10px;
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
   width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 14px;
 }
 
 .mobileDemoButton:hover {
-  background: #059669;
+  background: #000000;
   transform: translateY(-2px);
 }
 
@@ -464,26 +516,28 @@
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.2);
   margin-bottom: 10px;
+  background: rgba(26, 26, 26, 0.1);
+  border-radius: 10px;
 }
 
 .mobileUserAvatar {
   width: 40px;
   height: 40px;
-  background: #FDC959;
+  background: #F4942F;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #470F51;
+  color: #1a1a1a;
   font-size: 16px;
   font-weight: 600;
   font-family: 'Instrument Sans', sans-serif;
 }
 
 .mobileUserName {
-  color: #FFFFFF;
+  color: #1a1a1a;
   font-size: 16px;
   font-family: 'Instrument Sans', sans-serif;
   font-weight: 500;
@@ -491,7 +545,7 @@
 
 .mobileDivider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(26, 26, 26, 0.2);
   margin: 10px 0;
 }
 
@@ -511,27 +565,21 @@
   }
   
   .rightSection {
-    gap: 30px;
+    gap: 24px;
   }
   
   .navMenu {
-    gap: 16px;
+    gap: 6px;
   }
   
-  .navItem,
-  .signInButton,
-  .joinButton {
-    font-size: 16px;
+  .navItem {
     padding: 10px 16px;
+    font-size: 15px;
   }
   
   .profileContainer {
-    min-width: 160px;
-    padding: 10px 16px;
-  }
-  
-  .profileName {
-    font-size: 14px;
+    min-width: 150px;
+    padding: 8px 14px;
   }
 }
 
@@ -549,8 +597,8 @@
   }
   
   .logoImage {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
   }
 }
 
@@ -606,13 +654,13 @@
   }
   
   .mobileNavLink {
-    font-size: 16px;
+    font-size: 15px;
     padding: 14px 16px;
   }
   
   .mobileJoinButton,
   .mobileDemoButton {
-    font-size: 16px;
+    font-size: 15px;
     padding: 14px 16px;
   }
   
@@ -633,7 +681,7 @@
 .profileContainer:focus,
 .mobileNavLink:focus,
 .mobileJoinButton:focus {
-  outline: 2px solid #FFFFFF;
+  outline: 2px solid #1a1a1a;
   outline-offset: 2px;
 }
 
@@ -655,59 +703,8 @@
   .mobileJoinButton:hover {
     transform: none;
   }
-}
-/* Dropdown Menu - Fixed z-index and positioning */
-.dropdownMenu {
-  position: absolute;
-  top: calc(100% + 8px); /* Add some space from the profile container */
-  right: 0;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  min-width: 220px;
-  z-index: 1002; /* Increased z-index */
-  overflow: hidden;
-  border: 1px solid #f1f5f9;
-  animation: dropdownFadeIn 0.2s ease-out;
-}
-
-@keyframes dropdownFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+  
+  .dropdownMenu {
+    animation: none;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.profileSection {
-  position: relative;
-  z-index: 1001; 
-}
-
-
-.header {
-  width: 100%;
-  height: 90px;
-  background: #F4942F;
-  overflow: visible; 
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.headerContent {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 42px;
-  position: relative;
-  overflow: visible; 
 }

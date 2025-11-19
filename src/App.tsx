@@ -17,6 +17,9 @@ import SignInLayout from './components/features/auth/SignIn/SignInLayout';
 import SignInForm from './components/features/auth/SignIn/SignInForm';
 import AdminLayout from './components/features/auth/AdminSignIn/AdminLayout';
 import AdminSignInForm from './components/features/auth/AdminSignIn/AdminSignInForm';
+import VacationsPage from './pages/VacationsPage/VacationsPage';
+import AboutUsPage from './pages/AboutUsPage/AboutUsPage';
+import DealsPage from './pages/DealsPage/DealsPage';
 import './App.css';
 
 function App() {
@@ -30,8 +33,9 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/search" element={<MainLayout><SearchResultsPage /></MainLayout>} />
           <Route path="/hotels" element={<MainLayout><HotelListings /></MainLayout>} />
-
-          {/* Sign In Routes */}
+          <Route path="/about" element={<MainLayout><AboutUsPage /></MainLayout>} />
+          <Route path="/vacations" element={<MainLayout><VacationsPage /></MainLayout>} />
+          <Route path="/deals" element={<MainLayout><DealsPage /></MainLayout>} />
           <Route path="/signin" element={
             <SignInLayout>
               <SignInForm />
