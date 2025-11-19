@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'; // Add this import
 import Button from '@components/common/Button/Button';
 import Card from '@components/common/Card/Card';
 import styles from './HeroSection.module.css';
-import heroImage from '@/assets/hero-image.png';
-import service1 from '@/assets/service1.png';
-import service2 from '@/assets/service2.png';
+import heroImage from '@/assets/hero-image.svg';
+import service1 from '@/assets/Hotel_2.svg';
+import service2 from '@/assets/Hotel_3.svg';
 import service3 from '@/assets/service3.png';
 
 const mockUser = {
@@ -548,4 +548,6 @@ const HeroSection: React.FC = () => {
   );
 };
 
+
 export default HeroSection;
+
