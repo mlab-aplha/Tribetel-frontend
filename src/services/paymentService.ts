@@ -2,7 +2,6 @@ import { PaymentRequest, PaymentResponse, ApiResponse } from '../components/type
 import { apiClient } from './api';
 
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true';
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hotel-backend-hub-dyfd.onrender.com/api';
 
 const mockProcessPayment = async (paymentRequest: PaymentRequest): Promise<{ success: boolean; data: PaymentResponse; message: string }> => {
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -54,7 +53,7 @@ const mockService = {
         }
     },
 
-    async verifyPayment(sessionId: string): Promise<ApiResponse<PaymentResponse>> {
+    async verifyPayment(paymentIntentId: string): Promise<ApiResponse<PaymentResponse>> {
         await new Promise(resolve => setTimeout(resolve, 1000));
         return {
             success: true,
@@ -65,7 +64,7 @@ const mockService = {
                 amount: 1000,
                 currency: 'ZAR',
                 paymentMethod: 'card',
-                transactionId: sessionId,
+                transactionId: paymentIntentId,
                 bookingId: `booking-${Date.now()}`,
                 paidAt: new Date().toISOString(),
                 receiptUrl: '#'
@@ -96,43 +95,29 @@ const mockService = {
 const apiService = {
     async processPayment(paymentData: PaymentRequest): Promise<ApiResponse<PaymentResponse>> {
         try {
-          
-            const response = await fetch(`${API_BASE_URL}/payments/create-intent`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                },
-                body: JSON.stringify({
-                    amount: paymentData.amount,
-                    currency: paymentData.currency,
-                    metadata: {
-                        bookingId: paymentData.bookingId
-                    }
-                })
+            
+            const response = await apiClient.post<ApiResponse<{ clientSecret: string; paymentIntentId: string }>>('/payments/create-intent', {
+                amount: paymentData.amount,
+                currency: paymentData.currency,
+                metadata: {
+                    bookingId: paymentData.bookingId
+                }
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const result = await response.json();
-
-         
             return {
                 success: true,
-                message: 'Payment intent created',
+                message: 'Payment intent created successfully',
                 data: {
-                    id: result.paymentIntentId,
-                    status: 'requires_payment_method',
+                    id: response.data.paymentIntentId,
+                    bookingId: paymentData.bookingId,
                     amount: paymentData.amount,
                     currency: paymentData.currency,
+                    status: 'requires_payment_method',
                     paymentMethod: paymentData.paymentMethod,
-                    transactionId: result.paymentIntentId,
-                    bookingId: paymentData.bookingId,
+                    transactionId: response.data.paymentIntentId,
                     paidAt: new Date().toISOString(),
                     receiptUrl: '',
-                    clientSecret: result.clientSecret 
+                    clientSecret: response.data.clientSecret 
                 }
             };
         } catch (error) {
@@ -143,31 +128,27 @@ const apiService = {
 
     async verifyPayment(paymentIntentId: string): Promise<ApiResponse<PaymentResponse>> {
         try {
-            
-            const response = await fetch(`${API_BASE_URL}/payments/status/${paymentIntentId}`, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const result = await response.json();
+         
+            const response = await apiClient.get<ApiResponse<{
+                id: string;
+                status: string;
+                amount: number;
+                currency: string;
+                created: string;
+            }>>(`/payments/status/${paymentIntentId}`);
 
             return {
                 success: true,
                 message: 'Payment status retrieved',
                 data: {
-                    id: result.id,
-                    status: result.status,
-                    amount: result.amount,
-                    currency: result.currency,
+                    id: response.data.id,
+                    status: response.data.status,
+                    amount: response.data.amount,
+                    currency: response.data.currency,
                     paymentMethod: 'card',
-                    transactionId: result.id,
-                    bookingId: '', // You might need to store this elsewhere
-                    paidAt: result.created,
+                    transactionId: response.data.id,
+                    bookingId: '', // You'll need to store this elsewhere
+                    paidAt: response.data.created,
                     receiptUrl: ''
                 }
             };
@@ -180,33 +161,25 @@ const apiService = {
     async refundPayment(bookingId: string): Promise<ApiResponse<PaymentResponse>> {
         try {
             
-            const response = await fetch(`${API_BASE_URL}/payments/refund`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                },
-                body: JSON.stringify({
-                    paymentIntentId: bookingId 
-                })
+            const response = await apiClient.post<ApiResponse<{
+                refundId: string;
+                status: string;
+                amount: number;
+                currency: string;
+            }>>('/payments/refund', {
+                paymentIntentId: bookingId 
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const result = await response.json();
 
             return {
                 success: true,
-                message: 'Refund processed',
+                message: 'Refund processed successfully',
                 data: {
-                    id: result.refundId,
+                    id: response.data.refundId,
                     status: 'refunded',
-                    amount: result.amount,
-                    currency: result.currency,
+                    amount: response.data.amount,
+                    currency: response.data.currency,
                     paymentMethod: 'refund',
-                    transactionId: result.refundId,
+                    transactionId: response.data.refundId,
                     bookingId: bookingId,
                     paidAt: new Date().toISOString(),
                     receiptUrl: ''
