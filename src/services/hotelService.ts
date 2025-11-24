@@ -2,8 +2,7 @@ import { Hotel, HotelSearchParams, HotelSearchResponse, ApiResponse } from '../c
 import { apiClient } from './api';
 
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true';
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hotel-backend-hub-dyfd.onrender.com/api';
-
+//  const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hotel-backend-hub-dyfd.onrender.com/api';
 const mockHotels: Hotel[] = [
     {
         id: "1",
@@ -338,3 +337,4 @@ export const trackHotelView = hotelService.trackHotelView;
 export const trackHotelClick = hotelService.trackHotelClick;
 
 export default hotelService;
+
