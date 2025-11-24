@@ -3,7 +3,13 @@ import { apiClient } from './api';
 
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true';
 
-const mockProcessPayment = async (paymentRequest: PaymentRequest): Promise<{ success: boolean; data: PaymentResponse; message: string }> => {
+// Extended type to handle Stripe statuses
+type ExtendedPaymentResponse = PaymentResponse & {
+  clientSecret?: string;
+  status: 'pending' | 'failed' | 'refunded' | 'succeeded' | 'requires_payment_method' | 'processing' | 'requires_action' | 'canceled';
+};
+
+const mockProcessPayment = async (paymentRequest: PaymentRequest): Promise<{ success: boolean; data: ExtendedPaymentResponse; message: string }> => {
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     return {
@@ -24,7 +30,7 @@ const mockProcessPayment = async (paymentRequest: PaymentRequest): Promise<{ suc
 };
 
 const mockService = {
-    async processPayment(paymentData: PaymentRequest): Promise<ApiResponse<PaymentResponse>> {
+    async processPayment(paymentData: PaymentRequest): Promise<ApiResponse<ExtendedPaymentResponse>> {
         await new Promise(resolve => setTimeout(resolve, 2000));
         const response = await mockProcessPayment(paymentData);
 
@@ -53,7 +59,7 @@ const mockService = {
         }
     },
 
-    async verifyPayment(paymentIntentId: string): Promise<ApiResponse<PaymentResponse>> {
+    async verifyPayment(paymentIntentId: string): Promise<ApiResponse<ExtendedPaymentResponse>> {
         await new Promise(resolve => setTimeout(resolve, 1000));
         return {
             success: true,
@@ -72,7 +78,7 @@ const mockService = {
         };
     },
 
-    async refundPayment(bookingId: string): Promise<ApiResponse<PaymentResponse>> {
+    async refundPayment(bookingId: string): Promise<ApiResponse<ExtendedPaymentResponse>> {
         await new Promise(resolve => setTimeout(resolve, 1500));
         return {
             success: true,
@@ -93,9 +99,8 @@ const mockService = {
 };
 
 const apiService = {
-    async processPayment(paymentData: PaymentRequest): Promise<ApiResponse<PaymentResponse>> {
+    async processPayment(paymentData: PaymentRequest): Promise<ApiResponse<ExtendedPaymentResponse>> {
         try {
-            
             const response = await apiClient.post<ApiResponse<{ clientSecret: string; paymentIntentId: string }>>('/payments/create-intent', {
                 amount: paymentData.amount,
                 currency: paymentData.currency,
@@ -112,12 +117,12 @@ const apiService = {
                     bookingId: paymentData.bookingId,
                     amount: paymentData.amount,
                     currency: paymentData.currency,
-                    status: 'requires_payment_method',
+                    status: 'pending', // Use 'pending' instead of 'requires_payment_method'
                     paymentMethod: paymentData.paymentMethod,
                     transactionId: response.data.paymentIntentId,
                     paidAt: new Date().toISOString(),
                     receiptUrl: '',
-                    clientSecret: response.data.clientSecret 
+                    clientSecret: response.data.clientSecret
                 }
             };
         } catch (error) {
@@ -126,9 +131,8 @@ const apiService = {
         }
     },
 
-    async verifyPayment(paymentIntentId: string): Promise<ApiResponse<PaymentResponse>> {
+    async verifyPayment(paymentIntentId: string): Promise<ApiResponse<ExtendedPaymentResponse>> {
         try {
-         
             const response = await apiClient.get<ApiResponse<{
                 id: string;
                 status: string;
@@ -137,12 +141,24 @@ const apiService = {
                 created: string;
             }>>(`/payments/status/${paymentIntentId}`);
 
+            // Map Stripe status to your status
+            const statusMap: { [key: string]: ExtendedPaymentResponse['status'] } = {
+                'succeeded': 'succeeded',
+                'processing': 'pending',
+                'requires_payment_method': 'pending',
+                'requires_action': 'pending',
+                'canceled': 'failed',
+                'requires_capture': 'pending'
+            };
+
+            const mappedStatus = statusMap[response.data.status] || 'pending';
+
             return {
                 success: true,
                 message: 'Payment status retrieved',
                 data: {
                     id: response.data.id,
-                    status: response.data.status,
+                    status: mappedStatus,
                     amount: response.data.amount,
                     currency: response.data.currency,
                     paymentMethod: 'card',
@@ -158,16 +174,15 @@ const apiService = {
         }
     },
 
-    async refundPayment(bookingId: string): Promise<ApiResponse<PaymentResponse>> {
+    async refundPayment(bookingId: string): Promise<ApiResponse<ExtendedPaymentResponse>> {
         try {
-            
             const response = await apiClient.post<ApiResponse<{
                 refundId: string;
                 status: string;
                 amount: number;
                 currency: string;
             }>>('/payments/refund', {
-                paymentIntentId: bookingId 
+                paymentIntentId: bookingId
             });
 
             return {
@@ -193,7 +208,7 @@ const apiService = {
 };
 
 export const paymentService = {
-    async processPayment(paymentData: PaymentRequest): Promise<ApiResponse<PaymentResponse>> {
+    async processPayment(paymentData: PaymentRequest): Promise<ApiResponse<ExtendedPaymentResponse>> {
         try {
             if (USE_MOCK_DATA) {
                 return await mockService.processPayment(paymentData);
@@ -205,7 +220,7 @@ export const paymentService = {
         }
     },
 
-    async verifyPayment(paymentIntentId: string): Promise<ApiResponse<PaymentResponse>> {
+    async verifyPayment(paymentIntentId: string): Promise<ApiResponse<ExtendedPaymentResponse>> {
         try {
             if (USE_MOCK_DATA) {
                 return await mockService.verifyPayment(paymentIntentId);
@@ -217,7 +232,7 @@ export const paymentService = {
         }
     },
 
-    async refundPayment(bookingId: string): Promise<ApiResponse<PaymentResponse>> {
+    async refundPayment(bookingId: string): Promise<ApiResponse<ExtendedPaymentResponse>> {
         try {
             if (USE_MOCK_DATA) {
                 return await mockService.refundPayment(bookingId);
