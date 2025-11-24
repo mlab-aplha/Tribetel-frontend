@@ -1,8 +1,10 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hotel-backend-hub.onrender.com/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hotel-backend-hub-dyfd.onrender.com/api';
 
 export const apiClient = {
     async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
         const url = `${API_BASE_URL}${endpoint}`;
+        console.log(' API Call:', url); 
+        
         const config: RequestInit = {
             headers: {
                 'Content-Type': 'application/json',
@@ -21,6 +23,7 @@ export const apiClient = {
 
         try {
             const response = await fetch(url, config);
+            console.log(' Response Status:', response.status);
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
@@ -29,7 +32,7 @@ export const apiClient = {
 
             return await response.json();
         } catch (error) {
-            console.error(`API request failed for ${endpoint}:`, error);
+            console.error(` API request failed for ${endpoint}:`, error);
             throw error;
         }
     },
