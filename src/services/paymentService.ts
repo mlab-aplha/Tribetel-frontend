@@ -3,7 +3,7 @@ import { apiClient } from './api';
 
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true';
 
-// Extended type to handle Stripe statuses
+
 type ExtendedPaymentResponse = PaymentResponse & {
   clientSecret?: string;
   status: 'pending' | 'failed' | 'refunded' | 'succeeded' | 'requires_payment_method' | 'processing' | 'requires_action' | 'canceled';
@@ -248,3 +248,4 @@ export const paymentService = {
 export const processPayment = paymentService.processPayment;
 export const verifyPayment = paymentService.verifyPayment;
 export const refundPayment = paymentService.refundPayment;
+
