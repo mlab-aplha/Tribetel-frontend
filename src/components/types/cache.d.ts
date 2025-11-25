@@ -8,5 +8,5 @@ export interface CacheStore {
     hotels: CacheItem<Hotel[]>;
     searchResults: CacheItem<HotelSearchResponse>;
     user: CacheItem<User>;
+    bookings: CacheItem<Booking[]>;
 }
-

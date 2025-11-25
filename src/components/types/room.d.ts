@@ -1,20 +1,24 @@
-// components/types/room.ts
 export interface Room {
     id: string;
-    title: string;
+    hotel_id: string;
+    room_type: string;
+    capacity: number;
+    price_per_night: number;
+    total_rooms: number;
+    available_rooms: number;
     description: string;
-    pricePerNight: number;
-    image: string;
-    location: string;
-    rating?: number;
     amenities: string[];
-    maxGuests: number;
-    available: boolean;
-    features?: string[];
-    type?: string;
     images?: string[];
     size?: string;
-    bedType?: string;
+    bed_type?: string;
+    title?: string;
+    image?: string;
+    location?: string;
+    rating?: number;
+    maxGuests?: number;
+    available?: boolean;
+    features?: string[];
+    type?: string;
     view?: string;
     bathroom?: string;
     includedAmenities?: string[];
@@ -29,6 +33,30 @@ export interface RoomSummary {
     maxGuests: number;
     features: string[];
     type: string;
+}
+
+export interface RoomAvailability {
+    room_id: string;
+    date: string;
+    available_rooms: number;
+    price: number;
+}
+
+export interface RoomSearchParams {
+    hotel_id?: string;
+    check_in?: string;
+    check_out?: string;
+    guests?: number;
+    rooms?: number;
+    min_price?: number;
+    max_price?: number;
+    location?: string;
+    type?: string;
+    amenities?: string[];
+    page?: number;
+    limit?: number;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
 }
 
 export interface Review {
@@ -57,18 +85,4 @@ export interface AddReviewProps {
     userId?: string;
     maxCommentLength?: number;
     maxTitleLength?: number;
-}
-export interface RoomSearchParams {
-    location?: string;
-    checkIn?: string;
-    checkOut?: string;
-    guests?: number;
-    minPrice?: number;
-    maxPrice?: number;
-    type?: string;
-    amenities?: string[];
-    page?: number;
-    limit?: number;
-    sortBy?: string;
-    sortOrder?: 'asc' | 'desc';
 }

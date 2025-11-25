@@ -1,61 +1,97 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hotel-backend-hub-dyfd.onrender.com/api';
+import axios from 'axios';
 
-export const apiClient = {
-    async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-        const url = `${API_BASE_URL}${endpoint}`;
-        console.log(' API Call:', url); 
-        
-        const config: RequestInit = {
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers,
-            },
-            ...options,
-        };
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hotel-backend-hub.onrender.com/api';
 
+export const apiClient = axios.create({
+    baseURL: API_BASE_URL,
+    timeout: 30000,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
+apiClient.interceptors.request.use(
+    (config) => {
         const token = localStorage.getItem('authToken');
         if (token) {
-            config.headers = {
-                ...config.headers,
-                'Authorization': `Bearer ${token}`
-            };
+            // Ensure headers exist before setting Authorization
+            config.headers = config.headers || {};
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        console.log(`🔄 API Call: ${config.method?.toUpperCase()} ${config.url}`, config.data || '');
+        return config;
+    },
+    (error) => {
+        console.error('❌ API Request Error:', error);
+        return Promise.reject(error);
+    }
+);
+
+apiClient.interceptors.response.use(
+    (response) => {
+        console.log(`✅ API Success: ${response.status} ${response.config.url}`);
+        return response;
+    },
+    (error) => {
+        console.error('❌ API Response Error:', {
+            url: error.config?.url,
+            status: error.response?.status,
+            data: error.response?.data,
+            message: error.message
+        });
+
+        if (error.response?.status === 401) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = '/login';
         }
 
-        try {
-            const response = await fetch(url, config);
-            console.log(' Response Status:', response.status);
+        return Promise.reject(error);
+    }
+);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
-            }
+export const apiHelpers = {
+    getData: <T>(response: any): T => {
+        return response.data;
+    },
 
-            return await response.json();
-        } catch (error) {
-            console.error(` API request failed for ${endpoint}:`, error);
-            throw error;
+    handleError: (error: any): never => {
+        if (error.response?.data?.error) {
+            throw new Error(error.response.data.error);
         }
-    },
-
-    get<T>(endpoint: string): Promise<T> {
-        return this.request<T>(endpoint, { method: 'GET' });
-    },
-
-    post<T>(endpoint: string, data?: any): Promise<T> {
-        return this.request<T>(endpoint, {
-            method: 'POST',
-            body: data ? JSON.stringify(data) : undefined,
-        });
-    },
-
-    put<T>(endpoint: string, data?: any): Promise<T> {
-        return this.request<T>(endpoint, {
-            method: 'PUT',
-            body: data ? JSON.stringify(data) : undefined,
-        });
-    },
-
-    delete<T>(endpoint: string): Promise<T> {
-        return this.request<T>(endpoint, { method: 'DELETE' });
-    },
+        if (error.response?.data?.message) {
+            throw new Error(error.response.data.message);
+        }
+        throw new Error(error.message || 'An unexpected error occurred');
+    }
 };
+
+export const apiMethods = {
+    async get<T>(endpoint: string, params?: any): Promise<T> {
+        const response = await apiClient.get(endpoint, { params });
+        return apiHelpers.getData<T>(response);
+    },
+
+    async post<T>(endpoint: string, data?: any): Promise<T> {
+        const response = await apiClient.post(endpoint, data);
+        return apiHelpers.getData<T>(response);
+    },
+
+    async put<T>(endpoint: string, data?: any): Promise<T> {
+        const response = await apiClient.put(endpoint, data);
+        return apiHelpers.getData<T>(response);
+    },
+
+    async patch<T>(endpoint: string, data?: any): Promise<T> {
+        const response = await apiClient.patch(endpoint, data);
+        return apiHelpers.getData<T>(response);
+    },
+
+    async delete<T>(endpoint: string): Promise<T> {
+        const response = await apiClient.delete(endpoint);
+        return apiHelpers.getData<T>(response);
+    }
+};
+
+export default apiMethods;

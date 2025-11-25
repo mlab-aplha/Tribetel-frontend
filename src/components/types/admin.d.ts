@@ -1,64 +1,134 @@
-export interface Accommodation {
-    id: string;
-    name: string;
-    description: string;
-    address: string;
-    star_rating: number;
-    price_per_night: number;
-    total_rooms: number;
-    available_rooms: number;
-    facilities: string[];
-    policies: string;
-    images: string[];
-    location_lat: number;
-    location_lng: number;
-    created_at: string;
-    updated_at: string;
+import { ReactNode } from 'react';
+import type { UserPreferences } from './common'; // Import from common
+
+export interface AuthContextType {
+    user: User | null;
+    admin: AdminUser | null;
+    isLoading: boolean;
+    isAuthenticated: boolean;
+    isAdmin: boolean;
+    login: (credentials: LoginRequest) => Promise<AuthResponse>;
+    logout: () => Promise<void>;
+    adminLogin: (adminData: AdminLoginRequest) => Promise<AuthResponse>;
+    adminLogout: () => void;
+    register: (userData: RegisterRequest) => Promise<AuthResponse>;
+    getCurrentUser: () => Promise<User | null>;
 }
 
-export interface Reservation {
-    id: string;
-    accommodation_id: string;
-    guest_name: string;
-    guest_email: string;
-    guest_phone: string;
-    check_in_date: string;
-    check_out_date: string;
-    num_rooms: number;
-    num_guests: number;
-    total_price: number;
-    status: 'pending' | 'confirmed' | 'cancelled';
-    payment_status: 'pending' | 'paid' | 'refunded';
-    profile_id?: string;
-    created_at: string;
-    updated_at: string;
-    accommodations?: Accommodation;
-    profiles?: Profile;
+export interface ProtectedRouteProps {
+    children: ReactNode;
+    requireAuth?: boolean;
+    requireAdmin?: boolean;
+    redirectTo?: string;
+    fallback?: ReactNode;
 }
 
-export interface Profile {
+export interface User {
     id: string;
     email: string;
-    full_name: string;
-    phone: string;
-    role: 'admin' | 'manager' | 'staff';
-    avatar_url: string;
-    address: string;
-    city: string;
-    country: string;
-    is_active: boolean;
-    created_at: string;
-    updated_at: string;
+    name: string;
+    isLoggedIn: boolean;
+    phone?: string;
+    preferences?: UserPreferences; // Now using imported UserPreferences
+    createdAt?: string;
+    updatedAt?: string;
+    role?: 'user' | 'admin' | 'manager' | 'staff';
 }
 
 export interface AdminUser {
     id: string;
-    profile_id: string;
+    email: string;
+    name: string;
+    role: 'admin' | 'super_admin';
     permissions: string[];
-    last_login: string;
-    created_at: string;
-    profiles?: Profile;
+    isLoggedIn: boolean;
 }
 
-export type User = Profile;
+// REMOVE UserPreferences from here - it should only be in common.d.ts
+// export interface UserPreferences {
+//     favoriteDestinations?: string[];
+//     roomPreferences?: string[];
+//     specialRequests?: string;
+//     newsletter?: boolean;
+// }
 
+export interface LoginRequest {
+    email: string;
+    password: string;
+    rememberMe?: boolean;
+}
+
+export interface AdminLoginRequest {
+    email: string;
+    password: string;
+    rememberMe?: boolean;
+}
+
+export interface RegisterRequest {
+    name: string;
+    email: string;
+    password: string;
+    phone?: string;
+    country?: string;
+    preferences?: {
+        newsletter?: boolean;
+    };
+}
+
+export interface AuthResponse {
+    user: User;
+    token: string;
+    expiresIn: number;
+}
+
+export interface ApiResponse<T> {
+    success: boolean;
+    message: string;
+    data: T;
+}
+
+export interface UserSession {
+    user: User | null;
+    token: string | null;
+    expiresAt: number | null;
+    permissions: string[];
+}
+
+// Form-specific interfaces
+export interface SignInFormData {
+    email: string;
+    password: string;
+    rememberMe?: boolean;
+}
+
+export interface AdminSignInFormData {
+    email: string;
+    password: string;
+    rememberMe?: boolean;
+}
+
+export interface AdminSignInFormProps {
+    onSubmit?: (data: AdminSignInFormData) => Promise<void>;
+    onSuccess?: () => void;
+    onError?: (error: string) => void;
+    allowedDomains?: string[];
+    redirectPath?: string;
+    isLoading?: boolean;
+}
+
+export interface SignInLayoutProps {
+    children: ReactNode;
+    logo?: string;
+    brandName?: string;
+    className?: string;
+}
+
+export interface AdminLayoutProps {
+    children: React.ReactNode;
+    logo?: string;
+    brandName?: string;
+    className?: string;
+    showBranding?: boolean;
+    backgroundImage?: string;
+    theme?: 'default';
+}

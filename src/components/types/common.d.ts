@@ -1,13 +1,22 @@
-export * from './ui';
-export * from './auth';
-export * from './search';
-export * from './hotel';
-export * from './room';
-export * from './booking';
-export * from './payment';
-export * from './api';
-export * from './cache';
-export * from './asset';
+export interface UserPreferences {
+    favoriteDestinations?: string[];
+    roomPreferences?: string[];
+    specialRequests?: string;
+    newsletter?: boolean;
+}
+
+export interface User {
+    id: string;
+    email: string;
+    name: string;
+    isLoggedIn: boolean;
+    phone?: string;
+    preferences?: UserPreferences;
+    createdAt?: string;
+    updatedAt?: string;
+    role?: 'user' | 'admin' | 'manager' | 'staff';
+}
+
 export interface Service {
     id: number;
     title: string;

@@ -1,3 +1,27 @@
+export interface SearchParams {
+    destination: string;
+    destinationId?: string;
+    checkIn: string;
+    checkOut: string;
+    guests: number;
+    rooms?: number;
+    estimatedPrice?: PriceEstimate;
+}
+
+export interface SearchFilters {
+    destination?: string;
+    checkIn?: string;
+    checkOut?: string;
+    guests?: number;
+    priceRange?: {
+        min: number;
+        max: number;
+    };
+    amenities?: string[];
+    rating?: number;
+    distance?: number;
+}
+
 export interface SearchDestination {
     id: string;
     name: string;
@@ -9,25 +33,19 @@ export interface SearchDestination {
         currency: string;
     };
 }
-// components/types/search.ts
-export interface DateRange {
-    checkIn: string;
-    checkOut: string;
+
+export interface SearchSuggestion {
+    id: string;
+    name: string;
+    type: 'hotel' | 'city' | 'landmark';
+    country?: string;
 }
 
-export interface DateValidation {
-    isValid: boolean;
-    errors: string[];
-    nights: number;
-}
-export interface SearchParams {
-    destination: string;
-    destinationId?: string;
-    checkIn: string;
-    checkOut: string;
-    guests: number;
-    rooms?: number;
-    estimatedPrice?: PriceEstimate;
+export interface SearchHistory {
+    id: string;
+    query: string;
+    timestamp: string;
+    resultCount: number;
 }
 
 export interface PriceEstimate {
@@ -38,6 +56,27 @@ export interface PriceEstimate {
     isEstimated: boolean;
 }
 
+export interface AvailabilityResponse {
+    available: boolean;
+    totalResults?: number;
+    hotels?: Hotel[];
+    message?: string;
+}
+
+export interface HotelSearchParams {
+    destination?: string;
+    checkIn?: string;
+    checkOut?: string;
+    guests?: number;
+    rooms?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    amenities?: string[];
+    page?: number;
+    limit?: number;
+}
+
+// Component Props
 export interface SearchBarProps {
     destinations?: SearchDestination[];
     initialDestinationId?: string;
@@ -59,58 +98,6 @@ export interface SearchBarProps {
     }) => Promise<PriceEstimate>;
 }
 
-export interface HotelSearchParams {
-    destination?: string;
-    checkIn?: string;
-    checkOut?: string;
-    guests?: number;
-    rooms?: number;
-    minPrice?: number;
-    maxPrice?: number;
-    amenities?: string[];
-    page?: number;
-    limit?: number;
-}
-
-export interface RoomSearchParams {
-    location?: string;
-    checkIn?: string;
-    checkOut?: string;
-    guests?: number;
-    minPrice?: number;
-    maxPrice?: number;
-    type?: string;
-    amenities?: string[];
-    page?: number;
-    limit?: number;
-    sortBy?: 'price' | 'rating' | 'name';
-    sortOrder?: 'asc' | 'desc';
-}
-
-export interface DateRange {
-    checkIn: string;
-    checkOut: string;
-    start?: Date | null;
-    end?: Date | null;
-}
-
-export interface CalendarDay {
-    date: Date;
-    isCurrentMonth: boolean;
-    isToday: boolean;
-    isSelected: boolean;
-    isInRange: boolean;
-    isDisabled: boolean;
-    isCheckIn: boolean;
-    isCheckOut: boolean;
-}
-
-export interface DateValidation {
-    isValid: boolean;
-    errors: string[];
-    nights: number;
-}
-
 export interface DateRangePickerProps {
     checkIn: string;
     checkOut: string;
@@ -125,36 +112,6 @@ export interface DateRangePickerProps {
     required?: boolean;
 }
 
-export interface FilterOption {
-    id: string;
-    label: string;
-    type: 'pill' | 'dropdown';
-}
-
-export interface SortOption {
-    id: string;
-    label: string;
-}
-
-export interface SearchState {
-    params: SearchParams;
-    results: Hotel[];
-    loading: boolean;
-    error: string | null;
-    filters: {
-        priceRange: [number, number];
-        amenities: string[];
-        rating: number;
-    };
-    sortBy: string;
-}
-
-export interface HotelFilters {
-    priceRange: [number, number];
-    amenities: string[];
-    rating: number;
-}
-
 export interface HotelListingsProps {
     hotels?: Hotel[];
     title?: string;
@@ -166,18 +123,3 @@ export interface HotelListingsProps {
     onBookNow?: () => void;
     onLoad?: (hotels: Hotel[]) => void;
 }
-
-export interface SearchResultsProps {
-    results: Hotel[];
-    currentPage: number;
-    totalPages: number;
-    totalResults: number;
-    onPageChange: (page: number) => void;
-    onHotelVisit: (hotelId: string) => void;
-    loading?: boolean;
-    filters?: FilterOption[];
-    onFilterChange?: (filters: string[]) => void;
-    sortOptions?: SortOption[];
-    onSortChange?: (sortBy: string) => void;
-}
-
