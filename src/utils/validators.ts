@@ -1,4 +1,4 @@
-import { PaymentData } from '../components/types/common';
+import { PaymentData, PaymentValidation } from '../components/types/payment';
 
 export const validatePaymentData = (payment: PaymentData): PaymentValidation => {
     const errors: string[] = [];
@@ -46,6 +46,7 @@ export const validatePaymentData = (payment: PaymentData): PaymentValidation => 
         errors
     };
 };
+
 export const validateCardNumber = (cardNumber: string): boolean => {
     const clean = cardNumber.replace(/\s/g, '');
     let sum = 0;
@@ -67,5 +68,3 @@ export const validateCardNumber = (cardNumber: string): boolean => {
 
     return sum % 10 === 0;
 };
-
-
