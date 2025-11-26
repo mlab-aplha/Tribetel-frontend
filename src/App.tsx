@@ -47,7 +47,7 @@ function App() {
                 onSubmit={handleAdminSignIn}
                 onSuccess={handleAdminSuccess}
                 onError={handleAdminError}
-                allowedDomains={["@tribtel.com"]}
+                allowedDomains={["@tribtel.co.za"]}
                 redirectPath="/admin/dashboard"
               />
             </AdminLayout>
