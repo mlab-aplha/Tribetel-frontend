@@ -175,7 +175,7 @@ const MyBookingsPage: React.FC = () => {
                         <div className={styles.bookingsList}>
                             {filteredBookings.length === 0 ? (
                                 <div className={styles.emptyState}>
-                                    <div className={styles.emptyIcon}>📋</div>
+                                    <div className={styles.emptyIcon}></div>
                                     <h3>No bookings found</h3>
                                     <p>
                                         {activeFilter === 'all'
