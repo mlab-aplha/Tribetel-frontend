@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hotel-backend-hub.onrender.com/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://hotel-backend-hub-dyfd.onrender.com/api';
 
 export const apiClient = axios.create({
     baseURL: API_BASE_URL,
@@ -93,5 +93,6 @@ export const apiMethods = {
         return apiHelpers.getData<T>(response);
     }
 };
+
 
 export default apiMethods;
