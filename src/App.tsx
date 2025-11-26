@@ -29,7 +29,7 @@ function App() {
           color: '#666',
           marginBottom: '30px'
         }}>
-          Testing connection to: <strong>https://hotel-backend-hub.onrender.com</strong>
+          Testing connection to: <strong>https://hotel-backend-hub-dyfd.onrender.com</strong>
         </p>
         <TestConnection />
       </div>
